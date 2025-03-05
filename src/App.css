@@ -1,3 +1,31 @@
 #root {
-  background-color: red;
+  background-color: rgb(53, 53, 53);
+}
+
+.caja-contenido-total {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.titulo {
+  background-color: rgb(255, 255, 255);
+}
+
+.opciones-superires {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+nav ul li {
+  margin-left: 10px;
 }
