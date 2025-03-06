@@ -7,8 +7,8 @@ function EventDetails() {
             <div className="event-image-wrapper">
                 <img
                     src="/src/image/galerasRock.webp"
-                    alt="Tratamiento facial en spa"
-                    className="spa-image"
+                    alt="Galeras Rock"
+                    className="galeras-rock-image"
                 />
             </div>
 
