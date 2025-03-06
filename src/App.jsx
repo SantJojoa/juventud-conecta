@@ -1,6 +1,7 @@
 import React from 'react';
 import FeverNavbar from './components/FeverNavbar';
 import Carousel from "./components/carousel-component"
+import EventDetails from './components/EventDetails';
 import './components/FeverNavbar.css';
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
       </main>
 
       <div><Carousel /></div>
-      
+      <div><EventDetails /></div>
     </div>
   );
 }

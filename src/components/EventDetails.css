@@ -1,0 +1,120 @@
+.event-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+
+.event-image-wrapper {
+    width: 50%;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+}
+
+.event-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.event-info-card {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #e2e2e2;
+    padding: 40px;
+    width: 55%;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.event-tag {
+    display: inline-block;
+    background-color: #fc9d7f;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.event-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #292929;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.event-description {
+    color: #5e6061;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.event-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+}
+
+.schedule-dot {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fc9d7f;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.schedule-text {
+    font-size: 16px;
+    color: #404040;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .event-container {
+        flex-direction: column;
+        margin: 20px;
+    }
+
+    .event-image-wrapper {
+        width: 100%;
+        height: 300px;
+    }
+
+    .event-info-card {
+        position: relative;
+        width: 100%;
+        transform: none;
+        top: -30px;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .event-title {
+        font-size: 26px;
+    }
+
+    .event-info-card {
+        padding: 20px;
+    }
+
+    .schedule-text {
+        font-size: 14px;
+    }
+}
