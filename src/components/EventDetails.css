@@ -21,6 +21,11 @@
     object-position: center;
 }
 
+.difuminar-imagen {
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
 .event-info-card {
     position: absolute;
     right: 0;
