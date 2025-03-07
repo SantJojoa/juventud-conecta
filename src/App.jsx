@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import FeverNavbar from './components/FeverNavbar';
-import './components/FeverNavbar.css';
-import Carousel from "./components/carousel-component";
-import EventDetails from './components/EventDetails';
-import Footer from './components/Footer';
-import ViewMoreButton from './components/ViewMoreButton';
+import FeverNavbar from './components/navBar/FeverNavbar';
+import './components/navBar/FeverNavbar.css';
+import Carousel from "./components/carousel/carousel-component";
+import EventDetails from './components/event_Details/EventDetails';
+import Footer from './components/footer/Footer';
+import ViewMoreButton from './components/buttons/view_more_button/ViewMoreButton';
 
 function App() {
   const event1 = {
-    imageSrc: "/src/image/galerasRock.webp",
+    imageSrc: "../public/images/galeras_rock.webp",
     altText: "Galeras Rock",
     tag: "Galeras Rock",
     description: "Uno de los festivales de música alternativa más importantes del Suroccidente Colombiano",
@@ -21,7 +21,7 @@ function App() {
   };
 
   const event2 = {
-    imageSrc: "/src/image/semana_de_la_juventud_2023.webp",
+    imageSrc: "../public/images/semana_de_la_juventud_2023.webp",
     altText: "Semana de la Juventud",
     tag: "Semana de la Juventud",
     description: "Evento en Pasto que promueve la participación juvenil.",
@@ -33,7 +33,7 @@ function App() {
   };
 
   const event3 = {
-    imageSrc: "/src/image/pasto-HipHop.webp",
+    imageSrc: "../public/images/pasto_HipHop.webp",
     altText: "Pasto Hip Hop",
     tag: "Pasto Hip Hop",
     description: "Evento que reúne a los mejores exponentes del Hip Hop en Pasto.",
