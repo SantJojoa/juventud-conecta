@@ -10,7 +10,9 @@ body {
 }
 
 .fever-header {
+  width: 100%;
   background-color: white;
+  max-width: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
@@ -53,7 +55,6 @@ body {
   border: none;
   color: #718096;
   font-size: 0.875rem;
-  font-weight: 500;
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;

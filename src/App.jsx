@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import FeverNavbar from './components/navBar/FeverNavbar';
-import './components/navBar/FeverNavbar.css';
+import FeverNavbar from './components/fever_navBar/FeverNavbar';
+import './components/fever_navBar/FeverNavbar.css';
 import Carousel from "./components/carousel/carousel-component";
+import Login from './pages/login/Login';
 import EventDetails from './components/event_Details/EventDetails';
 import Footer from './components/footer/Footer';
 import ViewMoreButton from './components/buttons/view_more_button/ViewMoreButton';
@@ -45,29 +46,30 @@ function App() {
   };
 
   return (
-    <Router> { }
-      <div className="app-container content">
-        <FeverNavbar />
-        <main>
-          <div className="placeholder-content">
-            <h1>Eventos - Juventud Pasto.</h1>
-            <p>Descubre los mejores eventos.</p>
+    <Router>
+      <Routes>
+        <Route path="/" element={
+          <div className="app-container content">
+            <FeverNavbar />
+            <main>
+              <div className="placeholder-content">
+                <h1>Eventos - Juventud Pasto.</h1>
+                <p>Descubre los mejores eventos.</p>
+              </div>
+              <Carousel />
+              <h1 className='placeholder-content'>__________________</h1>
+              <EventDetails {...event1} />
+              <EventDetails {...event2} />
+              <EventDetails {...event3} />
+              <ViewMoreButton />
+              <h1 className='placeholder-content'>__________________</h1>
+            </main>
+            <Footer />
           </div>
-
-          <Routes> {/* ✅ Mueve las rutas aquí */}
-            <Route path="/" element={<Carousel />} />
-            <Route path="/event/:id" element={<EventDetails />} />
-          </Routes>
-
-          <h1 className='placeholder-content'>__________________</h1>
-          <EventDetails {...event1} />
-          <EventDetails {...event2} />
-          <EventDetails {...event3} />
-          <ViewMoreButton />
-          <h1 className='placeholder-content'>__________________</h1>
-        </main>
-        <Footer />
-      </div>
+        } />
+        <Route path="/src/components/login/Login.jsx" element={<Login />} />
+        <Route path="/event/:id" element={<EventDetails />} />
+      </Routes>
     </Router>
   );
 }

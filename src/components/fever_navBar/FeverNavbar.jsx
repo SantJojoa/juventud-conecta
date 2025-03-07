@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Heart, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function FeverNavbar() {
   return (
@@ -34,12 +35,17 @@ function FeverNavbar() {
         </div>
 
         <div className="actions-section">
-          <button className="action-button">
-            <Heart className="action-icon" />
-          </button>
-          <button className="action-button">
-            <User className="action-icon" />
-          </button>
+          <Link>
+            <button className="action-button">
+              <Heart className="action-icon" />
+            </button>
+          </Link>
+
+          <Link to="/src/components/login/Login.jsx">
+            <button className="action-button">
+              <User className="action-icon" />
+            </button>
+          </Link>
         </div>
       </div>
     </header>
