@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MapPin, Heart, User } from 'lucide-react';
+import './FeverNavbar.css';
 import { Link } from 'react-router-dom';
 
 function FeverNavbar() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <header className="fever-header">
       <div className="navbar-container">
@@ -12,7 +19,21 @@ function FeverNavbar() {
         </div>
 
         <div className="categories-section">
-          <button className="categories-button">Categorias</button>
+          <div className={`overlay ${isDropdownOpen ? 'active' : ''}`} onClick={toggleDropdown}></div>
+          <button className="categories-button" onClick={toggleDropdown}>
+            Categorias
+          </button>
+          {isDropdownOpen && (
+            <div className="dropdown-menu">
+              <h2 className="dropdown-title">Categorias</h2>
+              <h4>---------------</h4>
+              <button className="dropdown-item">Musica</button>
+              <button className="dropdown-item">Deporte</button>
+              <button className="dropdown-item">Cultura</button>
+              <button className="dropdown-item">Arte</button>
+              <button className="dropdown-item">Tecnología</button>
+            </div>
+          )}
         </div>
 
         <div className="search-section">
