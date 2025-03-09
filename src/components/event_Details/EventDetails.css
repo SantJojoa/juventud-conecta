@@ -100,7 +100,6 @@
 @media (max-width: 992px) {
     .event-container {
         flex-direction: column;
-        margin: 20px;
     }
 
     .event-image-wrapper {

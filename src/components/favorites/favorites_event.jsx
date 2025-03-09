@@ -1,6 +1,7 @@
 import React from 'react';
 import './favorites_event.css';
 import FeverNavbar from '../fever_navBar/FeverNavbar';
+import Events_favorite_options from '../events_favorite_options/events_favorite_options';
 import Footer from '../footer/Footer';
 
 function Favorites_event() {
@@ -24,6 +25,7 @@ function Favorites_event() {
                     <button className="login-button">Iniciar sesión</button>
                 </div>
             </div>
+            <Events_favorite_options />
             <Footer />
         </div>
     );

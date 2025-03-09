@@ -65,8 +65,8 @@ function App() {
               <EventDetails {...event3} />
               <ViewMoreButton />
               <h1 className='placeholder-content'>__________________</h1>
+              <Footer />
             </main>
-            <Footer />
           </div>
         } />
         <Route path="/src/components/login/Login.jsx" element={<Login />} />
