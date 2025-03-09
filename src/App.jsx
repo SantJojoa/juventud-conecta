@@ -7,6 +7,7 @@ import Login from './pages/login/Login';
 import EventDetails from './components/event_Details/EventDetails';
 import Footer from './components/footer/Footer';
 import ViewMoreButton from './components/buttons/view_more_button/ViewMoreButton';
+import Favorites_event from './components/favorites/favorites_event';
 
 function App() {
   const event1 = {
@@ -68,6 +69,7 @@ function App() {
           </div>
         } />
         <Route path="/src/components/login/Login.jsx" element={<Login />} />
+        <Route path="/src/components/favorites/Favorites_event.jsx" element={<Favorites_event />} />
         <Route path="/event/:id" element={<EventDetails />} />
       </Routes>
     </Router>

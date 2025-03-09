@@ -20,11 +20,11 @@ const Carousel = () => {
     const settings = {
         dots: true,
         infinite: true,
-        speed: 100,
+        speed: 80,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 2500,
     };
 
     const handleClick = (id) => {

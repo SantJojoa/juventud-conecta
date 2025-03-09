@@ -56,7 +56,7 @@ function FeverNavbar() {
         </div>
 
         <div className="actions-section">
-          <Link>
+          <Link to="/src/components/favorites/favorites_event.jsx">
             <button className="action-button">
               <Heart className="action-icon" />
             </button>

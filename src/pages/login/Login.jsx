@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Login.css";
 import FeverNavbar from "../../components/fever_navBar/FeverNavbar";
+import Footer from "../../components/footer/Footer";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Login = () => {
@@ -78,6 +79,7 @@ const Login = () => {
             <footer>
                 <p>© 2025 <a href="#">Condiciones de uso</a> · <a href="#">Política de privacidad</a> · <a href="#">Política de cookies</a></p>
             </footer>
+            <Footer />
         </div>
     );
 };
