@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import EventDetail from './pages/EventDetail';
 import FeverNavbar from './components/fever_navBar/FeverNavbar';
 import './components/fever_navBar/FeverNavbar.css';
 import Carousel from "./components/carousel/carousel-component";
@@ -49,7 +50,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={
+        <Route path="" element={
           <div className="app-container content">
             <FeverNavbar />
             <main>
@@ -70,7 +71,7 @@ function App() {
         } />
         <Route path="/src/components/login/Login.jsx" element={<Login />} />
         <Route path="/src/components/favorites/Favorites_event.jsx" element={<Favorites_event />} />
-        <Route path="/event/:id" element={<EventDetails />} />
+        <Route path="/event/:id" element={<EventDetail />} />
       </Routes>
     </Router>
   );
