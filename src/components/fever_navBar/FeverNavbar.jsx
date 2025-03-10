@@ -13,10 +13,15 @@ function FeverNavbar() {
   return (
     <header className="fever-header">
       <div className="navbar-container">
-        <div className="location-section">
+        <div className="logo-section">
+          <a href="https://www.pasto.gov.co/" target="_blank">
+            <img src="/logo.png" alt="logo-oficinajuventud" className='navbar-logo' />
+          </a>
+        </div>
+        {/* <div className="location-section">
           <MapPin className="location-icon" />
           <span className="location-text">Pasto</span>
-        </div>
+        </div> */}
 
         <div className="categories-section">
           <div className={`overlay ${isDropdownOpen ? 'active' : ''}`} onClick={toggleDropdown}></div>
