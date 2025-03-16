@@ -1,5 +1,4 @@
-"use client";
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -27,15 +26,16 @@ const Carousel = () => {
         autoplaySpeed: 2500,
     };
 
-    const handleClick = (id) => {
+    const handleClick = useCallback((id) => {
         navigate(`/event/${id}`);
-    }
+    }, [navigate]);
+
     return (
         <div className="carousel-wrapper">
             <div className="carousel-container">
                 <Slider {...settings}>
                     {images.map((image) => (
-                        <div key={image.id} onClick={() => handleClick(image.id)} style={{ cursor: "pointer" }}>
+                        <div key={image.id} onClick={() => handleClick(image.id)} style={{ cursor: "pointer" }} aria-label="Ver detalles del evento ${image.id}">
                             <img src={image.src} alt={`Evento ${image.id}`} className="carousel-image" />
                         </div>
                     ))}

@@ -4,12 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 // Importes de componentes
 import FeverNavbar from './components/fever_navBar/FeverNavbar';
-import Carousel from "./components/carousel/carousel-component";
+import Carousel from "./components/carousel/carouselComponent";
 import EventDetails from './components/event_Details/EventDetails';
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Login = lazy(() => import('./pages/login/Login'));
 const FavoritesEvent = lazy(() => import('./components/favorites/FavoritesEvent'));
-import ViewMoreButton from './components/buttons/view_more_button/ViewMoreButton';
+import ViewMoreButton from './components/buttons/ViewMoreButton';
 import Footer from './components/footer/Footer';
 // Importes de datos
 import eventsData from './data/eventsData';
