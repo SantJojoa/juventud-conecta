@@ -14,7 +14,7 @@ function FeverNavbar() {
     <header className="fever-header">
       <div className="navbar-container">
         <div className="logo-section">
-          <a href="https://www.pasto.gov.co/" target="_blank">
+          <a href="/" >
             <img src="/logo.png" alt="logo-oficinajuventud" className='navbar-logo' />
           </a>
         </div>
@@ -61,13 +61,13 @@ function FeverNavbar() {
         </div>
 
         <div className="actions-section">
-          <Link to="/src/components/favorites/favorites_event.jsx">
+          <Link to="/favorites">
             <button className="action-button">
               <Heart className="action-icon" />
             </button>
           </Link>
 
-          <Link to="/src/components/login/Login.jsx">
+          <Link to="/login">
             <button className="action-button">
               <User className="action-icon" />
             </button>

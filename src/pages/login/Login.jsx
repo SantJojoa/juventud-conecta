@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./Login.css";
-import FeverNavbar from "../../components/fever_navBar/FeverNavbar";
 import Footer from "../../components/footer/Footer";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -17,7 +16,6 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <FeverNavbar />
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Iniciar sesión</h2>
 

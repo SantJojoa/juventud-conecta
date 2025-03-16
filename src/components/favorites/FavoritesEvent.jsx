@@ -1,13 +1,11 @@
 import React from 'react';
 import './favorites_event.css';
-import FeverNavbar from '../fever_navBar/FeverNavbar';
 import Events_favorite_options from '../events_favorite_options/events_favorite_options';
 import Footer from '../footer/Footer';
 
-function Favorites_event() {
+function FavoritesEvent() {
     return (
         <div className="favorites-container">
-            <FeverNavbar />
             <div className="header_favorites">
                 <div className="illustration">
                     <img src="/public/images/favorites.png" alt="Persona con corazón" />
@@ -31,4 +29,4 @@ function Favorites_event() {
     );
 }
 
-export default Favorites_event;
+export default FavoritesEvent;
