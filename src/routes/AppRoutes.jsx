@@ -3,7 +3,8 @@ import { Routes, Route } from "react-router-dom";
 
 import FavoritesEvent from "../components/favorites/FavoritesEvent";
 import OtherEvents from "../components/other_events/OtherEvents";
-import Login from "../pages/login/Login";
+// import Login from "../pages/login/Login";
+import Login from "../components/login/Login";
 import Hero from "../components/Hero/Hero";
 
 function AppRoutes() {
