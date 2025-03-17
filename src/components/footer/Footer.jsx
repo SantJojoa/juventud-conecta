@@ -14,7 +14,7 @@ const Footer = () => {
             <p><strong>Horario de atención:</strong></p>
             <p>Lunes a Viernes de 8:00 a.m. a 12:00 m. y 2:00 p.m. a 6:00 p.m.</p>
             <p>NIT: 8912800003 - Código DANE: 52001</p>
-            
+
             <div className="footer-subsection">
               <p><strong>Nuestras Sedes</strong></p>
               <a href="#" className="footer-link">Información de sedes</a>
