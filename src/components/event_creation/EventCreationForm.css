@@ -1,0 +1,247 @@
+:root {
+    --dark-bg: #ffffff;
+    --modal-bg: #242424;
+    --border-color: #333;
+    --text-color: #000000;
+    --placeholder-color: #999;
+    --button-bg: #444;
+    --button-hover: #555;
+    --primary-button: #0077ff;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(236, 236, 236, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--modal-bg);
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: rgb(152, 161, 170);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+}
+
+.close-button:hover {
+    background-color: rgb(255, 255, 255);
+}
+
+.modal-body {
+    padding: 24px;
+    background-color: rgb(92, 92, 92);
+}
+
+.image-upload-area {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    padding: 8px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    padding-left: 50px;
+}
+
+.upload-button:hover {
+    background-color: var(--button-hover);
+}
+
+.upload-button .icon {
+    margin-right: 8px;
+}
+
+.selected-image {
+    margin-top: 12px;
+    max-width: 100%;
+}
+
+.selected-image img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+}
+
+.organizer-info {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.organizer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+}
+
+.organizer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.organizer-details {
+    flex-grow: 1;
+}
+
+.organizer-details h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.organizer-details p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--placeholder-color);
+}
+
+.dropdown-arrow {
+    font-size: 0.75rem;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.form-control::placeholder {
+    color: var(--placeholder-color);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #666;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.form-column {
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.input-icon {
+    margin-right: 8px;
+    font-size: 1.25rem;
+}
+
+.input-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-wrapper label {
+    font-size: 0.75rem;
+    color: var(--placeholder-color);
+    margin-bottom: 2px;
+}
+
+.input-wrapper .form-control {
+    padding: 4px 0;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-button);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+    background-color: var(--primary-button-hover);
+}
+
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}

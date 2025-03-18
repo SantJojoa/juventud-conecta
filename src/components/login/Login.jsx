@@ -27,7 +27,7 @@ const Login = () => {
 
             localStorage.setItem("token", data.token);
             alert("Login exitoso");
-            window.location.href = "/dashboard"; // Redirigir al usuario
+            window.location.href = "/event_creation"; // Redirigir al usuario
         } catch (err) {
             setError(err.message);
         }
@@ -48,11 +48,11 @@ const Login = () => {
                             <h2 className="form-title">Iniciar Sesión</h2>
                             <form className="register-form" onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label for="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>
+                                    <label htmlFor="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>
                                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email" />
                                 </div>
                                 <div className="form-group">
-                                    <label for="your_pass" ><i className="zmdi zmdi-lock"></i></label>
+                                    <label htmlFor="your_pass" ><i className="zmdi zmdi-lock"></i></label>
                                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Contraseña" />
                                 </div>
                                 <div className="form-group form-button">
