@@ -16,7 +16,7 @@ function AppRoutes() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/event_creation" element={<EventCreationForm />}></Route>
         </Routes>
-    )
+    );
 }
 
 export default AppRoutes;
