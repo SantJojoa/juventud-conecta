@@ -29,7 +29,13 @@ router.post('/login', async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '2h' }
         );
-        res.json({ token });
+        
+        // Incluir el rol en la respuesta
+        res.json({ 
+            token,
+            role: user.role,
+            message: "Login exitoso"
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
