@@ -70,7 +70,7 @@ const Carousel = () => {
                             <div
                                 key={event._id}
                                 onClick={() => handleClick(event._id)}
-                                style={{ cursor: "pointer" }}
+                                className="carousel-slide-item"
                                 aria-label={`Ver detalles del evento ${event.title || ''}`}
                             >
                                 <img
