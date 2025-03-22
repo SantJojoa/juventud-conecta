@@ -33,9 +33,23 @@ const eventsController = {
     getAllEvents: async (req, res) => {
         try {
             const events = await Event.findAll({
-                order: [['date', 'DESC']] // Ordenar por fecha, más recientes primero
+                order: [['date', 'DESC']], // Ordenar por fecha, más recientes primero
+                raw: true // Obtener objetos planos de JavaScript
             });
-            res.json(events);
+
+            // Asegurarse de que los datos están en el formato correcto
+            const formattedEvents = events.map(event => ({
+                _id: event.id, // Asegurar que tenemos el id en el formato que espera el frontend
+                title: event.title,
+                imageSrc: event.imageSrc,
+                description: event.description,
+                schedule: Array.isArray(event.schedule) ? event.schedule : [],
+                date: event.date,
+                location: event.location
+            }));
+
+            console.log('Eventos encontrados:', formattedEvents); // Log para debugging
+            res.json(formattedEvents);
         } catch (error) {
             console.error('Error al obtener eventos:', error);
             res.status(500).json({ error: 'Error al obtener los eventos' });
