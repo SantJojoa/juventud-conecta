@@ -23,3 +23,28 @@
 .placeholder-content p {
     font-size: 1.02rem;
 }
+
+.btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.ver-eventos-btn {
+    background-color: #0078c8;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.4s ease, transform 0.3s ease;
+}
+
+.ver-eventos-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}

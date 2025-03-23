@@ -10,6 +10,9 @@ const Hero = () => {
                 <p>Descubre los últimos eventos que suceden en la ciudad sorpresa</p>
             </div>
             <Carousel />
+            <div className="btn-container">
+                <button className="ver-eventos-btn">Ver todos los eventos</button>
+            </div>
         </section>
     )
 };
