@@ -90,7 +90,7 @@ function FeverNavbar() {
               <a href="https://www.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
                 Alcaldía de Pasto
               </a>
-              <a href="https://observatoriodejuventud.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+              <a href="https://observatoriojuventud.pasto.gov.co/inicio" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
                 Observatorio
               </a>
             </div>
