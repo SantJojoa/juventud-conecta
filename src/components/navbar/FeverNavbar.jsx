@@ -1,28 +1,39 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { MapPin, Heart, User } from 'lucide-react';
+import { MapPin, Heart, User, Facebook, Instagram, Twitter } from 'lucide-react';
 import './FeverNavbar.css';
 import { Link } from 'react-router-dom';
 
 function FeverNavbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const socialDropdownRef = useRef(null);
 
   const toggleDropdown = useCallback(() => {
     setIsDropdownOpen((prev) => !prev);
+    setIsSocialDropdownOpen(false);
   }, []);
 
-  const closeDropdown = useCallback((event) => {
+  const toggleSocialDropdown = useCallback(() => {
+    setIsSocialDropdownOpen((prev) => !prev);
+    setIsDropdownOpen(false);
+  }, []);
+
+  const closeDropdowns = useCallback((event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsDropdownOpen(false);
+    }
+    if (socialDropdownRef.current && !socialDropdownRef.current.contains(event.target)) {
+      setIsSocialDropdownOpen(false);
     }
   }, []);
 
   useEffect(() => {
-    document.addEventListener("mousedown", closeDropdown);
+    document.addEventListener("mousedown", closeDropdowns);
     return () => {
-      document.removeEventListener("mousedown", closeDropdown);
+      document.removeEventListener("mousedown", closeDropdowns);
     };
-  }, [closeDropdown]);
+  }, [closeDropdowns]);
 
   const categories = ["Música", "Deporte", "Cultura", "Arte", "Tecnología"];
 
@@ -52,6 +63,36 @@ function FeverNavbar() {
                   {category}
                 </button>
               ))}
+            </div>
+          )}
+        </div>
+
+        <div ref={socialDropdownRef} className="social-section">
+          <button
+            className="social-button"
+            onClick={toggleSocialDropdown}
+            aria-expanded={isSocialDropdownOpen}
+          >
+            Redes Sociales
+          </button>
+          {isSocialDropdownOpen && (
+            <div className="dropdown-menu social-dropdown" role="menu">
+              <a href="https://www.facebook.com/direcciondejuventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                Facebook
+              </a>
+              <a href="https://www.instagram.com/juventudpasto/" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                Instagram
+              </a>
+              <a href="https://twitter.com/juventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                X
+              </a>
+              <h2 className="dropdown-title">Enlaces</h2>
+              <a href="https://www.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                Alcaldía de Pasto
+              </a>
+              <a href="https://observatoriodejuventud.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                Observatorio
+              </a>
             </div>
           )}
         </div>
