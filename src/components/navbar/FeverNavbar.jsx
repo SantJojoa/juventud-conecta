@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { MapPin, Heart, User, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Heart, User } from 'lucide-react';
 import './FeverNavbar.css';
 import { Link } from 'react-router-dom';
 
