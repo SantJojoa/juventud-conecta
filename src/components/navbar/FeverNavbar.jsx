@@ -6,8 +6,56 @@ import { Link, useNavigate } from 'react-router-dom';
 function FeverNavbar() {
   const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const socialDropdownRef = useRef(null);
+  const searchRef = useRef(null);
   const navigate = useNavigate();
+
+  // Implementación del debounce
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 200); // 300ms de retraso
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:5000/api/events');
+        const data = await response.json();
+        setAllEvents(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Error fetching events for search suggestions', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  // Utilizamos el término de búsqueda con debounce para filtrar
+  useEffect(() => {
+    if (debouncedSearchTerm.trim().length > 0) {
+      const filtered = allEvents.filter(event =>
+        event.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+      ).slice(0, 5);
+
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  }, [debouncedSearchTerm, allEvents]);
 
   const toggleSocialDropdown = useCallback(() => {
     setIsSocialDropdownOpen((prev) => !prev);
@@ -17,6 +65,11 @@ function FeverNavbar() {
     if (socialDropdownRef.current && !socialDropdownRef.current.contains(event.target)) {
       setIsSocialDropdownOpen(false);
     }
+
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setShowSuggestions(false);
+    }
+
   }, []);
 
   useEffect(() => {
@@ -30,10 +83,17 @@ function FeverNavbar() {
     if (e.key === 'Enter' || e.type === 'click') {
       if (searchTerm.trim()) {
         navigate(`/events?search=${encodeURIComponent(searchTerm.trim())}`);
+        setShowSuggestions(false);
       } else {
         navigate('/events');
       }
     }
+  };
+
+  const handleSuggestionClick = (eventTitle) => {
+    setSearchTerm(eventTitle);
+    navigate(`/events?search=${encodeURIComponent(eventTitle)}`);
+    setShowSuggestions(false);
   };
 
   return (
@@ -73,7 +133,7 @@ function FeverNavbar() {
           )}
         </div>
 
-        <div className="search-section">
+        <div className="search-section" ref={searchRef}>
           <div className="search-wrapper">
             <input
               type="text"
@@ -83,6 +143,7 @@ function FeverNavbar() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={handleSearch}
+              onFocus={() => searchTerm.trim() && setShowSuggestions(true)}
             />
             <svg
               className="search-icon"
@@ -95,6 +156,23 @@ function FeverNavbar() {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="search-suggestions">
+                {isLoading ? (
+                  <div className="suggestion-item loading">Cargando sugerencias...</div>
+                ) : (
+                  suggestions.map((event) => (
+                    <div
+                      key={event._id}
+                      className="suggestion-item"
+                      onClick={() => handleSuggestionClick(event.title)}
+                    >
+                      {event.title}
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
           </div>
         </div>
 

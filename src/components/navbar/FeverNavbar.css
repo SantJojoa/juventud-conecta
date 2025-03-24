@@ -129,6 +129,40 @@
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
+
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 4px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.suggestion-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #4a5568;
+  transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+  background-color: #f7fafc;
+}
+
+.suggestion-item.loading {
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+}
+
+
 .search-icon {
   position: absolute;
   right: 10px;
