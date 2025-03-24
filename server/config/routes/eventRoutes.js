@@ -1,32 +1,33 @@
 const express = require('express');
-const Event = require("../models/Event")
-const verifyToken = require("../middlewares/verifyToken")
+const eventsController = require('../controllers/eventsController');
+const verifyToken = require("../middlewares/verifyToken");
 
 const router = express.Router();
 
+// Rutas públicas - No requieren autenticación
+router.get("/", eventsController.getAllEvents);
+router.get("/:id", eventsController.getEventById);
 
-router.get("/", async (req, res) => {
-    try {
-        const events = await Event.findAll();
-        res.json(events);
-    } catch (error) {
-        res.status(500).json({ error: "Error al obtener los datos" });
+// Rutas protegidas - Requieren autenticación y rol de admin
+router.post("/", verifyToken, async (req, res, next) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ error: "Acceso denegado, solo los administradores pueden crear eventos" });
     }
-});
+    next();
+}, eventsController.createEvent);
 
-router.post("/", verifyToken, async (req, res) => {
-
-    try {
-        if (req.user.role !== "admin") {
-            return res.status(403).json({ error: "Acceso denegado, solo los administradores pueden crear eventos" });
-        }
-
-        const event = await Event.create(req.body);
-        res.status(201).json(event);
-    } catch (error) {
-        res.status(500).json({ error: "Error al crear el evento" });
+router.put("/:id", verifyToken, async (req, res, next) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ error: "Acceso denegado, solo los administradores pueden modificar eventos" });
     }
+    next();
+}, eventsController.updateEvent);
 
-});
+router.delete("/:id", verifyToken, async (req, res, next) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ error: "Acceso denegado, solo los administradores pueden eliminar eventos" });
+    }
+    next();
+}, eventsController.deleteEvent);
 
 module.exports = router;

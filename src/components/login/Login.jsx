@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './Login.css';
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
 
@@ -7,6 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,9 +27,20 @@ const Login = () => {
                 throw new Error(data.message || "Error en el login");
             }
 
+            // Guardar token y rol
             localStorage.setItem("token", data.token);
-            alert("Login exitoso");
-            window.location.href = "/event_creation"; // Redirigir al usuario
+            localStorage.setItem("userRole", data.role);
+            localStorage.setItem("userName", data.name);
+
+            // Disparar evento personalizado para notificar al Navbar
+            window.dispatchEvent(new Event('login-change'));
+
+            // Redirigir según el rol
+            if (data.role === "admin") {
+                navigate("/admin-dashboard");
+            } else {
+                navigate("/");
+            }
         } catch (err) {
             setError(err.message);
         }
