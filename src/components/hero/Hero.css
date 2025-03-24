@@ -4,24 +4,25 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 20px 0;
+    padding: 15px 0;
     overflow: hidden;
-    padding-bottom: 2rem;
-    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .placeholder-content {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .placeholder-content h1 {
-    font-size: 2.50rem;
+    font-size: 1.8rem;
     font-weight: 550;
+    margin-bottom: 0.5px;
 }
 
 .placeholder-content p {
-    font-size: 1.02rem;
+    font-size: 1rem;
 }
 
 .btn-container {
@@ -29,16 +30,16 @@
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .ver-eventos-btn {
     background-color: #0078c8;
     color: white;
     border: none;
-    border-radius: 25px;
-    padding: 12px 30px;
-    font-size: 16px;
+    border-radius: 20px;
+    padding: 8px 25px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.4s ease, transform 0.3s ease;

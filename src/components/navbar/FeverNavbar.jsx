@@ -4,25 +4,14 @@ import './FeverNavbar.css';
 import { Link } from 'react-router-dom';
 
 function FeverNavbar() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
   const socialDropdownRef = useRef(null);
-
-  const toggleDropdown = useCallback(() => {
-    setIsDropdownOpen((prev) => !prev);
-    setIsSocialDropdownOpen(false);
-  }, []);
 
   const toggleSocialDropdown = useCallback(() => {
     setIsSocialDropdownOpen((prev) => !prev);
-    setIsDropdownOpen(false);
   }, []);
 
   const closeDropdowns = useCallback((event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsDropdownOpen(false);
-    }
     if (socialDropdownRef.current && !socialDropdownRef.current.contains(event.target)) {
       setIsSocialDropdownOpen(false);
     }
@@ -35,8 +24,6 @@ function FeverNavbar() {
     };
   }, [closeDropdowns]);
 
-  const categories = ["Música", "Deporte", "Cultura", "Arte", "Tecnología"];
-
   return (
     <nav className="fever-navbar">
       <div className="navbar-container">
@@ -46,34 +33,12 @@ function FeverNavbar() {
           </Link>
         </div>
 
-        <div ref={dropdownRef} className="categories-section">
-          <button
-            className="categories-button"
-            onClick={toggleDropdown}
-            aria-expanded={isDropdownOpen}
-          >
-            Categorías
-          </button>
-          {isDropdownOpen && (
-            <div className="dropdown-menu" role="menu">
-              <h2 className="dropdown-title">Categorías</h2>
-              <h4>---------------</h4>
-              {categories.map((category) => (
-                <button key={category} className="dropdown-item">
-                  {category}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div ref={socialDropdownRef} className="social-section">
+        <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
           <button
             className="social-button"
-            onClick={toggleSocialDropdown}
             aria-expanded={isSocialDropdownOpen}
           >
-            Redes Sociales
+            Redes/Páginas
           </button>
           {isSocialDropdownOpen && (
             <div className="dropdown-menu social-dropdown" role="menu">
