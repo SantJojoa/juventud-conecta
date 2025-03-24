@@ -10,6 +10,7 @@ import { useEffect } from "react";
 const Carousel = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,9 +41,14 @@ const Carousel = () => {
         arrows: events.length > 1
     };
 
-    const handleClick = useCallback((id) => {
-        navigate(`/event/${id}`);
-    }, [navigate]);
+
+    const openEventPopup = useCallback((event) => {
+        setSelectedEvent(event);
+    }, []);
+
+    const closeEventPopup = useCallback(() => {
+        setSelectedEvent(null);
+    }, []);
 
     if (loading) {
         return <div className="carousel-wrapper">Cargando eventos...</div>;
@@ -69,7 +75,7 @@ const Carousel = () => {
                         return (
                             <div
                                 key={event._id}
-                                onClick={() => handleClick(event._id)}
+                                onClick={() => openEventPopup(event)}
                                 className="carousel-slide-item"
                                 aria-label={`Ver detalles del evento ${event.title || ''}`}
                             >
@@ -87,6 +93,35 @@ const Carousel = () => {
                     })}
                 </Slider>
             </div>
+
+            {selectedEvent && (
+
+                <div className="event-popup-overlay" onClick={closeEventPopup}>
+                    <div className="event-popup" onClick={(e) => e.stopPropagation()}>
+                        <button className="close-popup" onClick={closeEventPopup}>
+                            &times;
+                        </button>
+                        <div className="popup-image-container">
+                            <img src={selectedEvent.imageSrc} alt={selectedEvent.title} className="popup-image"
+                            />
+                        </div>
+                        <div className="popup-content">
+                            <h2 className="popup-title">{selectedEvent.title}</h2>
+                            <p className="popup-date">
+                                <strong>Fecha:</strong>{" "}
+                                {new Date(selectedEvent.date).toLocaleDateString()}
+                            </p>
+                            <p className="popup-location">
+                                <strong>Ubicación:</strong> {selectedEvent.location || 'Ubicación no disponible'}
+                            </p>
+                            <p className="popup-description">
+                                {selectedEvent.description || 'Descripción no disponible'}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            )}
         </div>
     );
 };
