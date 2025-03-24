@@ -18,7 +18,7 @@
 
 .back-button {
     padding: 0.65rem 1.65rem;
-    background-color: #333;
+    background-color: #0078c8;
     color: white;
     border: none;
     border-radius: 15px;
@@ -29,7 +29,8 @@
 }
 
 .back-button:hover {
-    background-color: #555;
+    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
 .events-grid {

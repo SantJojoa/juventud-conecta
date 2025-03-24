@@ -1,11 +1,13 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Heart, User } from 'lucide-react';
 import './FeverNavbar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function FeverNavbar() {
   const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const socialDropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const toggleSocialDropdown = useCallback(() => {
     setIsSocialDropdownOpen((prev) => !prev);
@@ -23,6 +25,16 @@ function FeverNavbar() {
       document.removeEventListener("mousedown", closeDropdowns);
     };
   }, [closeDropdowns]);
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' || e.type === 'click') {
+      if (searchTerm.trim()) {
+        navigate(`/events?search=${encodeURIComponent(searchTerm.trim())}`);
+      } else {
+        navigate('/events');
+      }
+    }
+  };
 
   return (
     <nav className="fever-navbar">
@@ -51,7 +63,6 @@ function FeverNavbar() {
               <a href="https://twitter.com/juventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
                 X
               </a>
-              <h2 className="dropdown-title">Enlaces</h2>
               <a href="https://www.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
                 Alcaldía de Pasto
               </a>
@@ -69,6 +80,9 @@ function FeverNavbar() {
               placeholder="Descubre Eventos"
               className="search-input"
               aria-label="Buscar eventos"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleSearch}
             />
             <svg
               className="search-icon"
@@ -76,6 +90,8 @@ function FeverNavbar() {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              onClick={handleSearch}
+              style={{ cursor: 'pointer' }}
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>

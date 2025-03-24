@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./ListEvents.css";
 
 const ListEvents = () => {
     const [events, setEvents] = useState([]);
+    const [filteredEvents, setFilteredEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const location = useLocation();
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -28,6 +30,23 @@ const ListEvents = () => {
 
         fetchEvents();
     }, []);
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const searchTerm = queryParams.get('search') || '';
+
+        if (searchTerm && events.length > 0) {
+            const filtered = events.filter(event =>
+                event.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredEvents(filtered);
+        } else {
+            setFilteredEvents(events);
+        }
+    }, [location.search, events]);
+
+
+
 
     const openEventPopup = (event) => {
         setSelectedEvent(event);
@@ -61,17 +80,35 @@ const ListEvents = () => {
         );
     }
 
+    if (filteredEvents.length === 0) {
+        const queryParams = new URLSearchParams(location.search);
+        const searchTerm = queryParams.get('search') || '';
+        return (
+            <div className="list-events-container">
+                <div className="list events-header">
+                    <h1>Resultados de la búsqueda: {searchTerm}</h1>
+                    <Link to="/" className="back-button">Volver al inicio</Link>
+                </div>
+                <div className="no-events-message">No hay eventos disponibles actualmente.</div>
+            </div>
+        );
+    }
+
+    const queryParams = new URLSearchParams(location.search);
+    const searchTerm = queryParams.get('search');
+    const headerTitle = searchTerm ? `Resultados de la búsqueda: ${searchTerm}` : 'Todos los eventos';
+
     return (
         <div className="list-events-container">
             <div className="list-events-header">
-                <h1>Todos los eventos</h1>
+                <h1>{headerTitle}</h1>
                 <Link to="/" className="back-button">
                     Volver al inicio
                 </Link>
             </div>
 
             <div className="events-grid">
-                {events.map((event) => (
+                {filteredEvents.map((event) => (
                     <div
                         key={event._id}
                         className="event-card"
