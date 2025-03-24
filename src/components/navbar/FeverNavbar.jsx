@@ -20,7 +20,7 @@ function FeverNavbar() {
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 200); // 300ms de retraso
+    }, 200); // 200ms de retraso
 
     return () => {
       clearTimeout(timerId);
