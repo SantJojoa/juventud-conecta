@@ -29,11 +29,12 @@ router.post('/login', async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '2h' }
         );
-        
+
         // Incluir el rol en la respuesta
-        res.json({ 
+        res.json({
             token,
             role: user.role,
+            name: user.name,
             message: "Login exitoso"
         });
     } catch (error) {

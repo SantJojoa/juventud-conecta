@@ -30,6 +30,7 @@ const Login = () => {
             // Guardar token y rol
             localStorage.setItem("token", data.token);
             localStorage.setItem("userRole", data.role);
+            localStorage.setItem("userName", data.name);
 
             // Redirigir según el rol
             if (data.role === "admin") {
