@@ -264,6 +264,7 @@ function FeverNavbar() {
               {/* Menú desplegable con estilos en línea para asegurar visibilidad */}
               {isUserDropdownOpen && (
                 <div
+                  ref={userDropdownRef}
                   style={{
                     position: 'absolute',
                     top: '40px',
@@ -283,6 +284,37 @@ function FeverNavbar() {
                     </div>
                   </div>
                   <div style={{ height: '1px', backgroundColor: '#e2e8f0', margin: '8px 0' }}></div>
+
+                  {userRole === 'admin' && (
+                    <>
+                      <Link
+                        to="/admin-dashboard"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          padding: '8px',
+                          borderRadius: '4px',
+                          color: '#4299e1',
+                          textDecoration: 'none',
+                          fontSize: '0.9rem',
+                          marginBottom: '8px'
+                        }}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="3" width="18" height="18" rx="2" />
+                          <path d="M9 3v18" />
+                          <path d="M14 8h.01" />
+                          <path d="M14 12h.01" />
+                          <path d="M14 16h.01" />
+                        </svg>
+                        <span>Ir al Dashboard</span>
+                      </Link>
+                      <div style={{ height: '1px', backgroundColor: '#e2e8f0', margin: '8px 0' }}></div>
+                    </>
+                  )}
+
                   <button
                     style={{
                       display: 'flex',

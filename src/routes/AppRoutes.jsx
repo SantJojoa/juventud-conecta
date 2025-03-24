@@ -7,6 +7,7 @@ import Login from "../components/login/Login";
 import Hero from "../components/Hero/Hero";
 import CreateEvent from "../components/create_event/createEvent";
 import ListEvents from "../components/list_events/ListEvents";
+import AdminDashboard from "../components/admin/AdminDashboard";
 
 function AppRoutes() {
     return (
@@ -16,6 +17,7 @@ function AppRoutes() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/create-event" element={<CreateEvent />}></Route>
             <Route path="/events" element={<ListEvents />}></Route>
+            <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
         </Routes>
     )
 }

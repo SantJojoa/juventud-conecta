@@ -37,7 +37,7 @@ const Login = () => {
 
             // Redirigir según el rol
             if (data.role === "admin") {
-                navigate("/create-event");
+                navigate("/admin-dashboard");
             } else {
                 navigate("/");
             }
