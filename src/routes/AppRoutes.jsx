@@ -6,6 +6,7 @@ import OtherEvents from "../components/other_events/OtherEvents";
 import Login from "../components/login/Login";
 import Hero from "../components/Hero/Hero";
 import CreateEvent from "../components/create_event/createEvent";
+import ListEvents from "../components/list_events/ListEvents";
 
 function AppRoutes() {
     return (
@@ -14,6 +15,7 @@ function AppRoutes() {
             <Route path="/favorites" element={<FavoritesEvent />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/create-event" element={<CreateEvent />}></Route>
+            <Route path="/events" element={<ListEvents />}></Route>
         </Routes>
     )
 }

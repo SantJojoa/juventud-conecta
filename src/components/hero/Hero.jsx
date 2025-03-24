@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Carousel from "../carousel/carouselComponent";
 import "./Hero.css";
 
@@ -11,7 +12,7 @@ const Hero = () => {
             </div>
             <Carousel />
             <div className="btn-container">
-                <button className="ver-eventos-btn">Ver todos los eventos</button>
+                <Link to="/events" className="ver-eventos-btn"> Ver todos los eventos</Link>
             </div>
         </section>
     )
