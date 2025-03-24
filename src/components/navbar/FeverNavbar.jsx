@@ -22,17 +22,32 @@ function FeverNavbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const storedUserName = localStorage.getItem('userName');
-    const storedUserRole = localStorage.getItem('userRole');
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      const storedUserName = localStorage.getItem('userName');
+      const storedUserRole = localStorage.getItem('userRole');
 
-    if (token && storedUserName) {
-      setIsLoggedIn(true);
-      setUserName(storedUserName);
-      setUserRole(storedUserRole || '');
-    }
+      if (token && storedUserName) {
+        setIsLoggedIn(true);
+        setUserName(storedUserName);
+        setUserRole(storedUserRole || '');
+      } else {
+        setIsLoggedIn(false);
+        setUserName('');
+        setUserRole('');
+      }
+    };
+
+    checkAuth();
+
+    window.addEventListener('storage', checkAuth);
+    window.addEventListener('login-change', checkAuth);
+
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('login-change', checkAuth);
+    };
   }, []);
-
 
   const getUserInitials = () => {
     if (!userName) return '';

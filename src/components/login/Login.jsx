@@ -32,6 +32,9 @@ const Login = () => {
             localStorage.setItem("userRole", data.role);
             localStorage.setItem("userName", data.name);
 
+            // Disparar evento personalizado para notificar al Navbar
+            window.dispatchEvent(new Event('login-change'));
+
             // Redirigir según el rol
             if (data.role === "admin") {
                 navigate("/create-event");
