@@ -20,6 +20,7 @@ function AppRoutes() {
             <Route path="/events" element={<ListEvents />}></Route>
             <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
             <Route path="/manage-events" element={<ManageEvents />}></Route>
+
         </Routes>
     )
 }

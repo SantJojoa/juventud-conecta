@@ -1,51 +1,19 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 import './ManageEvents.css';
 
+import { useEvents } from "../../hooks/useEvents";
+import { EventService } from "../../services/eventService";
+import { AuthService } from "../../services/authService";
+
+import LoadingIndicator from "../shared/LoadingIndicator";
+import ErrorMessage from "../shared/ErrorMessage";
+import EmptyStateMessage from "../shared/EmptyStateMessage";
+
 const ManageEvents = () => {
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const { events, loading, error, fetchEvents, setEvents } = useEvents();
 
-    // Cargar eventos cuando el componente se monta
-    useEffect(() => {
-        fetchEvents();
-    }, []);
-
-    // Función para obtener todos los eventos
-    const fetchEvents = async () => {
-        try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                setError('No tienes autorización');
-                setLoading(false);
-                return;
-            }
-
-            const response = await fetch('http://localhost:5000/api/events', {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.error || 'Error al cargar eventos');
-            }
-
-            const data = await response.json();
-            setEvents(data);
-            setLoading(false);
-        } catch (err) {
-            setError(err.message);
-            setLoading(false);
-        }
-    };
-
-    // Función para manejar la eliminación de un evento
     const handleDeleteEvent = async (eventId) => {
         Swal.fire({
             title: '¿Estás seguro?',
@@ -59,26 +27,18 @@ const ManageEvents = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const token = localStorage.getItem("token");
+                    const token = AuthService.getToken();
                     if (!token) {
                         Swal.fire('Error', 'No tienes autorización', 'error');
                         return;
                     }
 
-                    const response = await fetch(`http://localhost:5000/api/events/${eventId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
+                    const data = await EventService.delete(eventId, token);
 
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || 'Error al eliminar el evento');
+                    if (data && data.error) {
+                        throw new Error(data.error || 'Error al eliminar el evento');
                     }
 
-                    // Actualizar la lista de eventos después de eliminar
                     setEvents(events.filter(event => event._id !== eventId));
 
                     Swal.fire(
@@ -107,16 +67,14 @@ const ManageEvents = () => {
             </div>
 
             {loading ? (
-                <p className="loading">Cargando eventos...</p>
+                <LoadingIndicator message="Cargando eventos..." />
             ) : error ? (
-                <div className="error-container">
-                    <p className="error-message">{error}</p>
-                </div>
+                <ErrorMessage message={error} />
             ) : (
                 <>
                     <div className="manage-events-grid">
                         {events.length === 0 ? (
-                            <p className="no-events">No hay eventos disponibles</p>
+                            <EmptyStateMessage message="No hay eventos disponibles" />
                         ) : (
                             events.map(event => (
                                 <div className="manage-event-card" key={event._id}>
@@ -150,3 +108,4 @@ const ManageEvents = () => {
 };
 
 export default ManageEvents;
+
