@@ -165,36 +165,8 @@ function FeverNavbar() {
       <div className="navbar-container">
         <div className="logo-section">
           <Link to="/">
-            <img src="/logo.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            <img src="/logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
           </Link>
-        </div>
-
-        <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
-          <button
-            className="social-button"
-            aria-expanded={isSocialDropdownOpen}
-          >
-            Redes/Páginas
-          </button>
-          {isSocialDropdownOpen && (
-            <div className="dropdown-menu social-dropdown" role="menu">
-              <a href="https://www.facebook.com/direcciondejuventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
-                Facebook
-              </a>
-              <a href="https://www.instagram.com/juventudpasto/" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
-                Instagram
-              </a>
-              <a href="https://twitter.com/juventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
-                X
-              </a>
-              <a href="https://www.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
-                Alcaldía de Pasto
-              </a>
-              <a href="https://observatoriojuventud.pasto.gov.co/inicio" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
-                Observatorio
-              </a>
-            </div>
-          )}
         </div>
 
         <div className="search-section" ref={searchRef}>
@@ -216,7 +188,7 @@ function FeverNavbar() {
               viewBox="0 0 24 24"
               stroke="currentColor"
               onClick={handleSearch}
-              style={{ cursor: 'pointer' }}
+
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -240,16 +212,55 @@ function FeverNavbar() {
           </div>
         </div>
 
+
+
         <div className="actions-section">
-          <Link to="/favorites">
-            <button className="action-button" aria-label="Ver favoritos">
-              <Heart className="action-icon" />
+          <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
+            <button
+              className="social-button"
+              aria-expanded={isSocialDropdownOpen}
+            >
+              Redes Sociales
             </button>
-          </Link>
+            {isSocialDropdownOpen && (
+              <div className="dropdown-menu social-dropdown" role="menu">
+                <a href="https://www.facebook.com/direcciondejuventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Facebook
+                </a>
+                <a href="https://www.instagram.com/juventudpasto/" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Instagram
+                </a>
+                <a href="https://twitter.com/juventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  X
+                </a>
+              </div>
+            )}
+          </div>
+
+          <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
+            <button
+              className="social-button"
+              aria-expanded={isSocialDropdownOpen}
+            >
+              Otras Paginas
+            </button>
+            {isSocialDropdownOpen && (
+              <div className="dropdown-menu social-dropdown" role="menu">
+                <a href="https://www.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Alcaldía de Pasto
+                </a>
+                <a href="https://observatoriojuventud.pasto.gov.co/inicio" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Observatorio
+                </a>
+              </div>
+            )}
+          </div>
+
+
 
 
           {isLoggedIn ? (
-            <div className="user-section" style={{ position: 'relative' }}>
+            <div className="user-section">
               <button
                 className='user-avatar-button'
                 onClick={toggleUserDropdown}
@@ -260,47 +271,22 @@ function FeverNavbar() {
                   {getUserInitials()}
                 </div>
               </button>
-
-              {/* Menú desplegable con estilos en línea para asegurar visibilidad */}
               {isUserDropdownOpen && (
                 <div
                   ref={userDropdownRef}
-                  style={{
-                    position: 'absolute',
-                    top: '40px',
-                    right: '0',
-                    width: '200px',
-                    backgroundColor: 'white',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                    padding: '12px',
-                    zIndex: 9999,
-                  }}
+                  className="user-dropdown"
                 >
-                  <div style={{ marginBottom: '10px' }}>
-                    <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px' }}>{userName}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#718096' }}>
+                  <div className="user-info">
+                    <div className="user-name">{userName}</div>
+                    <div className="user-info-role">
                       Rol: {userRole === 'admin' ? 'Administrador' : 'Usuario'}
                     </div>
                   </div>
-                  <div style={{ height: '1px', backgroundColor: '#e2e8f0', margin: '8px 0' }}></div>
-
+                  <div className="divider"></div>
                   {userRole === 'admin' && (
                     <>
-                      <Link
+                      <Link className='admin-link'
                         to="/admin-dashboard"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          width: '100%',
-                          padding: '8px',
-                          borderRadius: '4px',
-                          color: '#4299e1',
-                          textDecoration: 'none',
-                          fontSize: '0.9rem',
-                          marginBottom: '8px'
-                        }}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -311,30 +297,20 @@ function FeverNavbar() {
                         </svg>
                         <span>Ir al Dashboard</span>
                       </Link>
-                      <div style={{ height: '1px', backgroundColor: '#e2e8f0', margin: '8px 0' }}></div>
+                      <div className="divider"></div>
                     </>
                   )}
+                  <div className="logout-item">
 
-                  <button
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: '100%',
-                      textAlign: 'left',
-                      background: 'none',
-                      cursor: 'pointer',
-                      border: 'none',
-                      padding: '8px',
-                      borderRadius: '4px',
-                    }}
-                    onClick={handleLogout}
-                    aria-label="Cerrar sesión"
-                    type="button"
-                  >
-                    <LogOut size={16} style={{ color: '#e53e3e' }} />
-                    <span style={{ color: '#e53e3e' }}>Cerrar sesión</span>
-                  </button>
+                    <button className='logout-button'
+                      onClick={handleLogout}
+                      aria-label="Cerrar sesión"
+                      type="button"
+                    >
+                      <LogOut className="logout-icon" />
+                      <span>Cerrar sesión</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
