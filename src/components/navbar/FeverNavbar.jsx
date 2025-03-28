@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Heart, User, LogOut } from 'lucide-react';
+import { User, LogOut } from 'lucide-react';
 import './FeverNavbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -15,11 +15,38 @@ function FeverNavbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userRole, setUserRole] = useState('');
+  const [scrollDirection, setScrollDirection] = useState('');
+  const [lastScrollTop, setLastScrollTop] = useState(0);
 
   const socialDropdownRef = useRef(null);
   const userDropdownRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      if (scrollTop === 0) {
+        // At the top - transparent navbar
+        setScrollDirection('');
+      } else if (scrollTop > lastScrollTop && scrollTop > 50) {
+        // Scrolling down - hide navbar
+        setScrollDirection('down');
+      } else if (scrollTop < lastScrollTop) {
+        // Scrolling up - show navbar with white background
+        setScrollDirection('up');
+      }
+      setLastScrollTop(scrollTop);
+    };
+
+    // Run once on mount to set initial state
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollTop]);
 
   useEffect(() => {
     const checkAuth = () => {
@@ -161,11 +188,15 @@ function FeverNavbar() {
   };
 
   return (
-    <nav className="fever-navbar">
+    <nav className={`fever-navbar ${scrollDirection === 'down' ? 'navbar-scrolled-down' : scrollDirection === 'up' ? 'navbar-scrolled-up' : ''}`}>
       <div className="navbar-container">
         <div className="logo-section">
           <Link to="/">
-            <img src="/white-logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            {scrollDirection === 'up' ? (
+              <img src="/logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            ) : (
+              <img src="/white-logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            )}
           </Link>
         </div>
 
