@@ -52,23 +52,23 @@
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 0px;
 }
 
 .ver-eventos-btn {
-    background-color: #0078c8;
-    color: white;
-    border: none;
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
     border-radius: 20px;
     padding: 8px 25px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.4s ease, transform 0.3s ease;
+    transition: background-color 0.5s ease;
 }
 
 .ver-eventos-btn:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
+    background-color: #fff;
+    color: #000000;
 }

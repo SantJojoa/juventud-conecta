@@ -206,11 +206,11 @@
   padding: 6px;
   border-radius: 50%;
   transition: background-color 0.2s;
-  color: #718096;
+  color: #ffffff;
 }
 
 .action-button:hover {
-  background-color: #f7fafc;
+  background-color: #f7fafc22;
 }
 
 .action-icon {
