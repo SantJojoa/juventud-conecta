@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 .fever-navbar {
   width: 100%;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  position: sticky;
-  z-index: 50;
+  background-color: transparent;
+  box-shadow: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
   padding: 3px;
 }
 
@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 115rem;
+  max-width: 89rem;
   margin: 0 auto;
   flex-wrap: wrap;
 }
@@ -42,7 +42,7 @@
 .social-button {
   background: none;
   border: none;
-  color: #4a5568;
+  color: #fff;
   font-size: 0.8rem;
   padding: 6px 10px;
   border-radius: 6px;
@@ -52,8 +52,8 @@
 }
 
 .social-button:hover {
-  background-color: #f7fafc;
-  color: #212226;
+  background-color: #f7fafc22;
+  color: #0b2242;
 }
 
 .dropdown-menu {
@@ -62,9 +62,9 @@
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
   width: 120px;
-  background: white;
+  background: transparent;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 6px 4px -4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 4px -4px rgba(0, 0, 0, 0.01);
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -72,12 +72,12 @@
   margin-top: 0;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.5s ease;
+  transition: all 1s ease;
 }
 
 .dropdown-item {
   padding: 8px;
-  color: #4a5568;
+  color: #fff;
   text-align: center;
   cursor: pointer;
   font-size: 0.8rem;
@@ -86,8 +86,10 @@
 }
 
 .dropdown-item:hover {
-  color: #212226;
+  color: #0b2242;
   text-decoration: underline;
+  background-color: #f7fafc22;
+
 }
 
 .search-section {

@@ -165,7 +165,7 @@ function FeverNavbar() {
       <div className="navbar-container">
         <div className="logo-section">
           <Link to="/">
-            <img src="/logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            <img src="/white-logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
           </Link>
         </div>
 
