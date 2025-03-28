@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -15,13 +15,19 @@ import EventPopUp from "../shared/EventPopup";
 
 
 
-const Carousel = () => {
+const Carousel = ({ onImageChange }) => {
 
     const { events, loading } = useEvents();
     const { selectedEvent, openEventPopup, closeEventPopup } = useEventPopup();
+    const [currentSlide, setCurrentSlide] = useState(0);
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (events.length > 0 && events[currentSlide]) {
+            onImageChange && onImageChange(events[currentSlide].imageSrc);
+        }
+    }, [currentSlide, events, onImageChange]);
 
     const settings = {
         dots: true,
@@ -32,7 +38,8 @@ const Carousel = () => {
         autoplay: events.length > 1,
         autoplaySpeed: 2500,
         adaptiveHeight: true,
-        arrows: events.length > 1
+        arrows: events.length > 1,
+        beforeChange: (current, next) => setCurrentSlide(next)
     };
 
     if (loading) {
@@ -50,6 +57,8 @@ const Carousel = () => {
             </div>
         );
     }
+
+
 
     return (
         <div className="carousel-wrapper">

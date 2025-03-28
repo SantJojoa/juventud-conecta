@@ -8,11 +8,33 @@
     overflow: hidden;
     padding-bottom: 1.5rem;
     margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--hero-background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(20px) brightness(0.6);
+    z-index: -1;
+    transform: scale(1.1);
+    transition: background-image 0.5s ease-in-out;
 }
 
 .placeholder-content {
     text-align: center;
     margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .placeholder-content h1 {
@@ -22,6 +44,7 @@
 
 .placeholder-content p {
     font-size: 1rem;
+    color: white;
 }
 
 .btn-container {
