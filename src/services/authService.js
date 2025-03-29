@@ -1,4 +1,6 @@
 // services/authService.js
+const API_URL = "http://localhost:5000/api/auth";
+
 export const AuthService = {
     getToken: () => localStorage.getItem("token"),
 
@@ -7,5 +9,63 @@ export const AuthService = {
     getAuthHeaders: () => ({
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
         'Content-Type': 'application/json'
-    })
+    }),
+
+    login: async (email, password) => {
+        const response = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error en el login");
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userRole", data.role);
+        localStorage.setItem("userName", data.name);
+
+        window.dispatchEvent(new Event('login-change'));
+
+        return data;
+    },
+
+    register: async (name, email, password) => {
+        const response = await fetch(`${API_URL}/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error en el registro");
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userRole", data.role);
+        localStorage.setItem("userName", data.name);
+
+        window.dispatchEvent(new Event('login-change'));
+
+        return data;
+    },
+
+    logout: () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("userName");
+
+        window.dispatchEvent(new Event('login-change'));
+    }
+
+
 };

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import './Login.css';
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
+import { AuthService } from "../../services/authService";
 
 
 const Login = () => {
@@ -14,29 +15,10 @@ const Login = () => {
         e.preventDefault();
         setError("");
 
+
         try {
-            const response = await fetch("http://localhost:5000/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || "Error en el login");
-            }
-
-            // Guardar token y rol
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("userRole", data.role);
-            localStorage.setItem("userName", data.name);
-
-            // Disparar evento personalizado para notificar al Navbar
-            window.dispatchEvent(new Event('login-change'));
-
-            // Redirigir según el rol
-            if (data.role === "admin") {
+            const data = await AuthService.login(email, password);
+            if (data.role === 'admin') {
                 navigate("/admin-dashboard");
             } else {
                 navigate("/");
@@ -48,13 +30,12 @@ const Login = () => {
 
     return (
         <div className="main">
-
             <section className="sign-in">
                 <div className="container">
                     <div className="signin-content">
                         <div className="signin-image">
                             <figure><img src="/public/logo.png" alt="Logo dirección de juventud de la alcaldía" /></figure>
-                            <a href="#" className="signup-image-link">Crear una cuenta</a>
+                            <Link to="/register" className="signup-image-link">¿No tienes una cuenta?</Link>
                         </div>
 
                         <div className="signin-form">
