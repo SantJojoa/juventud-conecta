@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { User, LogOut } from 'lucide-react';
 import './FeverNavbar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 function FeverNavbar() {
   const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
@@ -22,25 +22,40 @@ function FeverNavbar() {
   const userDropdownRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      if (scrollTop === 0) {
-        // At the top - transparent navbar
-        setScrollDirection('');
-      } else if (scrollTop > lastScrollTop && scrollTop > 50) {
-        // Scrolling down - hide navbar
-        setScrollDirection('down');
-      } else if (scrollTop < lastScrollTop) {
-        // Scrolling up - show navbar with white background
-        setScrollDirection('up');
+      if (isHomePage) {
+        if (scrollTop === 0) {
+          setScrollDirection('');
+        } else if (scrollTop > lastScrollTop && scrollTop > 50) {
+          setScrollDirection('down');
+        } else if (scrollTop < lastScrollTop) {
+          setScrollDirection('up');
+        }
+      } else {
+        setScrollDirection('not-home');
       }
       setLastScrollTop(scrollTop);
     };
+    handleScroll();
+    // if (scrollTop === 0) {
+    //   // At the top - transparent navbar
+    //   setScrollDirection('');
+    // } else if (scrollTop > lastScrollTop && scrollTop > 50) {
+    //   // Scrolling down - hide navbar
+    //   setScrollDirection('down');
+    // } else if (scrollTop < lastScrollTop) {
+    //   // Scrolling up - show navbar with white background
+    //   setScrollDirection('up');
+    // }
+    // setLastScrollTop(scrollTop);
 
     // Run once on mount to set initial state
-    handleScroll();
 
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -96,12 +111,10 @@ function FeverNavbar() {
     navigate('/');
   };
 
-
-  // Implementación del debounce
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 200); // 200ms de retraso
+    }, 200);
 
     return () => {
       clearTimeout(timerId);
@@ -124,7 +137,6 @@ function FeverNavbar() {
     fetchEvents();
   }, []);
 
-  // Utilizamos el término de búsqueda con debounce para filtrar
   useEffect(() => {
     if (debouncedSearchTerm.trim().length > 0) {
       const filtered = allEvents.filter(event =>
@@ -142,13 +154,9 @@ function FeverNavbar() {
     setIsSocialDropdownOpen((prev) => !prev);
   };
 
-  // Método simple para alternar el menú
   const toggleUserDropdown = () => {
-    // Simplemente invertir el estado actual
     setIsUserDropdownOpen(prevState => !prevState);
   };
-
-  // Efecto para manejar clic fuera de los elementos
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
@@ -188,11 +196,11 @@ function FeverNavbar() {
   };
 
   return (
-    <nav className={`fever-navbar ${scrollDirection === 'down' ? 'navbar-scrolled-down' : scrollDirection === 'up' ? 'navbar-scrolled-up' : ''}`}>
+    <nav className={`fever-navbar ${scrollDirection === 'down' ? 'navbar-scrolled-down' : scrollDirection === 'up' || !isHomePage || scrollDirection === 'not-home' ? 'navbar-scrolled-up' : ''}`}>
       <div className="navbar-container">
         <div className="logo-section">
           <Link to="/">
-            {scrollDirection === 'up' ? (
+            {scrollDirection === 'up' || !isHomePage || scrollDirection === 'not-home' ? (
               <img src="/logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
             ) : (
               <img src="/white-logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
