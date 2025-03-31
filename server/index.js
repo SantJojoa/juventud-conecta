@@ -23,3 +23,6 @@ app.use("/api/events", eventRoutes);
 
 const authRoutes = require('./config/routes/authRoutes');
 app.use('/api/auth', authRoutes);
+
+const userRoutes = require('./config/routes/userRoutes');
+app.use('/api/users', userRoutes);

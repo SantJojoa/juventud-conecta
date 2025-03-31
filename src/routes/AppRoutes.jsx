@@ -8,6 +8,7 @@ import CreateEvent from "../components/create_event/createEvent";
 import ListEvents from "../components/list_events/ListEvents";
 import AdminDashboard from "../components/admin/AdminDashboard";
 import ManageEvents from "../components/manage_events/ManageEvents";
+import UserProfile from "../components/profile/UserProfile";
 import HomePage from "../components/HomePage";
 
 function AppRoutes() {
@@ -21,7 +22,7 @@ function AppRoutes() {
             <Route path="/events" element={<ListEvents />}></Route>
             <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
             <Route path="/manage-events" element={<ManageEvents />}></Route>
-
+            <Route path="/profile" element={<UserProfile />}></Route>
         </Routes>
     )
 }

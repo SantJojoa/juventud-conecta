@@ -1,0 +1,221 @@
+.profile-container {
+    margin-top: 150px;
+    background-color: #f8f8f8;
+    padding: 50px 0;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: flex-start;
+}
+
+.profile-content {
+    width: 900px;
+    background: #fff;
+    margin: 0 auto;
+    box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -o-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    -ms-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    padding: 50px;
+}
+
+.profile-title {
+    line-height: 1.66;
+    margin: 0 0 30px;
+    padding: 0;
+    font-weight: bold;
+    color: #222;
+    font-size: 36px;
+    text-align: center;
+}
+
+.alert {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.alert-error {
+    background-color: #ffe6e6;
+    color: #d63031;
+    border: 1px solid #ff9999;
+}
+
+.alert-success {
+    background-color: #e6ffe6;
+    color: #27ae60;
+    border: 1px solid #99ff99;
+}
+
+.profile-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-field {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.field-label {
+    width: 120px;
+    font-weight: bold;
+    color: #222;
+}
+
+.field-value {
+    flex: 1;
+    color: #555
+}
+
+.edit-profile-btn {
+    display: inline-block;
+    background: #6dabe4;
+    color: #fff;
+    border: none;
+    width: auto;
+    padding: 10px 25px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-top: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background: #4292dc;
+}
+
+.profile-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.form-group label {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #222;
+}
+
+.form-group input {
+    width: 100%;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #999;
+    padding: 6px 30px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    border-bottom: 1px solid #222;
+}
+
+.form-group input:focus:placeholder {
+    color: #999;
+}
+
+.form-group input:focus::placeholder {
+    color: #222;
+}
+
+.password-section-title {
+    margin: 30px 0 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.cancel-btn {
+    display: inline-block;
+    background: #f0f0f0;
+    color: #555;
+    border: none;
+    width: 48%;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: #e0e0e0;
+}
+
+.save-btn {
+    display: inline-block;
+    background: #6dabe4;
+    color: #fff;
+    border: none;
+    width: 48%;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.save-btn:hover {
+    background: #4292dc;
+}
+
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin: 50px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-content {
+        width: 90%;
+        padding: 30px 20px;
+    }
+
+    .profile-title {
+        font-size: 28px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
