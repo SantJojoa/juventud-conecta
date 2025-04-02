@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserProfile, updateUserProfile } from "../../services/userService";
+import { getUserProfile, updateUserProfile, getFavoriteEvents } from "../../services/userService";
 import { AuthService } from "../../services/authService";
+import EventCard from "../shared/EventCard";
+import EventPopup from "../shared/EventPopup"
 import "./UserProfile.css";
 
 function UserProfile() {
@@ -11,6 +13,11 @@ function UserProfile() {
     const [success, setSuccess] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
+
+    const [favoriteEvents, setFavoriteEvents] = useState([]);
+    const [loadingFavorites, setLoadingFavorites] = useState(false);
+    const [errorFavorites, setErrorFavorites] = useState("");
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -49,6 +56,48 @@ function UserProfile() {
 
         fetchUserProfile();
     }, [navigate]);
+
+    useEffect(() => {
+        const fetchFavoriteEvents = async () => {
+            if (!AuthService.isAuthenticated()) {
+                return;
+            }
+
+            try {
+                setLoadingFavorites(true);
+                setErrorFavorites("");
+                const response = await getFavoriteEvents();
+                // La API devuelve { formattedEvents: [...] }
+                const events = response.formattedEvents || [];
+                setFavoriteEvents(events);
+            } catch (err) {
+                setErrorFavorites("Error al cargar favoritos: " + err.message);
+                console.error("Error cargando favoritos:", err);
+            } finally {
+                setLoadingFavorites(false);
+            }
+        };
+
+        fetchFavoriteEvents();
+    }, []);
+
+    // Refrescar favoritos cuando se cierre el popup
+    const handleEventClose = () => {
+        setSelectedEvent(null);
+        // Recargar eventos favoritos después de cerrar el popup
+        // para reflejar cualquier cambio que el usuario haya hecho
+        const refreshFavorites = async () => {
+            try {
+                const response = await getFavoriteEvents();
+                const events = response.formattedEvents || [];
+                setFavoriteEvents(events);
+            } catch (err) {
+                console.error("Error recargando favoritos:", err);
+            }
+        };
+        refreshFavorites();
+    };
+
 
     // Handle form input changes
     const handleChange = (e) => {
@@ -232,9 +281,44 @@ function UserProfile() {
                         </div>
                     </form>
                 )}
+
+                <div className="favorite-events-section">
+                    <h3 className="section-title">Mis Eventos Favoritos</h3>
+
+                    {errorFavorites && <div className="alert alert-error">{errorFavorites}</div>}
+
+                    {loadingFavorites ? (
+                        <div className="loading">Cargando eventos favoritos...</div>
+                    ) : favoriteEvents.length > 0 ? (
+                        <div className="favorite-events-grid">
+                            {favoriteEvents.map(event => (
+                                <EventCard
+                                    key={event._id}
+                                    event={event}
+                                    onClick={(event) => setSelectedEvent(event)}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="no-favorites">
+                            <p>No tienes eventos guardados como favoritos.</p>
+                            <p>Explora los eventos disponibles y guarda tus favoritos para verlos aquí.</p>
+                        </div>
+                    )}
+                </div>
             </div>
+
+            {/* Popup de evento */}
+            {selectedEvent && (
+                <EventPopup
+                    event={selectedEvent}
+                    onClose={handleEventClose}
+                />
+            )}
         </div>
+
     );
+
 }
 
 export default UserProfile;
