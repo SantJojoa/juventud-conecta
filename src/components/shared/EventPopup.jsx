@@ -21,6 +21,20 @@ const EventPopup = ({ event, onClose }) => {
         checkFavoriteStatus();
     }, [event._id]);
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [onClose])
+
     const handleToggleFavorite = async () => {
         if (!AuthService.isAuthenticated()) {
             alert('Debes iniciar sesión para guardar eventos como favoritos')
@@ -85,7 +99,7 @@ const EventPopup = ({ event, onClose }) => {
                 </div>
 
                 {/* Footer con botón de favoritos */}
-                <div className="popup-footer" align="left">
+                <div className="popup-footer">
                     <button
                         className={`favorite-button ${isFavorite ? 'favorite' : ''}`}
                         onClick={handleToggleFavorite}
