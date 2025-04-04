@@ -200,10 +200,12 @@ function UserProfile() {
                             <span className="field-label">Email:</span>
                             <span className="field-value">{userProfile?.email}</span>
                         </div>
-                        <div className="profile-field">
-                            <span className="field-label">Rol:</span>
-                            <span className="field-value">{userProfile?.role}</span>
-                        </div>
+                        {userProfile?.role === 'admin' && (
+                            <div className="profile-field">
+                                <span className="field-label">Rol:</span>
+                                <span className="field-value">{userProfile?.role}</span>
+                            </div>
+                        )}
                         <button className="edit-profile-btn" onClick={toggleEditMode}>
                             Editar Perfil
                         </button>
@@ -308,7 +310,6 @@ function UserProfile() {
                 </div>
             </div>
 
-            {/* Popup de evento */}
             {selectedEvent && (
                 <EventPopup
                     event={selectedEvent}

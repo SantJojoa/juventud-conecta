@@ -317,9 +317,11 @@ function FeverNavbar() {
                 >
                   <div className="user-info">
                     <div className="user-name">{userName}</div>
-                    <div className="user-info-role">
-                      Rol: {userRole === 'admin' ? 'Administrador' : 'Usuario'}
-                    </div>
+                    {userRole === 'admin' && (
+                      <div className="user-info-role">
+                        Rol: {userRole === 'admin' ? 'Administrador' : 'Usuario'}
+                      </div>
+                    )}
                   </div>
                   <div className="divider"></div>
                   <Link className='profile-link'
