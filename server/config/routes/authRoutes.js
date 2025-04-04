@@ -3,8 +3,36 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const { where } = require("sequelize");
+const { isAdmin } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
+
+router.post('/register-admin', isAdmin, async (req, res) => {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ message: 'Nombre, email y contraseña son requeridos' })
+    }
+    try {
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ message: 'El usuario ya existe' });
+        }
+
+        const user = await User.create({
+            name,
+            email,
+            password,
+            role: 'admin'
+        });
+        res.status(201).json({
+            message: 'Usuario registrado exitosamente'
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error al registrar el usuario' });
+    }
+})
 
 router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;

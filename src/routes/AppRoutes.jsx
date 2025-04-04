@@ -10,6 +10,7 @@ import AdminDashboard from "../components/admin/AdminDashboard";
 import ManageEvents from "../components/manage_events/ManageEvents";
 import UserProfile from "../components/profile/UserProfile";
 import HomePage from "../components/HomePage";
+import AdminRegister from "../components/admin/AdminRegister";
 
 function AppRoutes() {
     return (
@@ -23,6 +24,7 @@ function AppRoutes() {
             <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
             <Route path="/manage-events" element={<ManageEvents />}></Route>
             <Route path="/profile" element={<UserProfile />}></Route>
+            <Route path="/admin-register" element={<AdminRegister />}></Route>
         </Routes>
     )
 }

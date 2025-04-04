@@ -59,6 +59,25 @@ export const AuthService = {
         return data;
     },
 
+    registerAdmin: async (name, email, password) => {
+        const response = await fetch(`${API_URL}/register-admin`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ name, email, password })
+
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || 'Error al registrar administrador')
+        }
+
+        return data;
+    },
+
     logout: () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userRole");
@@ -66,6 +85,7 @@ export const AuthService = {
 
         window.dispatchEvent(new Event('login-change'));
     }
+
 
 
 };
