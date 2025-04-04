@@ -45,7 +45,7 @@
   width: 95%;
   margin: 0 auto;
   flex-wrap: wrap;
-  padding: 0 20px;
+  padding: 0 10px;
   margin-bottom: 10px;
 }
 
@@ -392,7 +392,7 @@
 
 @media (min-width: 1600px) {
   .navbar-container {
-    width: 85%;
+    width: 90%;
     max-width: 1800px;
   }
 }
