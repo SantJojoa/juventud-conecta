@@ -8,6 +8,8 @@
   z-index: 100;
   padding: 3px;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 15px;
+
 }
 
 .navbar-scrolled-down {
@@ -20,7 +22,6 @@
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
 }
 
 .navbar-scrolled-up .social-button,
@@ -41,9 +42,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 90rem;
+  width: 95%;
   margin: 0 auto;
   flex-wrap: wrap;
+  padding: 0 20px;
+  margin-bottom: 10px;
+}
+
+.logo-section {
+  flex: 0 0 auto;
+  margin-right: 150px;
 }
 
 .navbar-logo {
@@ -124,10 +132,10 @@
 }
 
 .search-section {
-  flex-grow: 1;
+  flex: 1 1 auto;
+  max-width: 500px;
   margin: 0 12px;
-  max-width: 520px;
-  margin-left: 220px;
+  margin-left: 50px;
 }
 
 .search-wrapper {
@@ -197,6 +205,7 @@
 .actions-section {
   display: flex;
   align-items: center;
+  flex: 0 0 auto;
 }
 
 .action-button {
@@ -381,33 +390,68 @@
   color: #6200ea;
 }
 
+@media (min-width: 1600px) {
+  .navbar-container {
+    width: 85%;
+    max-width: 1800px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .navbar-container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 992px) {
+  .search-section {
+    max-width: 400px;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar-container {
     flex-direction: column;
     align-items: center;
+    max-height: none;
+    padding: 10px;
+  }
+
+  .logo-section {
+    margin-right: 0;
+    margin-bottom: 10px;
   }
 
   .search-section {
     width: 100%;
+    max-width: 100%;
     margin: 10px 0;
   }
 
   .actions-section {
     margin-top: 10px;
-  }
-
-  .dropdown-menu {
     width: 100%;
-    left: 0;
+    justify-content: center;
   }
 
   .social-section {
-    width: 100%;
-    justify-content: center;
-    margin: 0.5rem 0;
+    width: auto;
+    margin: 0 10px;
   }
 
   .user-dropdown {
     right: -70px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-container {
+    width: 100%;
+    padding: 10px 15px;
+  }
+
+  .social-button {
+    font-size: 0.75rem;
+    padding: 5px 8px;
   }
 }

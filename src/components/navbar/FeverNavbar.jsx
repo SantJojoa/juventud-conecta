@@ -43,19 +43,6 @@ function FeverNavbar() {
       setLastScrollTop(scrollTop);
     };
     handleScroll();
-    // if (scrollTop === 0) {
-    //   // At the top - transparent navbar
-    //   setScrollDirection('');
-    // } else if (scrollTop > lastScrollTop && scrollTop > 50) {
-    //   // Scrolling down - hide navbar
-    //   setScrollDirection('down');
-    // } else if (scrollTop < lastScrollTop) {
-    //   // Scrolling up - show navbar with white background
-    //   setScrollDirection('up');
-    // }
-    // setLastScrollTop(scrollTop);
-
-    // Run once on mount to set initial state
 
     window.addEventListener('scroll', handleScroll);
     return () => {
