@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-=======
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 .fever-navbar {
   width: 100%;
   background-color: transparent;
   box-shadow: none;
   position: fixed;
   top: 0;
-<<<<<<< HEAD
-  z-index: 50;
-  padding: 5px 15px;
-=======
   left: 0;
   z-index: 100;
   padding: 3px;
@@ -44,7 +35,6 @@
 .navbar-scrolled-up .dropdown-item:hover {
   color: #212226;
   background-color: #f7fafc;
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 }
 
 .navbar-container {
@@ -65,11 +55,7 @@
 }
 
 .navbar-logo {
-<<<<<<< HEAD
-  height: 65px;
-=======
   height: 53px;
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
   width: auto;
   cursor: pointer;
 }
