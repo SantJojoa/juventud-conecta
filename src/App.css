@@ -5,10 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Poppins;
-<<<<<<< HEAD
-=======
   scrollbar-width: thin;
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 }
 
 :focus {
@@ -22,10 +19,6 @@ body {
   user-select: none;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 input,
 textarea,
 [contenteditable="true"] {
