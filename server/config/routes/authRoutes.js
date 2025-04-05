@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const { where } = require("sequelize");
 const { isAdmin } = require("../middlewares/authMiddleware");
+const { sendWelcomeEmail } = require("../services/sendEmail");
 
 const router = express.Router();
 
@@ -25,8 +26,10 @@ router.post('/register-admin', isAdmin, async (req, res) => {
             password,
             role: 'admin'
         });
+        console.log('Enviando correo de bienvenida a', email);
+        await sendWelcomeEmail(email, name)
         res.status(201).json({
-            message: 'Usuario registrado exitosamente'
+            message: 'Usuario registrado exitosamente',
         });
 
     } catch (error) {
@@ -52,7 +55,8 @@ router.post('/register', async (req, res) => {
             email,
             password
         });
-
+        console.log('Enviando correo de bienvenida a', email);
+        await sendWelcomeEmail(email, name)
         const token = jwt.sign(
             { id: user.id, role: user.role },
             process.env.JWT_SECRET,

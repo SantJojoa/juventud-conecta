@@ -47,8 +47,6 @@ const eventsController = {
                 date: event.date,
                 location: event.location
             }));
-
-            console.log('Eventos encontrados:', formattedEvents); // Log para debugging
             res.json(formattedEvents);
         } catch (error) {
             console.error('Error al obtener eventos:', error);
