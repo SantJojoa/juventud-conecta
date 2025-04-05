@@ -1,9 +1,5 @@
 import { useState } from "react";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
 import { useNavigate, Link } from "react-router-dom";
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 import './Login.css';
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
 import { AuthService } from "../../services/authService";
@@ -14,10 +10,6 @@ import Swal from "sweetalert2";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-<<<<<<< HEAD
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
-=======
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isEmailEmpty, setIsEmailEmpty] = useState(false);
     const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
@@ -48,7 +40,6 @@ const Login = () => {
         }
     };
 
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -89,24 +80,6 @@ const Login = () => {
             } else {
                 navigate("/");
             }
-<<<<<<< HEAD
-
-            // Guardar token y rol
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("userRole", data.role);
-            localStorage.setItem("userName", data.name);
-
-            // Disparar evento personalizado para notificar al Navbar
-            window.dispatchEvent(new Event('login-change'));
-
-            // Redirigir según el rol
-            if (data.role === "admin") {
-                navigate("/admin-dashboard");
-            } else {
-                navigate("/");
-            }
-=======
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
         } catch (err) {
             Swal.fire({
                 icon: 'error',
@@ -133,14 +106,6 @@ const Login = () => {
                             <h2 className="form-title">Iniciar Sesión</h2>
                             <form className="register-form" onSubmit={handleSubmit}>
                                 <div className="form-group">
-<<<<<<< HEAD
-                                    <label htmlFor="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>
-                                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email" />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="your_pass" ><i className="zmdi zmdi-lock"></i></label>
-                                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Contraseña" />
-=======
                                     <label for="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>
                                     <input
                                         type="text"
@@ -158,7 +123,6 @@ const Login = () => {
                                         placeholder="Contraseña"
                                         className={formSubmitted && isPasswordEmpty ? "invalid-input" : ""}
                                     />
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
                                 </div>
                                 <div className="form-group form-button">
                                     <input type="submit" className="form-submit" value={"Iniciar Sesión"} />

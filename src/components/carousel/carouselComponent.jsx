@@ -4,32 +4,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./carousel.css";
-<<<<<<< HEAD
-import { useState } from "react";
-import { useEffect } from "react";
-
-const Carousel = () => {
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/events');
-                const data = await response.json();
-                setEvents(Array.isArray(data) ? data : []);
-            } catch (error) {
-                console.error('Error fetching events:', error);
-                setEvents([]);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchEvents();
-    }, []);
-=======
 
 import { useEvents } from "../../hooks/useEvents";
 import { useEventPopup } from "../../hooks/useEventPopup";
@@ -54,7 +28,6 @@ const Carousel = ({ onImageChange }) => {
             onImageChange && onImageChange(events[currentSlide].imageSrc);
         }
     }, [currentSlide, events, onImageChange]);
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 
     const settings = {
         dots: true,
@@ -65,24 +38,6 @@ const Carousel = ({ onImageChange }) => {
         autoplay: events.length > 1,
         autoplaySpeed: 2500,
         adaptiveHeight: true,
-<<<<<<< HEAD
-        arrows: events.length > 1
-    };
-
-
-    const openEventPopup = useCallback((event) => {
-        setSelectedEvent(event);
-    }, []);
-
-    const closeEventPopup = useCallback(() => {
-        setSelectedEvent(null);
-    }, []);
-
-    if (loading) {
-        return <div className="carousel-wrapper">Cargando eventos...</div>;
-    }
-
-=======
         arrows: events.length > 1,
         beforeChange: (current, next) => setCurrentSlide(next)
     };
@@ -93,27 +48,17 @@ const Carousel = ({ onImageChange }) => {
 
 
 
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
     if (events.length === 0) {
         return (
             <div className="carousel-wrapper">
                 <div className="carousel-container">
-<<<<<<< HEAD
-                    <div className="no-events-message">
-                        No hay eventos disponibles
-                    </div>
-=======
                     <EmptyStateMessageComponent />
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
                 </div>
             </div>
         );
     }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 
     return (
         <div className="carousel-wrapper">
@@ -143,39 +88,8 @@ const Carousel = ({ onImageChange }) => {
                 </Slider>
             </div>
 
-<<<<<<< HEAD
-            {selectedEvent && (
-
-                <div className="event-popup-overlay" onClick={closeEventPopup}>
-                    <div className="event-popup" onClick={(e) => e.stopPropagation()}>
-                        <button className="close-popup" onClick={closeEventPopup}>
-                            &times;
-                        </button>
-                        <div className="popup-image-container">
-                            <img src={selectedEvent.imageSrc} alt={selectedEvent.title} className="popup-image"
-                            />
-                        </div>
-                        <div className="popup-content">
-                            <h2 className="popup-title">{selectedEvent.title}</h2>
-                            <p className="popup-date">
-                                <strong>Fecha:</strong>{" "}
-                                {new Date(selectedEvent.date).toLocaleDateString()}
-                            </p>
-                            <p className="popup-location">
-                                <strong>Ubicación:</strong> {selectedEvent.location || 'Ubicación no disponible'}
-                            </p>
-                            <p className="popup-description">
-                                {selectedEvent.description || 'Descripción no disponible'}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            )}
-=======
             {selectedEvent && <EventPopUp event={selectedEvent} onClose={closeEventPopup} />}
 
->>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
         </div>
     );
 };
