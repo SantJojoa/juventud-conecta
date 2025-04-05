@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
+<<<<<<< HEAD
 import { Heart, User, LogOut } from 'lucide-react';
 import './FeverNavbar.css';
 import { Link, useNavigate } from 'react-router-dom';
+=======
+import { User, LogOut } from 'lucide-react';
+import './FeverNavbar.css';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 
 function FeverNavbar() {
   const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
@@ -15,11 +21,17 @@ function FeverNavbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userRole, setUserRole] = useState('');
+<<<<<<< HEAD
+=======
+  const [scrollDirection, setScrollDirection] = useState('');
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 
   const socialDropdownRef = useRef(null);
   const userDropdownRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+<<<<<<< HEAD
 
   useEffect(() => {
     const checkAuth = () => {
@@ -104,6 +116,116 @@ function FeverNavbar() {
         event.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       ).slice(0, 5);
 
+=======
+  const location = useLocation();
+
+  const isHomePage = location.pathname === '/';
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      if (isHomePage) {
+        if (scrollTop === 0) {
+          setScrollDirection('');
+        } else if (scrollTop > lastScrollTop && scrollTop > 50) {
+          setScrollDirection('down');
+        } else if (scrollTop < lastScrollTop) {
+          setScrollDirection('up');
+        }
+      } else {
+        setScrollDirection('not-home');
+      }
+      setLastScrollTop(scrollTop);
+    };
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollTop]);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      const storedUserName = localStorage.getItem('userName');
+      const storedUserRole = localStorage.getItem('userRole');
+
+      if (token && storedUserName) {
+        setIsLoggedIn(true);
+        setUserName(storedUserName);
+        setUserRole(storedUserRole || '');
+      } else {
+        setIsLoggedIn(false);
+        setUserName('');
+        setUserRole('');
+      }
+    };
+
+    checkAuth();
+
+    window.addEventListener('storage', checkAuth);
+    window.addEventListener('login-change', checkAuth);
+
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('login-change', checkAuth);
+    };
+  }, []);
+
+  const getUserInitials = () => {
+    if (!userName) return '';
+    const nameParts = userName.split(' ');
+    if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase();
+    }
+    return nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0).toUpperCase();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userRole');
+    setIsLoggedIn(false);
+    setUserName('');
+    setUserRole('');
+    setIsUserDropdownOpen(false);
+    navigate('/');
+  };
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 200);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:5000/api/events');
+        const data = await response.json();
+        setAllEvents(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Error fetching events for search suggestions', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    if (debouncedSearchTerm.trim().length > 0) {
+      const filtered = allEvents.filter(event =>
+        event.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+      ).slice(0, 5);
+
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
       setSuggestions(filtered);
       setShowSuggestions(true);
     } else {
@@ -115,6 +237,7 @@ function FeverNavbar() {
     setIsSocialDropdownOpen((prev) => !prev);
   };
 
+<<<<<<< HEAD
   // Método simple para alternar el menú
   const toggleUserDropdown = () => {
     // Simplemente invertir el estado actual
@@ -122,6 +245,11 @@ function FeverNavbar() {
   };
 
   // Efecto para manejar clic fuera de los elementos
+=======
+  const toggleUserDropdown = () => {
+    setIsUserDropdownOpen(prevState => !prevState);
+  };
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
@@ -161,14 +289,19 @@ function FeverNavbar() {
   };
 
   return (
-    <nav className="fever-navbar">
+    <nav className={`fever-navbar ${scrollDirection === 'down' ? 'navbar-scrolled-down' : scrollDirection === 'up' || !isHomePage || scrollDirection === 'not-home' ? 'navbar-scrolled-up' : ''}`}>
       <div className="navbar-container">
         <div className="logo-section">
           <Link to="/">
-            <img src="/logo.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            {scrollDirection === 'up' || !isHomePage || scrollDirection === 'not-home' ? (
+              <img src="/logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            ) : (
+              <img src="/white-logo-final-improved.png" alt="logo-oficinajuventud" className="navbar-logo" />
+            )}
           </Link>
         </div>
 
+<<<<<<< HEAD
         <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
           <button
             className="social-button"
@@ -197,6 +330,8 @@ function FeverNavbar() {
           )}
         </div>
 
+=======
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
         <div className="search-section" ref={searchRef}>
           <div className="search-wrapper">
             <input
@@ -216,7 +351,11 @@ function FeverNavbar() {
               viewBox="0 0 24 24"
               stroke="currentColor"
               onClick={handleSearch}
+<<<<<<< HEAD
               style={{ cursor: 'pointer' }}
+=======
+
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -240,16 +379,60 @@ function FeverNavbar() {
           </div>
         </div>
 
+
+
+<<<<<<< HEAD
+          {isLoggedIn ? (
+            <div className="user-section" style={{ position: 'relative' }}>
+=======
         <div className="actions-section">
-          <Link to="/favorites">
-            <button className="action-button" aria-label="Ver favoritos">
-              <Heart className="action-icon" />
+          <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
+            <button
+              className="social-button"
+              aria-expanded={isSocialDropdownOpen}
+            >
+              Redes Sociales
             </button>
-          </Link>
+            {isSocialDropdownOpen && (
+              <div className="dropdown-menu social-dropdown" role="menu">
+                <a href="https://www.facebook.com/direcciondejuventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Facebook
+                </a>
+                <a href="https://www.instagram.com/juventudpasto/" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Instagram
+                </a>
+                <a href="https://twitter.com/juventudpasto" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  X
+                </a>
+              </div>
+            )}
+          </div>
+
+          <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
+            <button
+              className="social-button"
+              aria-expanded={isSocialDropdownOpen}
+            >
+              Otras Paginas
+            </button>
+            {isSocialDropdownOpen && (
+              <div className="dropdown-menu social-dropdown" role="menu">
+                <a href="https://www.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Alcaldía de Pasto
+                </a>
+                <a href="https://observatoriojuventud.pasto.gov.co/inicio" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
+                  Observatorio
+                </a>
+              </div>
+            )}
+          </div>
+
+
 
 
           {isLoggedIn ? (
-            <div className="user-section" style={{ position: 'relative' }}>
+            <div className="user-section">
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
               <button
                 className='user-avatar-button'
                 onClick={toggleUserDropdown}
@@ -260,6 +443,7 @@ function FeverNavbar() {
                   {getUserInitials()}
                 </div>
               </button>
+<<<<<<< HEAD
 
               {/* Menú desplegable con estilos en línea para asegurar visibilidad */}
               {isUserDropdownOpen && (
@@ -301,6 +485,36 @@ function FeverNavbar() {
                           fontSize: '0.9rem',
                           marginBottom: '8px'
                         }}
+=======
+              {isUserDropdownOpen && (
+                <div
+                  ref={userDropdownRef}
+                  className="user-dropdown"
+                >
+                  <div className="user-info">
+                    <div className="user-name">{userName}</div>
+                    {userRole === 'admin' && (
+                      <div className="user-info-role">
+                        Rol: {userRole === 'admin' ? 'Administrador' : 'Usuario'}
+                      </div>
+                    )}
+                  </div>
+                  <div className="divider"></div>
+                  <Link className='profile-link'
+                    to="/profile"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Mi Perfil</span>
+                  </Link>
+                  <div className="divider"></div>
+                  {userRole === 'admin' && (
+                    <>
+                      <Link className='admin-link'
+                        to="/admin-dashboard"
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -311,6 +525,7 @@ function FeverNavbar() {
                         </svg>
                         <span>Ir al Dashboard</span>
                       </Link>
+<<<<<<< HEAD
                       <div style={{ height: '1px', backgroundColor: '#e2e8f0', margin: '8px 0' }}></div>
                     </>
                   )}
@@ -335,6 +550,22 @@ function FeverNavbar() {
                     <LogOut size={16} style={{ color: '#e53e3e' }} />
                     <span style={{ color: '#e53e3e' }}>Cerrar sesión</span>
                   </button>
+=======
+                      <div className="divider"></div>
+                    </>
+                  )}
+                  <div className="logout-item">
+
+                    <button className='logout-button'
+                      onClick={handleLogout}
+                      aria-label="Cerrar sesión"
+                      type="button"
+                    >
+                      <LogOut className="logout-icon" />
+                      <span>Cerrar sesión</span>
+                    </button>
+                  </div>
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
                 </div>
               )}
             </div>

@@ -1,7 +1,11 @@
-const sequelize = require('../db'); // Importa la conexión a la base de datos
-const User = require('./User'); // Importa el modelo de usuario
+const sequelize = require('../db');
+const User = require('./User');
+const Event = require('./Event');
 
-// Sincroniza los modelos con la BD
+
+User.belongsToMany(Event, { through: 'UserFavorites', as: 'favoriteEvents' });
+Event.belongsToMany(User, { through: 'UserFavorites', as: 'favoritedBy' });
+
 const initModels = async () => {
     try {
         await sequelize.sync({ alter: true });
@@ -14,5 +18,6 @@ const initModels = async () => {
 module.exports = {
     sequelize,
     User,
+    Event,
     initModels
 };

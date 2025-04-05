@@ -4,14 +4,42 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+<<<<<<< HEAD
     padding: 15px 0;
     overflow: hidden;
     padding-bottom: 1.5rem;
     margin-bottom: 1.5rem;
+=======
+    height: 100vh;
+    min-height: 500px;
+    padding: 5rem 0;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+}
+
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--hero-background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(20px) brightness(0.6);
+    z-index: -1;
+    transform: scale(1.1);
+    transition: background-image 0.5s ease-in-out;
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 }
 
 .placeholder-content {
     text-align: center;
+<<<<<<< HEAD
     margin-bottom: 15px;
 }
 
@@ -22,6 +50,28 @@
 
 .placeholder-content p {
     font-size: 1rem;
+=======
+    margin-top: 3rem;
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 800px;
+}
+
+.placeholder-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.placeholder-content p {
+    font-size: 0.9rem;
+    color: white;
+    line-height: 1.3;
+    margin-top: 0.5rem;
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 }
 
 .btn-container {
@@ -29,6 +79,7 @@
     display: flex;
     justify-content: center;
     text-align: center;
+<<<<<<< HEAD
     margin-top: 15px;
 }
 
@@ -48,4 +99,114 @@
 .ver-eventos-btn:hover {
     background-color: #0056b3;
     transform: scale(1.05);
+=======
+    margin-top: 1rem;
+}
+
+.ver-eventos-btn {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 30px;
+    padding: 8px 25px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.5s ease;
+}
+
+.ver-eventos-btn:hover {
+    background-color: #fff;
+    color: #000000;
+}
+
+@media screen and (min-width: 1200px) {
+    .hero {
+        padding: 3rem 0;
+    }
+
+    .placeholder-content {
+        margin-top: 3.1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .placeholder-content h1 {
+        font-size: 1.8rem;
+        /* Más grande en pantallas de escritorio */
+    }
+
+    .placeholder-content p {
+        font-size: 1rem;
+        /* Más grande en pantallas de escritorio */
+    }
+
+    .ver-eventos-btn {
+        padding: 10px 30px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Media query para pantallas medianas (laptops) */
+@media screen and (min-width: 769px) and (max-width: 1199px) {
+    .placeholder-content h1 {
+        font-size: 1.7rem;
+        /* Tamaño específico para laptops */
+    }
+
+    .placeholder-content p {
+        font-size: 0.85rem;
+        /* Tamaño específico para laptops */
+    }
+
+    .ver-eventos-btn {
+        font-size: 0.8rem;
+        padding: 7px 22px;
+    }
+}
+
+/* Media query para tablets */
+@media screen and (max-width: 768px) {
+    .hero {
+        height: 80vh;
+        min-height: 400px;
+    }
+
+    .placeholder-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .placeholder-content p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Media query para móviles */
+@media screen and (max-width: 480px) {
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 4rem 1rem;
+    }
+
+    .placeholder-content {
+        width: 95%;
+        margin-bottom: 1.5rem;
+    }
+
+    .placeholder-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .placeholder-content p {
+        font-size: 0.75rem;
+    }
+
+    .ver-eventos-btn {
+        width: 80%;
+        margin: 0 auto;
+        font-size: 0.75rem;
+        padding: 7px 20px;
+    }
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 }

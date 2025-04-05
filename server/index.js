@@ -1,6 +1,6 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const { sequelize, initModels } = require('./config/models'); // Centraliza modelos
 
 const app = express();
@@ -23,3 +23,6 @@ app.use("/api/events", eventRoutes);
 
 const authRoutes = require('./config/routes/authRoutes');
 app.use('/api/auth', authRoutes);
+
+const userRoutes = require('./config/routes/userRoutes');
+app.use('/api/users', userRoutes);

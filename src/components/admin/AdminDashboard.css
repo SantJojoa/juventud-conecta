@@ -1,6 +1,10 @@
 .admin-dashboard {
     max-width: 1200px;
+<<<<<<< HEAD
     margin: 2rem auto;
+=======
+    margin: 6rem auto;
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
     padding: 0 1.5rem;
 }
 
@@ -68,9 +72,15 @@
     color: #38b2ac
 }
 
+<<<<<<< HEAD
 .edit-icon {
     background-color: #faf5ff;
     color: #805ad5;
+=======
+.users-icon {
+    background: #e6fffa;
+    color: #38b2ac
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 }
 
 .admin-card h2 {

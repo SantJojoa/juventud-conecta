@@ -1,9 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./carousel.css";
+<<<<<<< HEAD
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -28,6 +29,32 @@ const Carousel = () => {
         }
         fetchEvents();
     }, []);
+=======
+
+import { useEvents } from "../../hooks/useEvents";
+import { useEventPopup } from "../../hooks/useEventPopup";
+
+
+import LoadingIndicator from "../shared/LoadingIndicator";
+import EmptyStateMessageComponent from "../shared/EmptyStateMessage";
+import EventPopUp from "../shared/EventPopup";
+
+
+
+const Carousel = ({ onImageChange }) => {
+
+    const { events, loading } = useEvents();
+    const { selectedEvent, openEventPopup, closeEventPopup } = useEventPopup();
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (events.length > 0 && events[currentSlide]) {
+            onImageChange && onImageChange(events[currentSlide].imageSrc);
+        }
+    }, [currentSlide, events, onImageChange]);
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 
     const settings = {
         dots: true,
@@ -38,6 +65,7 @@ const Carousel = () => {
         autoplay: events.length > 1,
         autoplaySpeed: 2500,
         adaptiveHeight: true,
+<<<<<<< HEAD
         arrows: events.length > 1
     };
 
@@ -54,17 +82,38 @@ const Carousel = () => {
         return <div className="carousel-wrapper">Cargando eventos...</div>;
     }
 
+=======
+        arrows: events.length > 1,
+        beforeChange: (current, next) => setCurrentSlide(next)
+    };
+
+    if (loading) {
+        return <div className="carousel-wrapper"><LoadingIndicator /></div>
+    }
+
+
+
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
     if (events.length === 0) {
         return (
             <div className="carousel-wrapper">
                 <div className="carousel-container">
+<<<<<<< HEAD
                     <div className="no-events-message">
                         No hay eventos disponibles
                     </div>
+=======
+                    <EmptyStateMessageComponent />
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
                 </div>
             </div>
         );
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 
     return (
         <div className="carousel-wrapper">
@@ -94,6 +143,7 @@ const Carousel = () => {
                 </Slider>
             </div>
 
+<<<<<<< HEAD
             {selectedEvent && (
 
                 <div className="event-popup-overlay" onClick={closeEventPopup}>
@@ -122,8 +172,13 @@ const Carousel = () => {
                 </div>
 
             )}
+=======
+            {selectedEvent && <EventPopUp event={selectedEvent} onClose={closeEventPopup} />}
+
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
         </div>
     );
 };
 
 export default Carousel;
+

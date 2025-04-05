@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+<<<<<<< HEAD
 import "./ListEvents.css";
 
 const ListEvents = () => {
@@ -38,6 +39,36 @@ const ListEvents = () => {
         if (searchTerm && events.length > 0) {
             const filtered = events.filter(event =>
                 event.title.toLowerCase().includes(searchTerm.toLowerCase())
+=======
+import "./ListEvents.css"
+
+
+import { useEvents } from "../../hooks/useEvents";
+import { useEventPopup } from "../../hooks/useEventPopup";
+
+import LoadingIndicator from "../shared/LoadingIndicator";
+import ErrorMessage from "../shared/ErrorMessage";
+import EmptyStateMessageComponent from "../shared/EmptyStateMessage";
+import EventCard from "../shared/EventCard"
+import EventPopUp from "../shared/EventPopup";
+import EmptyStateMessage from "../shared/EmptyStateMessage";
+import EventPopup from "../shared/EventPopup";
+
+
+
+const ListEvents = () => {
+    const { events, loading, error } = useEvents();
+    const { selectedEvent, openEventPopup, closeEventPopup } = useEventPopup();
+    const [filteredEvents, setFilteredEvents] = useState([]);
+    const location = useLocation();
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const searchTerm = queryParams.get('search' || '');
+
+        if (searchTerm && events.length > 0) {
+            const filtered = events.filter(event => event.title.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
             );
             setFilteredEvents(filtered);
         } else {
@@ -45,6 +76,7 @@ const ListEvents = () => {
         }
     }, [location.search, events]);
 
+<<<<<<< HEAD
 
 
 
@@ -60,6 +92,12 @@ const ListEvents = () => {
         return (
             <div className="list-events-container">
                 <div className="loading-indicator">Cargando eventos...</div>
+=======
+    if (loading) {
+        return (
+            <div className="list-events container">
+                <LoadingIndicator message="Cargando eventos..." />
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
             </div>
         );
     }
@@ -67,7 +105,11 @@ const ListEvents = () => {
     if (error) {
         return (
             <div className="list-events-container">
+<<<<<<< HEAD
                 <div className="error-message">{error}</div>
+=======
+                <ErrorMessage message={error} />
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
             </div>
         );
     }
@@ -75,12 +117,17 @@ const ListEvents = () => {
     if (events.length === 0) {
         return (
             <div className="list-events-container">
+<<<<<<< HEAD
                 <div className="no-events-message">No hay eventos disponibles actualmente.</div>
+=======
+                <EmptyStateMessageComponent message="No hay eventos" />
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
             </div>
         );
     }
 
     if (filteredEvents.length === 0) {
+<<<<<<< HEAD
         const queryParams = new URLSearchParams(location.search);
         const searchTerm = queryParams.get('search') || '';
         return (
@@ -90,6 +137,20 @@ const ListEvents = () => {
                     <Link to="/" className="back-button">Volver al inicio</Link>
                 </div>
                 <div className="no-events-message">No hay eventos disponibles actualmente.</div>
+=======
+
+        const queryParams = new URLSearchParams(location.search);
+        const searchTerm = queryParams.get('search' || '');
+
+
+        return (
+            <div className="list-events container">
+                <div className="list event-header">
+                    <h1>Resultados de la búsqueda: {searchTerm}</h1>
+                    <Link to="/" className="back-button">Volver al listado</Link>
+                </div>
+                <EmptyStateMessage message="No hay eventos" />
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
             </div>
         );
     }
@@ -98,17 +159,26 @@ const ListEvents = () => {
     const searchTerm = queryParams.get('search');
     const headerTitle = searchTerm ? `Resultados de la búsqueda: ${searchTerm}` : 'Todos los eventos';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
     return (
         <div className="list-events-container">
             <div className="list-events-header">
                 <h1>{headerTitle}</h1>
+<<<<<<< HEAD
                 <Link to="/" className="back-button">
                     Volver al inicio
+=======
+                <Link to="/" className="back-button">Volver al listado
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
                 </Link>
             </div>
 
             <div className="events-grid">
                 {filteredEvents.map((event) => (
+<<<<<<< HEAD
                     <div
                         key={event._id}
                         className="event-card"
@@ -163,6 +233,17 @@ const ListEvents = () => {
             )}
         </div>
     );
+=======
+                    <EventCard key={event._id} event={event} onClick={openEventPopup} />
+                ))}
+            </div>
+
+            {selectedEvent && <EventPopup event={selectedEvent} onClose={closeEventPopup} />}
+
+        </div>
+    );
+
+>>>>>>> 7447e0be76ee31b506b2cc411ba6f54d0e53143b
 };
 
 export default ListEvents;
