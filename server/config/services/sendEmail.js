@@ -87,4 +87,63 @@ const sendAdminWelcomeEmail = async (email, name) => {
 
 }
 
-module.exports = { sendWelcomeEmail, sendAdminWelcomeEmail }
+const sendEventReminderEmail = async (email, name, event) => {
+    console.log('Preparando recordatorio de evento para', email, name, event.title);
+
+    const eventDate = new Date(event.date);
+    const formattedDate = eventDate.toLocaleDateString('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    const msg = {
+        to: email,
+        from: 'no.reply.juventudconecta@gmail.com',
+        subject: `🔔 Recordatorio: ${event.title} - Próximamente`,
+        text: `Hola ${name}, te recordamos que el evento "${event.title}" que marcaste como favorito se realizará pronto.`,
+        html: `
+<div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+    <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
+        <h2 style="color: #6C63FF; text-align: center;">¡Recordatorio de Evento!</h2>
+        <p style="font-size: 16px; color: #333;">
+            Hola <strong>${name}</strong>,<br><br>
+            Te recordamos que el evento que marcaste como favorito se realizará pronto:
+        </p>
+        <div style="background-color: #f9f9f9; border-left: 4px solid #6C63FF; padding: 15px; margin: 20px 0;">
+            <h3 style="color: #333; margin-top: 0;">${event.title}</h3>
+            <p style="margin: 5px 0;"><strong>Fecha:</strong> ${formattedDate}</p>
+            <p style="margin: 5px 0;"><strong>Horario:</strong> ${Array.isArray(event.schedule) ? event.schedule.join(', ') : event.schedule}</p>
+            <p style="margin: 5px 0;"><strong>Ubicación:</strong> ${event.location}</p>
+        </div>
+        <p style="font-size: 16px; color: #333;">
+            ¡No te lo pierdas! Marca esta fecha en tu calendario.
+        </p>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="https://juventudconecta.com/eventos/${event.id}" style="background-color: #6C63FF; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 5px; display: inline-block;">Ver detalles del evento</a>
+        </div>
+        <p style="font-size: 12px; color: #999; margin-top: 40px; text-align: center;">
+            Este correo fue enviado automáticamente. Por favor, no respondas a este mensaje.
+        </p>
+        <div style="text-align: center; margin-top: 30px;">
+            <img src="https://i.postimg.cc/Pq0YBhJC/logo-final-improved.png" alt="Logo Juventud Conecta" style="max-width: 100px; opacity: 0.7;" /> 
+        </div>
+    </div>
+</div>
+`
+
+    };
+    try {
+        const result = await sgMail.send(msg);
+        console.log('Correo de recordatorio enviado con éxito', result);
+        console.log(`Recordatorio de evento enviado a ${email}`);
+        return true;
+    } catch (error) {
+        console.error('Error al enviar el correo de recordatorio', error.response?.body || error);
+        return false;
+    }
+
+};
+
+module.exports = { sendWelcomeEmail, sendAdminWelcomeEmail, sendEventReminderEmail }

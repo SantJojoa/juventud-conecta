@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { sequelize, initModels } = require('./config/models'); // Centraliza modelos
+const { initEventReminderSystem } = require('./config/services/eventReminders');
 
 const app = express();
 
@@ -16,6 +17,9 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     await initModels(); // Asegura que todos los modelos están listos
+
+    // Inicializar el sistema de recordatorios de eventos
+    initEventReminderSystem();
 });
 
 const eventRoutes = require('./config/routes/eventRoutes');
