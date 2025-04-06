@@ -1,28 +1,29 @@
-import { useState, useEffect, useCallback } from 'react';
-import { EventService } from '../services/eventService';
+// hooks/useEvents.js
+import { useState, useEffect } from 'react';
 
 export const useEvents = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchEvents = useCallback(async () => {
-        try {
-            setLoading(true);
-            const data = await EventService.getAll();
-            setEvents(Array.isArray(data) ? data : []);
-            setError(null);
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            setError("No se pudieron cargar los eventos");
-        } finally {
-            setLoading(false);
-        }
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/events');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch events');
+                }
+                const data = await response.json();
+                setEvents(data);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+
+        fetchEvents();
     }, []);
 
-    useEffect(() => {
-        fetchEvents();
-    }, [fetchEvents]);
-
-    return { events, loading, error, fetchEvents, setEvents };
+    return { events, loading, error, setEvents };
 };

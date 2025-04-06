@@ -153,6 +153,43 @@
     cursor: not-allowed;
 }
 
+/* Estilos para controles de administrador */
+.popup-admin-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+}
+
+.popup-admin-controls .edit-button,
+.popup-admin-controls .delete-button {
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.popup-admin-controls .edit-button {
+    background-color: #3498db;
+    color: white;
+}
+
+.popup-admin-controls .delete-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.popup-admin-controls .edit-button:hover {
+    background-color: #2980b9;
+}
+
+.popup-admin-controls .delete-button:hover {
+    background-color: #c0392b;
+}
+
 @media(max-width: 768px) {
     .popup-image-container {
         height: 200px;

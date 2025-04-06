@@ -1,0 +1,63 @@
+/* Add to EventCard.css */
+.admin-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-top: 1px solid #eee;
+}
+
+.edit-button,
+.delete-button {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    font-weight: 500;
+}
+
+.edit-button {
+    background-color: #3498db;
+    color: white;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #2980b9;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+.popup-admin-controls .edit-button,
+.popup-admin-controls .delete-button {
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.popup-admin-controls .edit-button {
+    background-color: #3498db;
+    color: white;
+}
+
+.popup-admin-controls .delete-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.popup-admin-controls .edit-button:hover {
+    background-color: #2980b9;
+}
+
+.popup-admin-controls .delete-button:hover {
+    background-color: #c0392b;
+}
