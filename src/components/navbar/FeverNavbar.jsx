@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 function FeverNavbar() {
   const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
+  const [isOtherPagesDropdownOpen, setIsOtherPagesDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
@@ -19,6 +20,7 @@ function FeverNavbar() {
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
   const socialDropdownRef = useRef(null);
+  const otherPagesDropdownRef = useRef(null);
   const userDropdownRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
@@ -141,9 +143,14 @@ function FeverNavbar() {
     setIsSocialDropdownOpen((prev) => !prev);
   };
 
+  const toggleOtherPagesDropdown = () => {
+    setIsOtherPagesDropdownOpen((prev) => !prev);
+  };
+
   const toggleUserDropdown = () => {
     setIsUserDropdownOpen(prevState => !prevState);
   };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
@@ -152,6 +159,10 @@ function FeverNavbar() {
 
       if (socialDropdownRef.current && !socialDropdownRef.current.contains(event.target)) {
         setIsSocialDropdownOpen(false);
+      }
+
+      if (otherPagesDropdownRef.current && !otherPagesDropdownRef.current.contains(event.target)) {
+        setIsOtherPagesDropdownOpen(false);
       }
 
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -263,14 +274,14 @@ function FeverNavbar() {
             )}
           </div>
 
-          <div ref={socialDropdownRef} className="social-section" onMouseOver={toggleSocialDropdown} onMouseOut={toggleSocialDropdown}>
+          <div ref={otherPagesDropdownRef} className="social-section" onMouseOver={toggleOtherPagesDropdown} onMouseOut={toggleOtherPagesDropdown}>
             <button
               className="social-button"
-              aria-expanded={isSocialDropdownOpen}
+              aria-expanded={isOtherPagesDropdownOpen}
             >
               Otras Paginas
             </button>
-            {isSocialDropdownOpen && (
+            {isOtherPagesDropdownOpen && (
               <div className="dropdown-menu social-dropdown" role="menu">
                 <a href="https://www.pasto.gov.co" target="_blank" rel="noopener noreferrer" className="dropdown-item social-item">
                   Alcaldía de Pasto

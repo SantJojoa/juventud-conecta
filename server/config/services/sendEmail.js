@@ -27,7 +27,7 @@ const sendWelcomeEmail = async (email, name) => {
         Este correo fue enviado automáticamente. Por favor, no respondas a este mensaje.
     </p>
     <div style="text-align: center; margin-top: 30px;">
-            <img src="https://i.postimg.cc/Pq0YBhJC/logo-final-improved.png" alt="Logo Juventud Conecta" style="max-width: 100px; opacity: 0.7;" /> 
+            <img src="https://i.postimg.cc/SQY1H258/logo-final-improved.png" alt="Logo Juventud Conecta" style="max-width: 100px; opacity: 0.7;" /> 
     </div >
     </div>
 </div>
@@ -69,7 +69,7 @@ const sendAdminWelcomeEmail = async (email, name) => {
         Este correo fue enviado automáticamente. Por favor, no respondas a este mensaje.
     </p>
     <div style="text-align: center; margin-top: 30px;">
-            <img src="https://i.postimg.cc/Pq0YBhJC/logo-final-improved.png" alt="Logo Juventud Conecta" style="max-width: 100px; opacity: 0.7;" /> 
+            <img src="https://i.postimg.cc/SQY1H258/logo-final-improved.png" alt="Logo Juventud Conecta" style="max-width: 100px; opacity: 0.7;" /> 
     </div >
     </div>
 </div>
@@ -127,7 +127,7 @@ const sendEventReminderEmail = async (email, name, event) => {
             Este correo fue enviado automáticamente. Por favor, no respondas a este mensaje.
         </p>
         <div style="text-align: center; margin-top: 30px;">
-            <img src="https://i.postimg.cc/Pq0YBhJC/logo-final-improved.png" alt="Logo Juventud Conecta" style="max-width: 100px; opacity: 0.7;" /> 
+            <img src="https://i.postimg.cc/SQY1H258/logo-final-improved.png" alt="Logo Juventud Conecta" style="max-width: 100px; opacity: 0.7;" /> 
         </div>
     </div>
 </div>
