@@ -59,7 +59,8 @@
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 0.001rem;
+    margin-right: 25px;
 }
 
 .ver-eventos-btn {
@@ -86,7 +87,7 @@
     }
 
     .placeholder-content {
-        margin-top: 3.1rem;
+        margin-top: 3.35rem;
         margin-bottom: 0.8rem;
     }
 

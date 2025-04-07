@@ -2,13 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import Hero from "./Hero/Hero";
-import OtherEvents from "./other_events/OtherEvents";
+import WorkLines from '../components/other_events/workLines'
+
+
+
+
 
 function HomePage() {
     return (
         <div className="home-page-container">
             <Hero />
-            <OtherEvents />
+            <WorkLines />
         </div>
     );
 }
