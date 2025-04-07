@@ -17,7 +17,7 @@ const Footer = () => {
 
             <div className="footer-subsection">
               <p><strong>Nuestras Sedes</strong></p>
-              <a href="#" className="footer-link">Información de sedes</a>
+              <a href="https://www.pasto.gov.co/index.php/transparencia/localizacion" target="_blank" rel="noopener noreferrer" className="footer-link">Información de sedes</a>
               <p>Última actualización:</p>
               <p>03 de Febrero 2025</p>
             </div>
@@ -27,23 +27,18 @@ const Footer = () => {
         <div className="footer-section">
           <h3 className="footer-subtitle">NUESTROS SÍMBOLOS</h3>
           <ul className="footer-list">
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Himno de Pasto</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Bandera de Pasto</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Escudo de Pasto</a></li>
+            <li><a href="https://www.pasto.gov.co/index.php/nuestros-simbolos/himno-de-pasto" target="_blank" rel="noopener noreferrer" className="footer-link"><span className="check-icon">✓</span> Himno de Pasto</a></li>
+            <li><a href="https://www.pasto.gov.co/index.php/nuestros-simbolos/bandera-de-pasto" target="_blank" rel="noopener noreferrer" className="footer-link"><span className="check-icon">✓</span> Bandera de Pasto</a></li>
+            <li><a href="https://www.pasto.gov.co/index.php/nuestros-simbolos/escudo-de-pasto" target="_blank" rel="noopener noreferrer" className="footer-link"><span className="check-icon">✓</span> Escudo de Pasto</a></li>
           </ul>
         </div>
 
         <div className="footer-section">
           <h3 className="footer-subtitle">NUESTRA ENTIDAD</h3>
           <ul className="footer-list">
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Misión y Visión</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Estructura</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Funciones Alcaldía</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Alcaldes de Pasto</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Código de Integridad</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Política editorial</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Redes Sociales</a></li>
-            <li><a href="#" className="footer-link"><span className="check-icon">✓</span> Certificado cumplimiento directrices de accesibilidad</a></li>
+            <li><a href="https://www.pasto.gov.co/index.php/transparencia/mision-vision" target="_blank" rel="noopener noreferrer" className="footer-link"><span className="check-icon">✓</span> Misión y Visión</a></li>
+            <li><a href="https://www.pasto.gov.co/index.php/transparencia/organigrama" target="_blank" rel="noopener noreferrer" className="footer-link"><span className="check-icon">✓</span> Estructura</a></li>
+            <li><a href="https://www.pasto.gov.co/index.php/contenidos/14941-redes-sociales" target="_blank" rel="noopener noreferrer" className="footer-link"><span className="check-icon">✓</span> Redes Sociales</a></li>
           </ul>
         </div>
 

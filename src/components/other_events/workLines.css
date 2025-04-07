@@ -27,7 +27,7 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 10fr);
+    grid-template-columns: repeat(2, 10fr);
     gap: 1.5rem;
 }
 
