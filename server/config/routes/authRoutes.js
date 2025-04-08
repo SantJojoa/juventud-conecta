@@ -40,7 +40,14 @@ router.post('/register-admin', isAdmin, async (req, res) => {
 router.post('/register', async (req, res) => {
     const { name, email, password, avatarUrl } = req.body;
 
-    if (!name || !email | !password) {
+    console.log('Datos de registro recibidos:', {
+        name,
+        email,
+        passwordLength: password ? password.length : 0,
+        avatarUrl
+    });
+
+    if (!name || !email || !password) {
         return res.status(400).json({ message: "Nombre, email y contraseña son requeridos" })
     }
 
@@ -50,12 +57,22 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
+        console.log('Creando usuario con avatarUrl:', avatarUrl);
+
         const user = await User.create({
             name,
             email,
             password,
             avatarUrl
         });
+
+        console.log('Usuario creado:', {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            avatarUrl: user.avatarUrl
+        });
+
         console.log('Enviando correo de bienvenida a', email);
         await sendWelcomeEmail(email, name)
         const token = jwt.sign(
@@ -72,11 +89,9 @@ router.post('/register', async (req, res) => {
             message: 'Usuario registrado exitosamente'
         });
     } catch (error) {
-        console.error(error);
+        console.error('Error en registro de usuario:', error);
         res.status(500).json({ message: "Server error" });
     }
-
-
 });
 
 router.post('/login', async (req, res) => {

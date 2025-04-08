@@ -52,6 +52,8 @@
 .logo-section {
   flex: 0 0 auto;
   margin-right: 150px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-logo {
@@ -59,6 +61,8 @@
   width: auto;
   cursor: pointer;
 }
+
+
 
 .social-section {
   position: relative;
@@ -216,6 +220,9 @@
   border-radius: 50%;
   transition: background-color 0.2s;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .action-button:hover {
@@ -231,6 +238,8 @@
 .user-section {
   position: relative;
   display: inline-block;
+  display: flex;
+  align-items: center;
 }
 
 .user-avatar-button {
@@ -240,10 +249,13 @@
   padding: 0;
   border-radius: 50%;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-avatar {
-  margin-bottom: 3px;
+  margin-top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,6 +268,13 @@
   font-size: 0.8rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  overflow: hidden;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .user-avatar:hover {
@@ -282,6 +301,20 @@
   margin-bottom: 10px;
   font-weight: 600;
   font-size: 0.8rem;
+}
+
+.dropdown-profile-image-container {
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.dropdown-profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #3182ce;
 }
 
 .user-info-role {
@@ -332,6 +365,8 @@
   font-size: 0.8rem;
   color: #1a202c;
   margin-bottom: 4px;
+  text-align: center;
+  width: 100%;
 }
 
 .user-role {
@@ -376,7 +411,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 15px;
+  padding: 8px;
   color: #333;
   text-decoration: none;
   transition: background-color 0.2s;

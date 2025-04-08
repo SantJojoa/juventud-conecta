@@ -16,6 +16,7 @@ function FeverNavbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userRole, setUserRole] = useState('');
+  const [profileImage, setProfileImage] = useState('');
   const [scrollDirection, setScrollDirection] = useState('');
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
@@ -57,19 +58,51 @@ function FeverNavbar() {
       const token = localStorage.getItem('token');
       const storedUserName = localStorage.getItem('userName');
       const storedUserRole = localStorage.getItem('userRole');
+      const storedProfileImage = localStorage.getItem('profileImage');
 
       if (token && storedUserName) {
         setIsLoggedIn(true);
         setUserName(storedUserName);
         setUserRole(storedUserRole || '');
+        setProfileImage(storedProfileImage || '');
       } else {
         setIsLoggedIn(false);
         setUserName('');
         setUserRole('');
+        setProfileImage('');
       }
     };
 
     checkAuth();
+
+    const fetchProfileImage = async () => {
+      if (isLoggedIn) {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) return;
+          const response = await fetch('http://localhost:5000/api/users/profile', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (response.ok) {
+            const userData = await response.json();
+            if (userData.avatarUrl) {
+              setProfileImage(userData.avatarUrl);
+              localStorage.setItem('profileImage', userData.avatarUrl);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching profile image:', error);
+        }
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchProfileImage();
+    }
 
     window.addEventListener('storage', checkAuth);
     window.addEventListener('login-change', checkAuth);
@@ -78,7 +111,7 @@ function FeverNavbar() {
       window.removeEventListener('storage', checkAuth);
       window.removeEventListener('login-change', checkAuth);
     };
-  }, []);
+  }, [isLoggedIn]);
 
   const getUserInitials = () => {
     if (!userName) return '';
@@ -93,9 +126,11 @@ function FeverNavbar() {
     localStorage.removeItem('token');
     localStorage.removeItem('userName');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('profileImage');
     setIsLoggedIn(false);
     setUserName('');
     setUserRole('');
+    setProfileImage('');
     setIsUserDropdownOpen(false);
     navigate('/');
   };
@@ -305,7 +340,15 @@ function FeverNavbar() {
                 type="button"
               >
                 <div className="user-avatar">
-                  {getUserInitials()}
+                  {profileImage ? (
+                    <img
+                      src={profileImage}
+                      alt="Foto de perfil"
+                      className='profile-image'
+                    />
+                  ) : (
+                    getUserInitials()
+                  )}
                 </div>
               </button>
               {isUserDropdownOpen && (
@@ -314,6 +357,15 @@ function FeverNavbar() {
                   className="user-dropdown"
                 >
                   <div className="user-info">
+                    {profileImage && (
+                      <div className='dropdown-profile-image-container'>
+                        <img
+                          src={profileImage}
+                          alt="Foto de perfil"
+                          className='dropdown-profile-image'
+                        />
+                      </div>
+                    )}
                     <div className="user-name">{userName}</div>
                     {userRole === 'admin' && (
                       <div className="user-info-role">
@@ -372,7 +424,7 @@ function FeverNavbar() {
           )}
         </div>
       </div>
-    </nav>
+    </nav >
   );
 }
 
