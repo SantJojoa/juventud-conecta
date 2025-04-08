@@ -21,6 +21,9 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const [avatar, setAvatar] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
+
 
 
     const validateEmail = (email) => {
@@ -56,25 +59,61 @@ const Register = () => {
             return;
         }
 
+        let avatarUrl = "";
 
-        try {
-            const data = await AuthService.register(name, email, password);
-            Swal.fire({
-                icon: 'success',
-                title: 'Cuenta creada',
-                text: 'Bienvenido a la plataforma para la juventud, creada por la juventud.',
-            });
-            navigate("/");
-        } catch (err) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ha ocurrido un error inesperado',
-                text: 'Por favor inténtalo de nuevo',
-                confirmButtonText: 'Intentar de nuevo',
-                confirmButtonColor: '#d63031'
-            });
-        }
-    };
+        if (avatar) {
+            setIsUploading(true);
+
+            try {
+                const formData = new FormData();
+                formData.append('file', avatar);
+                formData.append('upload_preset', 'avatar-unsigned');
+
+                const res = await fetch(`https://api.cloudinary.com/v1_1/dqgpyi8ox/image/upload`, {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to upload avatar");
+                }
+                const data = await res.json();
+                avatarUrl = data.secure_url;
+                setIsUploading(false);
+            } catch (err) {
+                console.log(err);
+                setIsUploading(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al subir la imagen',
+                    text: 'No se pudo subir el avatar a Cloudinary',
+                    confirmButtonColor: '#d63031'
+                });
+                return;
+            }
+
+            try {
+                const data = await AuthService.register(name, email, password, avatarUrl);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cuenta creada',
+                    text: 'Bienvenido a la plataforma para la juventud, creada por la juventud.',
+                });
+                navigate("/");
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ha ocurrido un error inesperado',
+                    text: 'Por favor inténtalo de nuevo',
+                    confirmButtonText: 'Intentar de nuevo',
+                    confirmButtonColor: '#d63031'
+                });
+            }
+        };
+
+
+    }
+
 
     return (
         <div className="main">
@@ -139,6 +178,18 @@ const Register = () => {
                                         }}
                                         placeholder="Confirmar Contraseña"
                                         className={(isConfirmPasswordEmpty || !isPasswordMatch) ? "invalid-input" : ""}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="avatarUrl"><i className="zmdi zmdi-image"></i></label>
+                                    <input
+                                        type="file"
+                                        id="avatarUrl"
+                                        accept="image/*"
+                                        onChange={(e) => {
+                                            setAvatar(e.target.files[0]);
+                                        }}
+                                        className="avatar-input"
                                     />
                                 </div>
                                 <div className="form-group form-button">

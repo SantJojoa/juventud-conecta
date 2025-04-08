@@ -38,7 +38,7 @@ router.post('/register-admin', isAdmin, async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, avatarUrl } = req.body;
 
     if (!name || !email | !password) {
         return res.status(400).json({ message: "Nombre, email y contraseña son requeridos" })
@@ -53,7 +53,8 @@ router.post('/register', async (req, res) => {
         const user = await User.create({
             name,
             email,
-            password
+            password,
+            avatarUrl
         });
         console.log('Enviando correo de bienvenida a', email);
         await sendWelcomeEmail(email, name)
@@ -67,6 +68,7 @@ router.post('/register', async (req, res) => {
             token,
             role: user.role,
             name: user.name,
+            avatarUrl: user.avatarUrl,
             message: 'Usuario registrado exitosamente'
         });
     } catch (error) {
