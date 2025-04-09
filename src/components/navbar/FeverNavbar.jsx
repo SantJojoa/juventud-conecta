@@ -61,6 +61,7 @@ function FeverNavbar() {
       const storedLastName = localStorage.getItem('lastName');
       const storedUserRole = localStorage.getItem('userRole');
       const storedProfileImage = localStorage.getItem('profileImage');
+      console.log('Checking auth:', { token, storedFirstName, storedLastName, storedUserRole, storedProfileImage })
 
       if (token && (storedFirstName || storedLastName)) {
         setIsLoggedIn(true);
@@ -68,6 +69,12 @@ function FeverNavbar() {
         setLastName(storedLastName || '');
         setUserRole(storedUserRole || '');
         setProfileImage(storedProfileImage || '');
+        console.log('User is logged in:', {
+          firstName: storedFirstName,
+          lastName: storedLastName,
+          role: storedUserRole,
+          hasProfileImage: !!storedProfileImage
+        });
       } else {
         setIsLoggedIn(false);
         setFirstName('');
@@ -80,42 +87,46 @@ function FeverNavbar() {
     checkAuth();
 
     const fetchProfileImage = async () => {
-      if (isLoggedIn) {
-        try {
-          const token = localStorage.getItem('token');
-          if (!token) return;
-          const response = await fetch('http://localhost:5000/api/users/profile', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          if (response.ok) {
-            const userData = await response.json();
-            if (userData.avatarUrl) {
-              setProfileImage(userData.avatarUrl);
-              localStorage.setItem('profileImage', userData.avatarUrl);
-            }
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        const response = await fetch('http://localhost:5000/api/users/profile', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           }
-        } catch (error) {
-          console.error('Error fetching profile image:', error);
+        });
+        if (response.ok) {
+          const userData = await response.json();
+          if (userData.avatarUrl) {
+            setProfileImage(userData.avatarUrl);
+            localStorage.setItem('profileImage', userData.avatarUrl);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching profile image:', error);
       }
     };
 
-    if (isLoggedIn) {
+    // Siempre intenta obtener la imagen de perfil al cargar el componente
+    fetchProfileImage();
+
+    // Configura eventos para detectar cambios en la autenticación
+    const handleLoginChange = () => {
+      console.log('Login change event detected');
+      checkAuth();
       fetchProfileImage();
-    }
+    };
 
     window.addEventListener('storage', checkAuth);
-    window.addEventListener('login-change', checkAuth);
+    window.addEventListener('login-change', handleLoginChange);
 
     return () => {
       window.removeEventListener('storage', checkAuth);
-      window.removeEventListener('login-change', checkAuth);
+      window.removeEventListener('login-change', handleLoginChange);
     };
-  }, [isLoggedIn]);
+  }, []); // No dependencies to ensure it runs only on mount
 
   const getUserInitials = () => {
     if (!firstName && !lastName) return '';
@@ -380,7 +391,7 @@ function FeverNavbar() {
                     <div className="user-name">{firstName} {lastName}</div>
                     {userRole === 'admin' && (
                       <div className="user-info-role">
-                        Rol: {userRole === 'admin' ? 'Administrador' : 'Usuario'}
+                        Rol: Administrador
                       </div>
                     )}
                   </div>
@@ -393,6 +404,15 @@ function FeverNavbar() {
                       <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                     <span>Mi Perfil</span>
+                  </Link>
+                  <Link
+                    className='favorites-link'
+                    to="/eventos-favoritos"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    </svg>
+                    <span>Eventos Favoritos</span>
                   </Link>
                   <div className="divider"></div>
                   {userRole === 'admin' && (

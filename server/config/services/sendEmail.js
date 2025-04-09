@@ -2,19 +2,19 @@ const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
-const sendWelcomeEmail = async (email, name) => {
-    console.log('Preparando mensaje para:', email, name);
+const sendWelcomeEmail = async (email, { firstName, lastName }) => {
+    console.log('Preparando mensaje para:', email, `${firstName} ${lastName}`);
     const msg = {
         to: email,
         from: 'no.reply.juventudconecta@gmail.com',
         subject: '¡Bienvenido a Juventud Conecta!',
-        text: `Hola ${name}, !Bienvenido a la plataforma para la juventud, creada por la juventud.`,
+        text: `Hola ${firstName} ${lastName}, !Bienvenido a la plataforma para la juventud, creada por la juventud.`,
         html: `
 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
     <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
 <h2 style="color: #6C63FF; text-align: center;">¡Bienvenido a Juventud Conecta!</h2>
     <p style="font-size: 16px; color: #333;">
-        Hola <strong>${name}</strong>,<br><br>
+        Hola <strong>${firstName} ${lastName}</strong>,<br><br>
         Gracias por registrarte en nuestra plataforma. Ahora formas parte de una comunidad que impulsa la participación juvenil en eventos de alto impacto en Pasto. 💜
     </p>
     <p style="font-size: 16px; color: #333;">
@@ -43,20 +43,20 @@ const sendWelcomeEmail = async (email, name) => {
     }
 }
 
-const sendAdminWelcomeEmail = async (email, name) => {
-    console.log('Preparando email para dar la bienvenida al administrador', email, name);
+const sendAdminWelcomeEmail = async (email, { firstName, lastName }) => {
+    console.log('Preparando email para dar la bienvenida al administrador', email, `${firstName} ${lastName}`);
 
     const msg = {
         to: email,
         from: 'no.reply.juventudconecta@gmail.com',
         subject: '¡Bienvenido a Juventud Conecta!',
-        text: `Hola ${name}, Eres un administrador de la plataforma Juventud Conecta.`,
+        text: `Hola ${firstName} ${lastName}, Eres un administrador de la plataforma Juventud Conecta.`,
         html: `
 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
     <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
 <h2 style="color: #6C63FF; text-align: center;">¡Bienvenido a Juventud Conecta!</h2>
     <p style="font-size: 16px; color: #333;">
-        Hola <strong>${name}</strong>,<br><br>
+        Hola <strong>${firstName} ${lastName}</strong>,<br><br>
         Eres un administrador de la plataforma Juventud Conecta. Podrás gestionar eventos, usuarios y configuraciones.
     </p>
     <p style="font-size: 16px; color: #333;">
@@ -87,8 +87,8 @@ const sendAdminWelcomeEmail = async (email, name) => {
 
 }
 
-const sendEventReminderEmail = async (email, name, event) => {
-    console.log('Preparando recordatorio de evento para', email, name, event.title);
+const sendEventReminderEmail = async (email, { firstName, lastName }, event) => {
+    console.log('Preparando recordatorio de evento para', email, `${firstName} ${lastName}`, event.title);
 
     const eventDate = new Date(event.date);
     const formattedDate = eventDate.toLocaleDateString('es-ES', {
@@ -102,13 +102,13 @@ const sendEventReminderEmail = async (email, name, event) => {
         to: email,
         from: 'no.reply.juventudconecta@gmail.com',
         subject: `🔔 Recordatorio: ${event.title} - Próximamente`,
-        text: `Hola ${name}, te recordamos que el evento "${event.title}" que marcaste como favorito se realizará pronto.`,
+        text: `Hola ${firstName} ${lastName}, te recordamos que el evento "${event.title}" que marcaste como favorito se realizará pronto.`,
         html: `
 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
     <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1);">
         <h2 style="color: #6C63FF; text-align: center;">¡Recordatorio de Evento!</h2>
         <p style="font-size: 16px; color: #333;">
-            Hola <strong>${name}</strong>,<br><br>
+            Hola <strong>${firstName} ${lastName}</strong>,<br><br>
             Te recordamos que el evento que marcaste como favorito se realizará pronto:
         </p>
         <div style="background-color: #f9f9f9; border-left: 4px solid #6C63FF; padding: 15px; margin: 20px 0;">
