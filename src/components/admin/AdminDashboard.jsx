@@ -4,7 +4,9 @@ import './AdminDashboard.css';
 
 
 const AdminDashboard = () => {
-    const adminName = localStorage.getItem("userName") || 'Administrador';
+    const firstName = localStorage.getItem("firstName") || '';
+    const lastName = localStorage.getItem("lastName") || '';
+    const adminName = `${firstName} ${lastName}` || 'Administrador';
     return (
         <div className="admin-dashboard">
             <div className="admin-header">

@@ -14,7 +14,8 @@ function FeverNavbar() {
   const [allEvents, setAllEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [userRole, setUserRole] = useState('');
   const [profileImage, setProfileImage] = useState('');
   const [scrollDirection, setScrollDirection] = useState('');
@@ -56,18 +57,21 @@ function FeverNavbar() {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('token');
-      const storedUserName = localStorage.getItem('userName');
+      const storedFirstName = localStorage.getItem('firstName');
+      const storedLastName = localStorage.getItem('lastName');
       const storedUserRole = localStorage.getItem('userRole');
       const storedProfileImage = localStorage.getItem('profileImage');
 
-      if (token && storedUserName) {
+      if (token && (storedFirstName || storedLastName)) {
         setIsLoggedIn(true);
-        setUserName(storedUserName);
+        setFirstName(storedFirstName || '');
+        setLastName(storedLastName || '');
         setUserRole(storedUserRole || '');
         setProfileImage(storedProfileImage || '');
       } else {
         setIsLoggedIn(false);
-        setUserName('');
+        setFirstName('');
+        setLastName('');
         setUserRole('');
         setProfileImage('');
       }
@@ -114,21 +118,28 @@ function FeverNavbar() {
   }, [isLoggedIn]);
 
   const getUserInitials = () => {
-    if (!userName) return '';
-    const nameParts = userName.split(' ');
-    if (nameParts.length === 1) {
-      return nameParts[0].charAt(0).toUpperCase();
+    if (!firstName && !lastName) return '';
+
+    if (firstName && !lastName) {
+      return firstName.charAt(0).toUpperCase();
     }
-    return nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0).toUpperCase();
+
+    if (!firstName && lastName) {
+      return lastName.charAt(0).toUpperCase();
+    }
+
+    return firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
   };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('userName');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
     localStorage.removeItem('userRole');
     localStorage.removeItem('profileImage');
     setIsLoggedIn(false);
-    setUserName('');
+    setFirstName('');
+    setLastName('');
     setUserRole('');
     setProfileImage('');
     setIsUserDropdownOpen(false);
@@ -366,7 +377,7 @@ function FeverNavbar() {
                         />
                       </div>
                     )}
-                    <div className="user-name">{userName}</div>
+                    <div className="user-name">{firstName} {lastName}</div>
                     {userRole === 'admin' && (
                       <div className="user-info-role">
                         Rol: {userRole === 'admin' ? 'Administrador' : 'Usuario'}

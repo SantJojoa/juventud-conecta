@@ -28,7 +28,8 @@ export const AuthService = {
 
         localStorage.setItem("token", data.token);
         localStorage.setItem("userRole", data.role);
-        localStorage.setItem("userName", data.name);
+        localStorage.setItem("firstName", data.firstName);
+        localStorage.setItem("lastName", data.lastName);
 
         window.dispatchEvent(new Event('login-change'));
 
@@ -60,22 +61,24 @@ export const AuthService = {
 
         localStorage.setItem("token", data.token);
         localStorage.setItem("userRole", data.role);
-        localStorage.setItem("userName", data.name);
+        localStorage.setItem("firstName", data.firstName);
+        localStorage.setItem("lastName", data.lastName);
 
         window.dispatchEvent(new Event('login-change'));
 
         return data;
     },
 
-    registerAdmin: async (name, email, password) => {
+    registerAdmin: async (firstName, lastName, email, password, phoneNumber, birthDate, avatarUrl) => {
         const response = await fetch(`${API_URL}/register-admin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            body: JSON.stringify({ name, email, password })
-
+            body: JSON.stringify({
+                firstName, lastName, email, password, phoneNumber, birthDate, avatarUrl
+            })
         });
 
         const data = await response.json();
@@ -89,11 +92,9 @@ export const AuthService = {
     logout: () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userRole");
-        localStorage.removeItem("userName");
+        localStorage.removeItem("firstName");
+        localStorage.removeItem("lastName");
 
         window.dispatchEvent(new Event('login-change'));
     }
-
-
-
 };

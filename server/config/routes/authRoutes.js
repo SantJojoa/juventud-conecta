@@ -9,10 +9,31 @@ const { sendWelcomeEmail, sendAdminWelcomeEmail } = require("../services/sendEma
 const router = express.Router();
 
 router.post('/register-admin', isAdmin, async (req, res) => {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, birthDate, phoneNumber, email, password, avatarUrl } = req.body;
 
-    if (!name || !email || !password) {
-        return res.status(400).json({ message: 'Nombre, email y contraseña son requeridos' })
+    console.log('Datos de registro de admin recibidos:', {
+        firstName,
+        lastName,
+        birthDate,
+        phoneNumber,
+        email,
+        passwordLength: password ? password.length : 0,
+        avatarUrl
+    });
+
+    // Validamos que todos los campos obligatorios estén presentes
+    if (!firstName || !lastName || !email || !password || !birthDate || !phoneNumber) {
+        return res.status(400).json({
+            message: "Todos los campos son obligatorios excepto la foto de perfil",
+            requiredFields: {
+                firstName: !firstName ? "Nombre es requerido" : null,
+                lastName: !lastName ? "Apellido es requerido" : null,
+                email: !email ? "Email es requerido" : null,
+                password: !password ? "Contraseña es requerida" : null,
+                birthDate: !birthDate ? "Fecha de nacimiento es requerida" : null,
+                phoneNumber: !phoneNumber ? "Número de teléfono es requerido" : null
+            }
+        });
     }
     try {
         const existingUser = await User.findOne({ where: { email } });
@@ -21,19 +42,30 @@ router.post('/register-admin', isAdmin, async (req, res) => {
         }
 
         const user = await User.create({
-            name,
+            firstName,
+            lastName,
+            birthDate,
+            phoneNumber,
             email,
             password,
+            avatarUrl,
             role: 'admin'
         });
-        console.log('Enviando correo de bienvenida a', email);
-        await sendAdminWelcomeEmail(email, name)
+        console.log('Enviando correo de bienvenida a administrador:', email);
+        try {
+            await sendAdminWelcomeEmail(email, `${firstName} ${lastName}`);
+        } catch (emailError) {
+            console.error('Error al enviar correo de bienvenida al administrador:', emailError);
+            // Continuamos aunque falle el correo
+        }
+
         res.status(201).json({
-            message: 'Usuario registrado exitosamente',
+            message: 'Administrador registrado exitosamente',
         });
 
     } catch (error) {
-        res.status(500).json({ message: 'Error al registrar el usuario' });
+        console.error('Error en registro de administrador:', error);
+        res.status(500).json({ message: 'Error al registrar el administrador', error: error.message });
     }
 })
 
@@ -153,11 +185,12 @@ router.post('/login', async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        // Incluir el rol en la respuesta
+        // Incluir el rol y nombre/apellido en la respuesta
         res.json({
             token,
             role: user.role,
-            name: user.name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             message: "Login exitoso"
         });
     } catch (error) {
