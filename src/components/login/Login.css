@@ -87,7 +87,12 @@ body {
 
 .main {
     background: #f8f8f8;
-    padding: 150px 0;
+    margin-top: 30px;
+    padding: 80px 0 60px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .container {
@@ -96,27 +101,44 @@ body {
     margin: 0 auto;
     box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
     border-radius: 20px;
+    overflow: hidden;
 }
 
 .signup {
-    margin-bottom: 150px;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
 }
 
 .signup-content {
-    padding: 75px 0;
+    display: flex;
+    padding: 30px 0 75px;
+    align-items: center;
 }
 
 .signup-form,
-.signup-image,
-.signin-form,
-.signin-image {
+.signin-form {
     width: 50%;
     overflow: hidden;
 }
 
 .signup-image {
     margin: 0 55px;
-    margin-top: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    margin-bottom: 100px;
+}
+
+.signup-image figure {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.signup-image img {
+    max-width: 100%;
+    height: auto;
 }
 
 .signin-image {
@@ -126,14 +148,14 @@ body {
 }
 
 .form-title {
-    margin-bottom: 33px;
+    margin-bottom: 5px;
 }
 
 .form-submit {
     display: inline-block;
     background: #6dabe4;
     color: #fff;
-    border-bottom: none;
+    border: none;
     width: auto;
     padding: 15px 39px;
     border-radius: 5px;
@@ -155,12 +177,18 @@ body {
 .signup-form {
     margin-left: 75px;
     margin-right: 75px;
-    padding-left: 34px;
+    padding-right: 15px;
+    overflow: visible;
+    padding-bottom: 30px;
 }
 
 .signin-form {
-    margin-right: 90px;
-    margin-left: 80px;
+    margin-left: 75px;
+    margin-right: 75px;
+    padding-right: 15px;
+    overflow: visible;
+    padding-bottom: 40px;
+    height: auto;
 }
 
 .register-form {
@@ -169,7 +197,7 @@ body {
 
 .form-group {
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     overflow: hidden;
 }
 
@@ -216,6 +244,128 @@ label {
     padding-bottom: 87px;
 }
 
+.register-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.step-indicator {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #757575;
+    transition: all 0.3s ease;
+}
+
+.step-indicator.active {
+    background-color: #6dabe4;
+    color: white;
+}
+
+.step-connector {
+    height: 3px;
+    flex-grow: 1;
+    background-color: #e0e0e0;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.form-button-back {
+    display: inline-block;
+    background: #6dabe4;
+    color: #fff;
+    border: none;
+    width: auto;
+    padding: 15px 30px;
+    border-radius: 5px;
+    margin-top: 25px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.form-button-back:hover {
+    background: #e2e6ea;
+}
+
+.form-group.form-button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    margin-bottom: 0px;
+}
+
+.step-3 .form-group.form-button {
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.step-3 .form-submit {
+    flex: 0 0 auto;
+    padding: 12px 25px;
+    font-size: 14px;
+    margin-right: 0;
+    width: auto;
+    max-width: fit-content;
+}
+
+.step-3 .form-button-back {
+    background: #f0f0f0;
+    color: #333;
+    padding: 12px 25px;
+}
+
+.avatar-preview {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.preview-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #6dabe4;
+}
+
+.avatar-input {
+    padding: 10px 0;
+}
+
+/* Nuevo contenedor para el título y los pasos */
+.register-header {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 0;
+}
+
+.register-header .form-title {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.register-header .register-steps {
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+/* Estilo para los títulos de cada paso */
+.signup-form .form-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #555;
+    font-weight: 500;
+}
+
 @media screen and (max-width: 1200px) {
     .container {
         width: calc(100% - 30px);
@@ -230,6 +380,16 @@ label {
 }
 
 @media screen and (max-width: 768px) {
+
+    .form-group.form-button {
+        flex-direction: column;
+    }
+
+    .form-button-back {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
 
     .signup-content,
     .signin-content {

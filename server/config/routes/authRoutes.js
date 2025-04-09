@@ -38,17 +38,31 @@ router.post('/register-admin', isAdmin, async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    const { name, email, password, avatarUrl } = req.body;
+    const { firstName, lastName, birthDate, phoneNumber, email, password, avatarUrl } = req.body;
 
     console.log('Datos de registro recibidos:', {
-        name,
+        firstName,
+        lastName,
+        birthDate,
+        phoneNumber,
         email,
         passwordLength: password ? password.length : 0,
         avatarUrl
     });
 
-    if (!name || !email || !password) {
-        return res.status(400).json({ message: "Nombre, email y contraseña son requeridos" })
+    // Validamos que todos los campos obligatorios estén presentes
+    if (!firstName || !lastName || !email || !password || !birthDate || !phoneNumber) {
+        return res.status(400).json({
+            message: "Todos los campos son obligatorios excepto la foto de perfil",
+            requiredFields: {
+                firstName: !firstName ? "Nombre es requerido" : null,
+                lastName: !lastName ? "Apellido es requerido" : null,
+                email: !email ? "Email es requerido" : null,
+                password: !password ? "Contraseña es requerida" : null,
+                birthDate: !birthDate ? "Fecha de nacimiento es requerida" : null,
+                phoneNumber: !phoneNumber ? "Número de teléfono es requerido" : null
+            }
+        });
     }
 
     try {
@@ -59,22 +73,43 @@ router.post('/register', async (req, res) => {
 
         console.log('Creando usuario con avatarUrl:', avatarUrl);
 
-        const user = await User.create({
-            name,
-            email,
-            password,
-            avatarUrl
-        });
+        // Creamos el usuario sin enviar correo primero
+        let user;
+        try {
+            user = await User.create({
+                firstName,
+                lastName,
+                birthDate,
+                phoneNumber,
+                email,
+                password,
+                avatarUrl
+            });
 
-        console.log('Usuario creado:', {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            avatarUrl: user.avatarUrl
-        });
+            console.log('Usuario creado correctamente:', {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            });
+        } catch (createError) {
+            console.error('Error al crear usuario:', createError);
+            return res.status(500).json({
+                message: "Error al crear usuario en la base de datos",
+                error: createError.message
+            });
+        }
 
-        console.log('Enviando correo de bienvenida a', email);
-        await sendWelcomeEmail(email, name)
+        // Enviamos el correo de bienvenida
+        try {
+            console.log('Enviando correo de bienvenida a', email);
+            await sendWelcomeEmail(email, `${firstName} ${lastName}`);
+        } catch (emailError) {
+            console.error('Error al enviar correo de bienvenida:', emailError);
+            // Continuamos aunque falle el correo
+        }
+
+        // Generamos el token
         const token = jwt.sign(
             { id: user.id, role: user.role },
             process.env.JWT_SECRET,
@@ -84,13 +119,13 @@ router.post('/register', async (req, res) => {
         res.status(201).json({
             token,
             role: user.role,
-            name: user.name,
+            name: `${user.firstName} ${user.lastName}`,
             avatarUrl: user.avatarUrl,
             message: 'Usuario registrado exitosamente'
         });
     } catch (error) {
         console.error('Error en registro de usuario:', error);
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 });
 

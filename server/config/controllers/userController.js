@@ -24,7 +24,7 @@ const getUserProfile = async (req, res) => {
 const updateUserProfile = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { name, email, currentPassword, newPassword } = req.body;
+        const { firstName, lastName, email, phoneNumber, birthDate, currentPassword, newPassword } = req.body;
 
         const user = await User.findByPk(userId);
 
@@ -34,8 +34,12 @@ const updateUserProfile = async (req, res) => {
 
         const updateData = {};
 
-        if (name) {
-            updateData.name = name;
+        if (firstName) {
+            updateData.firstName = firstName;
+        }
+
+        if (lastName) {
+            updateData.lastName = lastName;
         }
 
         if (email && email !== user.email) {
@@ -44,6 +48,23 @@ const updateUserProfile = async (req, res) => {
                 return res.status(400).json({ message: "El email ya está en uso" });
             }
             updateData.email = email;
+        }
+
+        // Actualizar número de teléfono si se proporciona
+        if (phoneNumber !== undefined) {
+            // Verificar si el número ya existe en otro usuario
+            if (phoneNumber && phoneNumber !== user.phoneNumber) {
+                const userWithPhone = await User.findOne({ where: { phoneNumber } });
+                if (userWithPhone && userWithPhone.id !== userId) {
+                    return res.status(400).json({ message: "El número de teléfono ya está en uso" });
+                }
+            }
+            updateData.phoneNumber = phoneNumber;
+        }
+
+        // Actualizar fecha de nacimiento si se proporciona
+        if (birthDate !== undefined) {
+            updateData.birthDate = birthDate;
         }
 
         if (currentPassword && newPassword) {
@@ -62,10 +83,7 @@ const updateUserProfile = async (req, res) => {
             attributes: { exclude: ['password'] }
         });
 
-        res.status(200).json({
-            user: updatedUser,
-            message: "Perfil actualizado correctamente"
-        });
+        res.status(200).json(updatedUser);
     } catch (error) {
         console.error("Error al actualizar perfil de usuario:", error);
         res.status(500).json({ message: "Error del servidor" });
