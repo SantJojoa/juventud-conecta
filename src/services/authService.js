@@ -4,7 +4,31 @@ const API_URL = "http://localhost:5000/api/auth";
 export const AuthService = {
     getToken: () => localStorage.getItem("token"),
 
-    isAuthenticated: () => !!localStorage.getItem("token"),
+    isTokenExpired: () => {
+        const token = localStorage.getItem('token')
+        if (!token) return true;
+
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+
+            const currentTime = Math.floor(Date.now() / 1000);
+            return payload.exp < currentTime;
+        } catch (error) {
+            console.error('Error al verificar el token', error);
+            return true;
+        }
+    },
+
+    isAuthenticated: () => {
+        const hasToken = !!localStorage.getItem('token');
+        if (!hasToken) return false;
+
+        if (AuthService.isTokenExpired()) {
+            AuthService.logout();
+            return false;
+        }
+        return true;
+    },
 
     getAuthHeaders: () => ({
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
