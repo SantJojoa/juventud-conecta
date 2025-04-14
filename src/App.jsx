@@ -4,6 +4,7 @@ import FeverNavbar from './components/navbar/FeverNavbar';
 import Footer from './components/footer/Footer';
 import AppRoutes from './routes/AppRoutes';
 import { AuthService } from './services/authService';
+import ScrollTop from './components/utils/ScrollTop';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
   }, []);
   return (
     <Router>
+      <ScrollTop />
       <FeverNavbar />
       <main>
         <AppRoutes />
