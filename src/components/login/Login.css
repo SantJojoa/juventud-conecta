@@ -366,6 +366,18 @@ label {
     font-weight: 500;
 }
 
+.terms-text p {
+    margin-top: 20px;
+    color: #787878;
+    font-size: 12px;
+}
+
+.terms-text a {
+    color: #6dabe4;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
 @media screen and (max-width: 1200px) {
     .container {
         width: calc(100% - 30px);

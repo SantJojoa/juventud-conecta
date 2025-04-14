@@ -328,6 +328,10 @@ const Register = () => {
                                 />
                             </div>
                         )}
+                        <div className="terms-text">
+                            <p>Al hacer clic en "Completar Registro", aceptas nuestras <a href="/terms">Condiciones</a>, <a href="/privacy">Política de privacidad</a> y <a href="/cookies">Política de cookies</a>. Es posible que te enviemos notificaciones por Email, WhatsApp o SMS    , que puedes desactivar cuando quieras.</p>
+                        </div>
+
                         <div className="form-group form-button step-3">
                             <button
                                 type="button"
