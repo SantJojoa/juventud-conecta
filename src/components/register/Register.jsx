@@ -306,9 +306,8 @@ const Register = () => {
             case 3:
                 return (
                     <>
-                        <h2 className="form-title">Paso 3: Foto de Perfil</h2>
-                        <div className="form-group">
-                            <label htmlFor="avatarUrl"><i className="zmdi zmdi-image"></i></label>
+                        <h2 className="form-title">Paso 3: Foto de Perfil (Opcional)</h2>
+                        <div className="form-group upload-group">
                             <input
                                 type="file"
                                 id="avatarUrl"
@@ -318,6 +317,17 @@ const Register = () => {
                                 }}
                                 className="avatar-input"
                             />
+
+                            <div className="custom-file-upload" onClick={() => document.getElementById('avatarUrl').click()}>
+                                <i className="zmdi zmdi-cloud-upload"></i> Seleccionar imagen de perfil
+
+                            </div>
+
+                            {avatar && (
+                                <div className="file-name-display">
+                                    {avatar.name}
+                                </div>
+                            )}
                         </div>
                         {avatar && (
                             <div className="avatar-preview">
