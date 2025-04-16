@@ -13,6 +13,7 @@ import HomePage from "../components/HomePage";
 import AdminRegister from "../components/admin/AdminRegister";
 import EditEventForm from '../components/shared/EditEventForm'
 import NotFound from "../pages/NotFound";
+import EventDetail from '../pages/EventDetail'
 
 function AppRoutes() {
     return (
@@ -28,6 +29,7 @@ function AppRoutes() {
             <Route path="/profile" element={<UserProfile />}></Route>
             <Route path="/admin-register" element={<AdminRegister />}></Route>
             <Route path="/edit-event/:id" element={<EditEventForm />}></Route>
+            <Route path="/event/:id" element={<EventDetail />}></Route>
             <Route path="*" element={<NotFound />}></Route>
         </Routes>
     )

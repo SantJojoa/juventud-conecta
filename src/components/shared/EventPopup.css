@@ -120,6 +120,8 @@
     /* Garantizar que el contenido se alinee a la izquierda */
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
 }
 
 .favorite-button {
@@ -134,9 +136,23 @@
     text-align: center;
     position: relative;
     /* Para asegurar que respete el flujo normal */
-    left: 0;
     margin-right: auto;
-    margin-left: 0;
+}
+
+.more-info-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.more-info-button:hover {
+    background-color: #3e8e41;
 }
 
 .favorite-button.favorite {

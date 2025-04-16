@@ -5,12 +5,14 @@ import { EventService } from '../../services/eventService';
 import EditEventForm from './EditEventForm';
 import Swal from 'sweetalert2';
 import './EventPopup.css';
+import { useNavigate } from 'react-router-dom';
 
 const EventPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Check if user is admin
@@ -184,6 +186,15 @@ const EventPopup = ({ event, onClose, onEventUpdated, onEventDeleted }) => {
                         {isLoading ? "Cargando..." : (
                             isFavorite ? "❤️ Quitar de favoritos" : "🤍 Guardar como favorito"
                         )}
+                    </button>
+                    <button
+                        className='more-info-button'
+                        onClick={() => {
+                            onClose();
+                            navigate(`/event/${event._id}`);
+                        }}
+                    >
+                        Ver más información
                     </button>
                 </div>
             </div>
