@@ -6,6 +6,8 @@ const { initEventReminderSystem } = require('./config/services/eventReminders');
 
 const app = express();
 
+const chatbotRoutes = require('./config/routes/chatbotRoutes');
+
 app.use(cors());
 app.use(express.json());
 
@@ -21,6 +23,8 @@ app.listen(PORT, async () => {
     // Inicializar el sistema de recordatorios de eventos
     initEventReminderSystem();
 });
+
+app.use("/api/chatbot", chatbotRoutes);
 
 const eventRoutes = require('./config/routes/eventRoutes');
 app.use("/api/events", eventRoutes);
