@@ -5,10 +5,10 @@ import Footer from './components/footer/Footer';
 import AppRoutes from './routes/AppRoutes';
 import { AuthService } from './services/authService';
 import ScrollTop from './components/utils/ScrollTop';
+import Chatbot from './components/chatbot/Chatbot';
 import './App.css';
 
 function App() {
-
   useEffect(() => {
     AuthService.isAuthenticated();
 
@@ -25,6 +25,7 @@ function App() {
       <ScrollTop />
       <FeverNavbar />
       <main>
+        <Chatbot />
         <AppRoutes />
       </main>
       <Footer />

@@ -89,13 +89,15 @@ const PortalEmpleo = () => {
     return (
         <div className="portal-empleo">
             <div className="text-container">
-                <h2>Nuestras 10 Lineas de empelo</h2>
+                <h2>Nuestras 10 Lineas de trabajo</h2>
                 <p>¡Pasto, territorio de oportunidades para la población joven!</p>
             </div>
             <div className="grid">
                 {items.map(item => (
                     <div key={item.id} className="grid-item" onClick={() => handleItemClick(item)}>
-                        <img src={item.image} alt={item.title} className="item-image" />
+                        <div className="image-wrapper">
+                            <img src={item.image} alt={item.title} className="item-image" />
+                        </div>
                         <h4>{item.title}</h4>
                         <p className="item-description">{item.description}</p>
                     </div>
