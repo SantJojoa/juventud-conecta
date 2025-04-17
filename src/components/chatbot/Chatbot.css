@@ -114,3 +114,63 @@
     background: #aaa;
     cursor: not-allowed;
 }
+
+.quick-replies {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+/* Botones de opciones rápidas */
+.quick-replies button {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+    margin-bottom: 2px;
+}
+
+.quick-replies button:hover,
+.quick-replies button:focus {
+    background: #1565c0;
+    outline: none;
+}
+
+.chatbot-message.bot {
+    align-self: flex-start;
+    background: #f1f1f1;
+    color: #222;
+    border-radius: 12px 12px 12px 4px;
+    margin: 8px 0;
+    padding: 10px 16px;
+    max-width: 80%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.chatbot-message.user {
+    align-self: flex-end;
+    background: #1976d2;
+    color: #fff;
+    border-radius: 12px 12px 4px 12px;
+    margin: 8px 0;
+    padding: 10px 16px;
+    max-width: 80%;
+    box-shadow: 0 1px 4px rgba(25, 118, 210, 0.08);
+}
+
+.chatbot-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 16px;
+    overflow-y: auto;
+    height: 350px;
+    background: #fafbfc;
+}

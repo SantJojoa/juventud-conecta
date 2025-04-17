@@ -33,8 +33,8 @@ const getTodayEvents = async () => {
 };
 
 const getWeekendEvents = async () => {
-    const start = moment().startOf('isoWeek').add(5, 'days').startOf('day').toDate(); // Sábado
-    const end = moment().startOf('isoWeek').add(6, 'days').endOf('day').toDate();     // Domingo
+    const start = moment().startOf('isoWeek').add(5, 'days').startOf('day').toDate();
+    const end = moment().startOf('isoWeek').add(6, 'days').endOf('day').toDate();
     return await Event.findAll({
         where: {
             date: {
@@ -65,6 +65,25 @@ exports.chatbot = async (req, res) => {
 
     const lowerMsg = message.toLowerCase();
 
+    if (lowerMsg.includes('hola') || lowerMsg.includes('buenas') || lowerMsg.trim() === '') {
+        return res.json({
+            messages: [
+                { sender: 'bot', text: '¡Hola! ¿En qué puedo ayudarte?' },
+                {
+                    sender: 'bot',
+                    text: 'Elige una opción para comenzar',
+                    quickReplies: [
+                        { title: 'Próximos eventos', payload: 'proximos' },
+                        { title: 'Eventos finalizados', payload: 'finalizados' },
+                        { title: 'Eventos de hoy', payload: 'hoy' },
+                        { title: 'Fin de semana', payload: 'fin-de-semana' },
+                        { title: 'En una ubicación', payload: 'ubicacion' }
+                    ]
+                }
+            ]
+        });
+    }
+
     if (lowerMsg.includes('próximos') || lowerMsg.includes('proximos') || lowerMsg.includes('futuro') || lowerMsg.includes('futuros')) {
         const events = await getUpcomingEvents();
         if (!events.length) return res.json({ reply: 'No hay eventos próximos.' });
@@ -72,7 +91,7 @@ exports.chatbot = async (req, res) => {
         return res.json({ reply });
     }
 
-    if (lowerMsg.includes('finalizados') || lowerMsg.includes('pasados') || lowerMsg.includes('anteriores')) {
+    if (lowerMsg.includes('finalizados') || lowerMsg.includes('pasados') || lowerMsg.includes('anteriores') || lowerMsg.includes('terminaron')) {
         const events = await getPastEvents();
         if (!events.length) return res.json({ reply: 'No hay eventos finalizados.' });
         const reply = 'Eventos finalizados:\n' + events.slice(0, 5).map(e => `- ${e.title} (${moment(e.date).format('DD/MM/YYYY')})`).join('\n');
@@ -102,6 +121,10 @@ exports.chatbot = async (req, res) => {
         return res.json({ reply });
     }
 
+    if (lowerMsg.includes('hola')) {
+        const reply = '¡Hola! ¿En qué puedo ayudarte?';
+        return res.json({ reply });
+    }
 
     return res.json({ reply: 'Lo siento, no entendí tu pregunta. Puedes preguntar por eventos próximos, finalizados, de hoy, este fin de semana, o en una ciudad.' });
 };
