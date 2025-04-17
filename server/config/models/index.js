@@ -1,7 +1,7 @@
 const sequelize = require('../db');
 const User = require('./User');
 const Event = require('./Event');
-
+const Comment = require('./Coment');
 
 User.belongsToMany(Event, { through: 'UserFavorites', as: 'favoriteEvents' });
 Event.belongsToMany(User, { through: 'UserFavorites', as: 'favoritedBy' });
@@ -19,5 +19,6 @@ module.exports = {
     sequelize,
     User,
     Event,
+    Comment,
     initModels
 };
