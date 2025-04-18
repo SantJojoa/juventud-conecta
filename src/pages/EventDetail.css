@@ -190,6 +190,67 @@
     margin-bottom: 15px;
 }
 
+.comments-section {
+    margin-top: 32px;
+}
+
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comment-item {
+    border-bottom: 1px solid #eee;
+    padding: 16px 0;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.comment-content {
+    margin: 4px 0 8px 0;
+}
+
+.admin-response {
+    background: #f8f8f8;
+    padding: 8px;
+    border-radius: 4px;
+    color: #00b309;
+}
+
+.comment-form {
+    margin-top: 16px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.comment-form button {
+    margin-top: 6px;
+}
+
+.comment-error {
+    color: red;
+    margin-top: 6px;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

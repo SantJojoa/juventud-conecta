@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { EventService } from '../services/eventService';
 import { checkIsFavorite, addToFavorites, removeFromFavorites } from '../services/userService';
@@ -15,6 +16,34 @@ const EventDetail = () => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
+    const [loadingComments, setLoadingComments] = useState(false);
+    const [errorComments, setErrorComments] = useState(null);
+
+    useEffect(() => {
+        fetchComments();
+    }, [id]);
+
+    const fetchComments = async () => {
+        setLoadingComments(true);
+        try {
+            const res = await axios.get(`http://localhost:5000/api/comments/event/${id}`);
+            setComments(res.data);
+        } catch (error) {
+            setErrorComments(error.message);
+        } finally {
+            setLoadingComments(false);
+        }
+    };
+
+    const handleCommentSubmit = async (e) => {
+        e.preventDefault();
+        setErrorComments('');
+        if (!newComment.trim()) return;
+
+    }
 
     useEffect(() => {
         // Check if user is admin
@@ -258,6 +287,35 @@ const EventDetail = () => {
                         )}
                     </div>
                 </div>
+            </div>
+            <div className="event-detail-info comments-section">
+                <h3>Comentarios</h3>
+                {loadingComments ? (
+                    <p>Cargando comentarios...</p>
+                ) : comments.length === 0 ? (
+                    <p>No hay comentarios aun</p>
+                ) : (
+                    <ul className='comments-list'>
+                        {comments.map((c) => (
+                            <li key={c.id} className='comment-item'>
+                                <div className="comment-user">
+                                    <img className="comment-avatar" src={c.user?.avatarUrl} alt="" />
+                                    <span><b>{c.user?.firstName} {c.user?.lastName}</b></span>
+                                    <span style={{ marginLeft: 8, color: '#888', fontSize: 12 }}>{new Date(c.createdAt).toLocaleString()}</span>
+                                </div>
+                                <div className="comment-content">
+                                    {c.content}
+                                </div>
+                                {c.adminResponse && (
+                                    <div className="admin-response">
+                                        <b>Respuesta de administrador:</b> {c.adminResponse}
+                                        <span >{new Date(c.respondedAt).toLocaleString()}</span>
+                                    </div>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
         </div>
     );
