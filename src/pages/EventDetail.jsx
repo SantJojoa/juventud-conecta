@@ -43,7 +43,18 @@ const EventDetail = () => {
         setErrorComments('');
         if (!newComment.trim()) return;
 
-    }
+        try {
+            await axios.post(
+                `http://localhost:5000/api/comments/event/${id}`,
+                { content: newComment },
+                { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+            );
+            setNewComment('');
+            fetchComments();
+        } catch (error) {
+            setErrorComments(error.message);
+        }
+    };
 
     useEffect(() => {
         // Check if user is admin
@@ -315,6 +326,28 @@ const EventDetail = () => {
                             </li>
                         ))}
                     </ul>
+
+                )}
+                <div className='divider'></div>
+                <strong>
+                    ¿Te gustaría este evento? ¿Qué te parecería si mejoramos algo? Comparte tus ideas y
+                    ayuda a que los eventos sean cada vez mejores para ti y para la comunidad.
+                </strong>
+                {localStorage.getItem('token') ? (
+                    <form onSubmit={handleCommentSubmit} className='comment-form'>
+                        <textarea
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            placeholder='Escribe un comentario...'
+                            rows={3}
+                            required
+                        />
+                        <button type="submit">Enviar comentario</button>
+                        {errorComments && <div className="comment-error">{errorComments}</div>}
+
+                    </form>
+                ) : (
+                    <p>Por favor, inicia sesión para comentar</p>
                 )}
             </div>
         </div>
