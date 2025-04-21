@@ -22,6 +22,9 @@ const EventDetail = () => {
     const [loadingComments, setLoadingComments] = useState(false);
     const [errorComments, setErrorComments] = useState(null);
 
+    const [replyInputs, setReplyInputs] = useState({});
+    const [replyLoading, setReplyLoading] = useState({});
+
     useEffect(() => {
         fetchComments();
     }, [id]);
@@ -55,6 +58,39 @@ const EventDetail = () => {
             setErrorComments(error.message);
         }
     };
+
+    const handleReplyChange = async (commentId, value) => {
+        setReplyInputs(prev => ({ ...prev, [commentId]: value }));
+    };
+
+    const handleReplySubmit = async (commentId) => {
+        setReplyLoading(prev => ({ ...prev, [commentId]: true }));
+        const token = localStorage.getItem('token');
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/comments/${commentId}/reply`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ adminResponse: replyInputs[commentId] })
+            });
+            if (!res.ok) throw new Error('Error al responder el comentario');
+            const updatedComment = await res.json();
+
+            setComments(prev =>
+                prev.map(c => (c.id === updatedComment.id ? updatedComment : c))
+            );
+            setReplyInputs(prev => ({ ...prev, [commentId]: '' }));
+        } catch (err) {
+            alert('Error al responder ', err) // CAMBIAR POR UN MODAL
+            console.log(err)
+        }
+        setReplyLoading(prev => ({ ...prev, [commentId]: false }));
+    };
+
+
 
     useEffect(() => {
         // Check if user is admin
@@ -321,6 +357,29 @@ const EventDetail = () => {
                                     <div className="admin-response">
                                         <b>Respuesta de administrador:</b> {c.adminResponse}
                                         <span >{new Date(c.respondedAt).toLocaleString()}</span>
+                                    </div>
+                                )}
+
+                                {isAdmin && !c.adminResponse && (
+                                    <div className='admin-reply-form' style={{ marginTop: 8 }}>
+                                        <textarea
+                                            placeholder='Responder como administrador'
+                                            value={replyInputs[c.id] || ''}
+                                            onChange={e => handleReplyChange(c.id, e.target.value)}
+                                            rows={2}
+                                            style={{ width: '100%', marginBottom: 4 }}
+                                        />
+                                        <button
+                                            onClick={() => handleReplySubmit(c.id)}
+                                            disabled={replyLoading[c.id] || !(replyInputs[c.id] && replyInputs[c.id].trim())}
+                                            style={{ background: '#d32f2f', color: '#fff', border: 'none', padding: '6px 16px', borderRadius: 4 }}
+
+                                        >
+                                            {replyLoading[c.id] ? 'Enviando...' : 'Responder'}
+
+                                        </button>
+
+
                                     </div>
                                 )}
                             </li>
