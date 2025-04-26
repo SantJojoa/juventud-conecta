@@ -67,4 +67,4 @@ This project is a full-stack event management system built with Node.js, Express
 6.  **Start the frontend development server:**
 
     ```bash
-    npm start  #
+    npm start  ## proyectt
