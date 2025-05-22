@@ -24,6 +24,10 @@ const Chatbot = () => {
                 body: JSON.stringify({ message: '' }),
             });
             const data = await res.json();
+            if (data.redirect) {
+                window.open(data.redirect, '_blank');
+                return;
+            }
             if (Array.isArray(data.messages)) {
                 setMessages(data.messages);
             } else if (data.reply) {
@@ -68,6 +72,10 @@ const Chatbot = () => {
                 body: JSON.stringify({ message: input })
             });
             const data = await res.json();
+            if (data.redirect) {
+                window.open(data.redirect, '_blank');
+                return;
+            }
             if (Array.isArray(data.messages)) {
                 setMessages(prev => [...prev, ...data.messages]);
             } else if (data.reply) {
@@ -98,6 +106,10 @@ const Chatbot = () => {
                 body: JSON.stringify({ message: payload })
             });
             const data = await res.json();
+            if (data.redirect) {
+                window.open(data.redirect, '_blank');
+                return;
+            }
             if (Array.isArray(data.messages)) {
                 setMessages(prev => [...prev, ...data.messages]);
             } else if (data.reply) {
