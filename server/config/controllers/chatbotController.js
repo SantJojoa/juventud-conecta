@@ -33,18 +33,20 @@ const getTodayEvents = async () => {
 };
 
 const getWeekendEvents = async () => {
-    const start = moment().startOf('isoWeek').add(5, 'days').startOf('day').toDate();
-    const end = moment().startOf('isoWeek').add(6, 'days').endOf('day').toDate();
-    return await Event.findAll({
-        where: {
-            date: {
-                [Op.gte]: start,
-                [Op.lte]: end,
-            }
-        },
+
+    const today = moment().startOf('day').toDate();
+
+    const events = await Event.findAll({
+        where: { date: { [Op.gte]: today } },
         order: [['date', 'ASC']]
     });
-};
+
+    return events.filter(e => {
+        const day = moment(e.date).day();
+        return day === 6 || day === 0;
+    });
+}
+
 
 const getEventsByLocation = async (location) => {
     const today = moment().startOf('day').toDate();
@@ -76,7 +78,7 @@ exports.chatbot = async (req, res) => {
                         { title: 'Próximos eventos', payload: 'proximos' },
                         { title: 'Eventos finalizados', payload: 'finalizados' },
                         { title: 'Eventos de hoy', payload: 'hoy' },
-                        { title: 'Fin de semana', payload: 'fin-de-semana' },
+                        { title: 'Fin de semana', payload: 'fin de semana' },
                         { title: 'En una ubicación', payload: 'ubicacion' }
                     ]
                 }
