@@ -141,7 +141,12 @@ const Chatbot = () => {
                                 key={idx}
                                 className={`chatbot-message ${msg.sender === 'user' ? 'user' : 'bot'}`}
                             >
-                                <div>{msg.text}</div>
+                                <div dangerouslySetInnerHTML={{
+                                    __html: msg.text.replace(
+                                        /(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*))/gi,
+                                        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+                                    )
+                                }}></div>
                                 {msg.quickReplies && (
                                     <div className="quick-replies">
                                         {msg.quickReplies.map((qr, i) => (

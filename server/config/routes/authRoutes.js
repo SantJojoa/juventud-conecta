@@ -53,7 +53,7 @@ router.post('/register-admin', isAdmin, async (req, res) => {
         });
         console.log('Enviando correo de bienvenida a administrador:', email);
         try {
-            await sendAdminWelcomeEmail(email, `${firstName} ${lastName}`);
+            await sendAdminWelcomeEmail(email, { firstName, lastName });
         } catch (emailError) {
             console.error('Error al enviar correo de bienvenida al administrador:', emailError);
             // Continuamos aunque falle el correo
@@ -135,7 +135,7 @@ router.post('/register', async (req, res) => {
         // Enviamos el correo de bienvenida
         try {
             console.log('Enviando correo de bienvenida a', email);
-            await sendWelcomeEmail(email, `${firstName} ${lastName}`);
+            await sendWelcomeEmail(email, { firstName, lastName });
         } catch (emailError) {
             console.error('Error al enviar correo de bienvenida:', emailError);
             // Continuamos aunque falle el correo

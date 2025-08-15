@@ -54,7 +54,7 @@ const items = [
     },
     {
         id: 8,
-        image: 'https://www.elandcables.com/media/iu3jikc4/v638169987797000001/protecting-the-environment-banner.jpg',
+        image: 'https://iat.es/wp-content/uploads/2021/01/sostenibilidad-ambiental.jpg',
         title: 'Medio Ambiente y Sostenibilidad',
         description: 'Fomentar la educación ambiental y el liderazgo.',
         subContent: 'iniciativas ecológicas con programas de reciclaje y conservación de la biodiversidad.'

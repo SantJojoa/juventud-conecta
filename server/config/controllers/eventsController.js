@@ -33,7 +33,7 @@ const eventsController = {
     getAllEvents: async (req, res) => {
         try {
             const events = await Event.findAll({
-                order: [['date', 'DESC']], // Ordenar por fecha, más recientes primero
+                order: [['createdAt', 'DESC']], // Ordenar por fecha de creación como fallback
                 raw: true // Obtener objetos planos de JavaScript
             });
 

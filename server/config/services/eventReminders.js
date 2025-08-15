@@ -19,9 +19,11 @@ const checkUpcomingEvents = async () => {
 
         const upcomingEvents = await Event.findAll({
             where: {
+
                 date: {
                     [Op.between]: [todayFormatted, limitFormatted]
                 }
+
             },
             include: [{
                 model: User,
@@ -40,8 +42,7 @@ const checkUpcomingEvents = async () => {
 
             for (const user of users) {
                 console.log(`Enviando recordatorio a ${user.email} sobre el evento "${event.title}"`);
-                const userName = `${user.firstName} ${user.lastName}`;
-                await sendEventReminderEmail(user.email, userName, event);
+                await sendEventReminderEmail(user.email, { firstName: user.firstName, lastName: user.lastName }, event);
                 totalEmails++;
             }
         }

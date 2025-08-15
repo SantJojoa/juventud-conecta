@@ -208,8 +208,8 @@ exports.chatbot = async (req, res) => {
         });
     }
 
-    // Respuesta por defecto
+    // Respuesta por defecto mejorada
     return res.json({
-        reply: `Lo siento, no entendí tu pregunta. Puedes preguntar por cosas como:\n- próximos eventos\n- eventos de hoy\n- eventos de mañana\n- eventos pasados\n- eventos de este fin de semana\nTodos los eventos son en Pasto.`
+        reply: `Lo siento, no entendí tu pregunta.\n\nPuedes visitar nuestro Instagram oficial: https://www.instagram.com/juventudpasto/ o escribirnos a juventud@pasto.gov.co para más información.`
     });
 };
