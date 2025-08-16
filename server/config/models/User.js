@@ -46,6 +46,10 @@ const User = sequelize.define(
         avatarUrl: {
             type: DataTypes.STRING,
             allowNull: true
+        },
+        telegramChatId: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     },
     {

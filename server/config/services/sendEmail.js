@@ -1,3 +1,6 @@
+const { sendTelegramMessage } = require('./telegramService');
+
+
 const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
@@ -37,6 +40,10 @@ const sendWelcomeEmail = async (email, { firstName, lastName }) => {
     try {
         const result = await sgMail.send(msg);
         console.log('Correo enviado con éxito', result);
+
+        const telegramMsg = `🔔 Hola ${firstName}, bienvenido a Juventud Conecta! 🚀`;
+        await sendTelegramMessage(id, telegramMsg);
+
         console.log(`Correo enviado a ${email}`);
     } catch (error) {
         console.error('Error al enviar el correo', error.response?.body || error);
@@ -87,7 +94,7 @@ const sendAdminWelcomeEmail = async (email, { firstName, lastName }) => {
 
 }
 
-const sendEventReminderEmail = async (email, { firstName, lastName }, event) => {
+const sendEventReminderEmail = async (email, { id, firstName, lastName }, event) => {
     console.log('Preparando recordatorio de evento para', email, `${firstName} ${lastName}`, event.title);
 
     const eventDate = new Date(event.date);
@@ -137,6 +144,10 @@ const sendEventReminderEmail = async (email, { firstName, lastName }, event) => 
     try {
         const result = await sgMail.send(msg);
         console.log('Correo de recordatorio enviado con éxito', result);
+
+        const telegramMsg = `🔔 Hola ${firstName}, recuerda que tu evento favorito "${event.title}" será el ${formattedDate} en ${event.location}.`;
+        await sendTelegramMessage(id, telegramMsg);
+
         console.log(`Recordatorio de evento enviado a ${email}`);
         return true;
     } catch (error) {

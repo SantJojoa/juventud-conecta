@@ -154,7 +154,8 @@ router.post('/register', async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             avatarUrl: user.avatarUrl,
-            message: 'Usuario registrado exitosamente'
+            message: 'Usuario registrado exitosamente',
+            telegramLink: `https://t.me/${process.env.TELEGRAM_BOT_USERNAME}?start=${user.id}`
         });
     } catch (error) {
         console.error('Error en registro de usuario:', error);

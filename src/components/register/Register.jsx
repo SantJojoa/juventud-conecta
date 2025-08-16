@@ -154,7 +154,17 @@ const Register = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Cuenta creada',
-                text: 'Bienvenido a la plataforma para la juventud, creada por la juventud.',
+                html: `
+                    <p>Bienvenido a la plataforma para la juventud, creada por la juventud.</p>
+                    <br/>
+                    <p>Para recibir recordatorios en Telegram, <b>haz clic en el siguiente botón:</b></p>
+                    <br/>
+                    <a href="${data.telegramLink}" target="_blank" class="swal2-confirm swal2-styled" 
+                    style="background-color:#0088cc; text-decoration:none;">
+                        🚀 Conectar con Telegram
+                    </a>
+                `,
+                showConfirmButton: false,
             });
             navigate("/");
         } catch (err) {
