@@ -198,6 +198,25 @@ router.post('/login', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Server error" });
     }
+
+
 });
+
+router.post("/check-email", async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ where: { email } });
+
+        if (user) {
+            return res.json({ exists: true });
+        }
+        return res.json({ exists: false });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error checking email" });
+    }
+});
+
+
 
 module.exports = router;

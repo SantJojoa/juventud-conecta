@@ -93,6 +93,23 @@ export const AuthService = {
         return data;
     },
 
+    checkEmail: async (email) => {
+        const response = await fetch(`${API_URL}/check-email`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email })
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al validar el correo");
+        }
+
+        const data = await response.json();
+        return !data.exists; // true = libre, false = ya está registrado
+    },
+
     registerAdmin: async (firstName, lastName, email, password, phoneNumber, birthDate, avatarUrl) => {
         const response = await fetch(`${API_URL}/register-admin`, {
             method: 'POST',

@@ -45,7 +45,7 @@ const Register = () => {
     };
 
     // Función para manejar la navegación al siguiente paso
-    const handleNextStep = () => {
+    const handleNextStep = async () => {
         if (currentStep === 1) {
             // Validación del paso 1
             setIsFirstNameEmpty(firstName.trim() === "");
@@ -81,6 +81,13 @@ const Register = () => {
 
             if (password !== confirmPassword) {
                 toast.error("Las contraseñas no coinciden");
+                return;
+            }
+
+            const isAvailable = await AuthService.checkEmail(email);
+            if (!isAvailable) {
+                toast.error("El correo electrónico ya está en uso");
+                setIsEmailValid(false)
                 return;
             }
 
@@ -151,13 +158,22 @@ const Register = () => {
             });
             navigate("/");
         } catch (err) {
+            console.log(err);
+
+            // Tomamos el mensaje que manda el backend o uno por defecto
+            let errorMsg = err.response?.data?.message || err.message || "No pudimos procesar tu solicitud";
+
+            // Traducción específica del mensaje "User already exists"
+            if (errorMsg === "User already exists") {
+                errorMsg = "El correo electrónico ya está en uso";
+            }
+
             Swal.fire({
                 icon: 'error',
-                title: 'Ha ocurrido un error inesperado',
-                text: err.message || 'No pudimos procesar tu solicitud',
+                title: 'Error en el registro',
+                text: errorMsg,
                 confirmButtonColor: '#d63031'
             });
-            console.log(err)
         }
     };
 
