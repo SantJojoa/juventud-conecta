@@ -109,10 +109,8 @@ function FeverNavbar() {
       }
     };
 
-    // Siempre intenta obtener la imagen de perfil al cargar el componente
     fetchProfileImage();
 
-    // Configura eventos para detectar cambios en la autenticación
     const handleLoginChange = () => {
       console.log('Login change event detected');
       checkAuth();
@@ -126,7 +124,7 @@ function FeverNavbar() {
       window.removeEventListener('storage', checkAuth);
       window.removeEventListener('login-change', handleLoginChange);
     };
-  }, []); // No dependencies to ensure it runs only on mount
+  }, []);
 
   const getUserInitials = () => {
     if (!firstName && !lastName) return '';
@@ -244,9 +242,9 @@ function FeverNavbar() {
     }
   };
 
-  const handleSuggestionClick = (eventTitle) => {
-    setSearchTerm(eventTitle);
-    navigate(`/events?search=${encodeURIComponent(eventTitle)}`);
+  const handleSuggestionClick = (eventId) => {
+    setSearchTerm("");
+    navigate(`/event/${eventId}`);
     setShowSuggestions(false);
   };
 
@@ -295,7 +293,7 @@ function FeverNavbar() {
                     <div
                       key={event._id}
                       className="suggestion-item"
-                      onClick={() => handleSuggestionClick(event.title)}
+                      onClick={() => handleSuggestionClick(event._id, event.title)}
                     >
                       {event.title}
                     </div>
