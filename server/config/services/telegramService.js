@@ -92,9 +92,45 @@ Has marcado como favorito el evento: *${event.title}*
     }
 }
 
+export async function sendRememberEventDate(userId, eventId) {
+    try {
+        const user = await User.findByPk(userId);
+        const event = await Event.findByPk(eventId);
+
+        if (!user?.telegramChatId || !event) return;
+
+        const message = `
+✨ *¡Hey ${user.firstName}! Tu evento favorito está muy cerca* ✨  
+
+⏰ En menos de 48 horas podrás disfrutar de:  
+
+🎉 *${event.title}*  
+📍 Lugar: ${event.location}  
+📅 Fecha: ${event.date}  
+
+🚀 Prepárate para vivir una gran experiencia.  
+¡No faltes, te esperamos! 💃🕺
+`;
+
+        if (event.imageSrc) {
+            await bot.sendPhoto(user.telegramChatId, event.imageSrc, {
+                caption: message,
+                parse_mode: 'Markdown'
+            });
+        } else {
+            await bot.sendMessage(user.telegramChatId, message, { parse_mode: 'Markdown' });
+        }
+    } catch (error) {
+        console.error("Error enviando mensaje:", error);
+    }
+}
+
 export async function sendTelegramMessage(userId, message) {
     const user = await User.findByPk(userId);
     if (user?.telegramChatId) {
         bot.sendMessage(user.telegramChatId, message);
     }
 }
+
+
+

@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 const Event = require('../models/Event');
 const User = require('../models/User');
 const { sendEventReminderEmail } = require('./sendEmail');
+const { sendRememberEventDate } = require('./telegramService');
 
 const checkUpcomingEvents = async () => {
     try {
@@ -44,6 +45,12 @@ const checkUpcomingEvents = async () => {
                 console.log(`Enviando recordatorio a ${user.email} sobre el evento "${event.title}"`);
                 await sendEventReminderEmail(user.email, { firstName: user.firstName, lastName: user.lastName }, event);
                 totalEmails++;
+
+                if (user.telegramChatId) {
+                    const userId = user.id;
+                    const eventId = event.id;
+                    await sendRememberEventDate(userId, eventId);
+                }
             }
         }
 
