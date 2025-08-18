@@ -6,19 +6,16 @@ import "slick-carousel/slick/slick-theme.css";
 import "./carousel.css";
 
 import { useEvents } from "../../hooks/useEvents";
-import { useEventPopup } from "../../hooks/useEventPopup";
 
 
 import LoadingIndicator from "../shared/LoadingIndicator";
 import EmptyStateMessageComponent from "../shared/EmptyStateMessage";
-import EventPopUp from "../shared/EventPopup";
 
 
 
 const Carousel = ({ onImageChange }) => {
 
     const { events, loading } = useEvents();
-    const { selectedEvent, openEventPopup, closeEventPopup } = useEventPopup();
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const navigate = useNavigate();
@@ -69,7 +66,8 @@ const Carousel = ({ onImageChange }) => {
                         return (
                             <div
                                 key={event._id}
-                                onClick={() => openEventPopup(event)}
+                                // onClick={() => openEventPopup(event)}
+                                onClick={() => navigate(`/event/${event._id}`)}
                                 className="carousel-slide-item"
                                 aria-label={`Ver detalles del evento ${event.title || ''}`}
                             >
@@ -88,7 +86,6 @@ const Carousel = ({ onImageChange }) => {
                 </Slider>
             </div>
 
-            {selectedEvent && <EventPopUp event={selectedEvent} onClose={closeEventPopup} />}
 
         </div>
     );

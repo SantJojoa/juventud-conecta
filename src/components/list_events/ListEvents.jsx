@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import "./ListEvents.css";
 
 import { useEvents } from "../../hooks/useEvents";
-import { useEventPopup } from "../../hooks/useEventPopup";
+// import { useEventPopup } from "../../hooks/useEventPopup";
 import { EventService } from "../../services/eventService";
 import { AuthService } from "../../services/authService";
 
@@ -16,7 +16,7 @@ import EditEventForm from "../shared/EditEventForm";
 
 const ListEvents = () => {
     const { events, loading, error, setEvents } = useEvents();
-    const { selectedEvent, openEventPopup, closeEventPopup } = useEventPopup();
+    // const { selectedEvent, openEventPopup, closeEventPopup } = useEventPopup();
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [selectedEventForEdit, setSelectedEventForEdit] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
@@ -140,14 +140,14 @@ const ListEvents = () => {
                     <EventCard
                         key={event._id}
                         event={event}
-                        onClick={openEventPopup}
+                        // onClick={openEventPopup}
                         onEdit={setSelectedEventForEdit}
                         onDelete={handleDeleteEvent}
                         isAdmin={isAdmin}
                     />
                 ))}
             </div>
-
+            {/* 
             {selectedEvent && (
                 <EventPopup
                     event={selectedEvent}
@@ -155,7 +155,7 @@ const ListEvents = () => {
                     onEventUpdated={handleEventUpdate}
                     onEventDeleted={handleDeleteEvent}
                 />
-            )}
+            )} */}
 
             {selectedEventForEdit && (
                 <EditEventForm

@@ -1,16 +1,18 @@
-// hooks/useEventPopup.js
-import { useState, useCallback } from 'react';
+//CÓDIGO DE RESPALDO -- ELIMINAR DESPUÉS DE QUE SE IMPLEMENTE EL NUEVO CÓDIGO
 
-export const useEventPopup = () => {
-    const [selectedEvent, setSelectedEvent] = useState(null);
+// // hooks/useEventPopup.js
+// import { useState, useCallback } from 'react';
 
-    const openEventPopup = useCallback((event) => {
-        setSelectedEvent(event);
-    }, []);
+// export const useEventPopup = () => {
+//     const [selectedEvent, setSelectedEvent] = useState(null);
 
-    const closeEventPopup = useCallback(() => {
-        setSelectedEvent(null);
-    }, []);
+//     const openEventPopup = useCallback((event) => {
+//         setSelectedEvent(event);
+//     }, []);
 
-    return { selectedEvent, openEventPopup, closeEventPopup };
-};
+//     const closeEventPopup = useCallback(() => {
+//         setSelectedEvent(null);
+//     }, []);
+
+//     return { selectedEvent, openEventPopup, closeEventPopup };
+// };

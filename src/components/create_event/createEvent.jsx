@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import './CreateEvent.css';
 
-import { useEventPopup } from "../../hooks/useEventPopup";
+// import { useEventPopup } from "../../hooks/useEventPopup";
 import { EventService } from "../../services/eventService";
 import { AuthService } from "../../services/authService";
 

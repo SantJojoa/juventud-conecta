@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './FavoritesEvent.css';
-import { useEventPopup } from "../../hooks/useEventPopup";
 import { EventService } from "../../services/eventService";
 import { AuthService } from "../../services/authService";
 
@@ -9,14 +8,13 @@ import LoadingIndicator from "../shared/LoadingIndicator";
 import ErrorMessage from "../shared/ErrorMessage";
 import EmptyStateMessage from "../shared/EmptyStateMessage";
 import EventCard from "../shared/EventCard";
-import EventPopup from "../shared/EventPopup";
 
 function FavoritesEvent() {
+    const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [favoriteEvents, setFavoriteEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { selectedEvent, openEventPopup, closeEventPopup } = useEventPopup();
 
     useEffect(() => {
         // Verificar si el usuario está autenticado
@@ -87,11 +85,6 @@ function FavoritesEvent() {
         setFavoriteEvents(favoriteEvents.map(event =>
             event._id === updatedEvent._id ? { ...event, ...updatedEvent } : event
         ));
-
-        // Si este evento está actualmente en el popup, actualizarlo también allí
-        if (selectedEvent && selectedEvent._id === updatedEvent._id) {
-            openEventPopup({ ...selectedEvent, ...updatedEvent });
-        }
     };
 
     const handleRemoveFromFavorites = async (eventId) => {
@@ -111,11 +104,6 @@ function FavoritesEvent() {
             if (response.ok) {
                 // Actualizar estado local
                 setFavoriteEvents(favoriteEvents.filter(event => event._id !== eventId));
-
-                // Cerrar popup si el evento eliminado está actualmente seleccionado
-                if (selectedEvent && selectedEvent._id === eventId) {
-                    closeEventPopup();
-                }
             } else {
                 console.error('Error al eliminar de favoritos');
             }
@@ -195,7 +183,7 @@ function FavoritesEvent() {
                                 <EventCard
                                     key={event._id || event.id}
                                     event={event}
-                                    onClick={openEventPopup}
+                                    onClick={() => navigate(`/event/${event._id}`)}
                                     isInFavorites={true}
                                     onRemoveFromFavorites={handleRemoveFromFavorites}
                                 />
@@ -205,15 +193,6 @@ function FavoritesEvent() {
                 )}
             </div>
 
-            {selectedEvent && (
-                <EventPopup
-                    event={selectedEvent}
-                    onClose={closeEventPopup}
-                    onEventUpdated={handleEventUpdate}
-                    isInFavorites={true}
-                    onRemoveFromFavorites={handleRemoveFromFavorites}
-                />
-            )}
 
         </div>
     );
