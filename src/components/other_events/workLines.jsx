@@ -1,6 +1,8 @@
 // PortalEmpleo.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './workLines.css';
+
+
 
 const items = [
     {
@@ -86,6 +88,19 @@ const PortalEmpleo = () => {
         setActiveItem(null);
     };
 
+
+    useEffect(() => {
+        const handleKeydown = (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        };
+        window.addEventListener('keydown', handleKeydown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeydown);
+        };
+    }, [])
     return (
         <div className="portal-empleo">
             <div className="text-container">
@@ -103,18 +118,31 @@ const PortalEmpleo = () => {
                     </div>
                 ))}
             </div>
-
             {activeItem && (
                 <div className="modal-overlay" onClick={closeModal}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <img src={activeItem.image} alt={activeItem.title} className="modal-image" />
-                        <div className="modal-content">
-                            <h3>{activeItem.title}</h3>
-                            <p>{activeItem.subContent}</p>
+                    <div
+                        className="modal-content"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button className="close-button" onClick={closeModal}>
+                            X
+                        </button>
+                        <div className="modal-body">
+                            <img
+                                src={activeItem.image}
+                                alt={activeItem.title}
+                                className="modal-image"
+                            />
+                            <div className="modal-text">
+                                <h3>{activeItem.title}</h3>
+                                <hr />
+                                <p>{activeItem.subContent}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };
