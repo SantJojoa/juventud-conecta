@@ -5,8 +5,10 @@ const Event = sequelize.define("Event", {
     title: { type: DataTypes.STRING, allowNull: false },
     imageSrc: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
-    schedule: { type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false },
-    date: { type: DataTypes.DATEONLY, allowNull: true, defaultValue: DataTypes.NOW },
+    startDate: { type: DataTypes.DATEONLY, allowNull: false },
+    endDate: { type: DataTypes.DATEONLY, allowNull: false },
+    startTime: { type: DataTypes.TIME, allowNull: false },
+    endTime: { type: DataTypes.TIME, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
 });
 

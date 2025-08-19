@@ -5,20 +5,20 @@ const eventsController = {
     // Crear un nuevo evento
     createEvent: async (req, res) => {
         try {
-            const { title, imageSrc, description, schedule, date, location } = req.body;
+            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location } = req.body;
 
-            // Validar que todos los campos requeridos estén presentes
-            if (!title || !imageSrc || !description || !schedule || !date || !location) {
+            if (!title || !imageSrc || !description || !startDate || !endDate || !startTime || !endTime || !location) {
                 return res.status(400).json({ error: 'Todos los campos son requeridos' });
             }
 
-            // Crear el evento
             const newEvent = await Event.create({
                 title,
                 imageSrc,
                 description,
-                schedule: Array.isArray(schedule) ? schedule : schedule.split(',').map(item => item.trim()),
-                date,
+                startDate,
+                endDate,
+                startTime,
+                endTime,
                 location
             });
 
@@ -43,8 +43,10 @@ const eventsController = {
                 title: event.title,
                 imageSrc: event.imageSrc,
                 description: event.description,
-                schedule: Array.isArray(event.schedule) ? event.schedule : [],
-                date: event.date,
+                startDate: event.startDate,
+                endDate: event.endDate,
+                startTime: event.startTime,
+                endTime: event.endTime,
                 location: event.location
             }));
             res.json(formattedEvents);
@@ -75,7 +77,7 @@ const eventsController = {
     updateEvent: async (req, res) => {
         try {
             const { id } = req.params;
-            const { title, imageSrc, description, schedule, date, location } = req.body;
+            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location } = req.body;
 
             const event = await Event.findByPk(id);
             if (!event) {
@@ -87,8 +89,10 @@ const eventsController = {
                 title: title || event.title,
                 imageSrc: imageSrc || event.imageSrc,
                 description: description || event.description,
-                schedule: schedule ? (Array.isArray(schedule) ? schedule : schedule.split(',').map(item => item.trim())) : event.schedule,
-                date: date || event.date,
+                startDate: startDate || event.startDate,
+                endDate: endDate || event.endDate,
+                startTime: startTime || event.startTime,
+                endTime: endTime || event.endTime,
                 location: location || event.location
             });
 

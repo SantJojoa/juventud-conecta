@@ -6,8 +6,10 @@ export const useEventForm = (initialData = {}) => {
         title: initialData.title || '',
         imageSrc: initialData.imageSrc || '',
         description: initialData.description || '',
-        schedule: initialData.schedule || '',
-        date: initialData.date || '',
+        startDate: initialData.startDate || '',
+        endDate: initialData.endDate || '',
+        startTime: initialData.startTime || '',
+        endTime: initialData.endTime || '',
         location: initialData.location || '',
     });
     const [invalidFields, setInvalidFields] = useState({});
@@ -44,8 +46,10 @@ export const useEventForm = (initialData = {}) => {
             title: '',
             imageSrc: '',
             description: '',
-            schedule: '',
-            date: '',
+            startDate: '',
+            endDate: '',
+            startTime: '',
+            endTime: '',
             location: '',
         });
         setInvalidFields({});

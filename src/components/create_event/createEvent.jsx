@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import './CreateEvent.css';
 
-// import { useEventPopup } from "../../hooks/useEventPopup";
 import { EventService } from "../../services/eventService";
 import { AuthService } from "../../services/authService";
 
@@ -54,12 +53,7 @@ const CreateEvent = () => {
                 return;
             }
 
-            const eventData = {
-                ...formData,
-                schedule: formData.schedule.split(',').map(item => item.trim())
-            };
-
-            const data = await EventService.create(eventData, token);
+            const data = await EventService.create(formData, token);
 
             if (!data || data.error) {
                 throw new Error(data.error || 'Error al crear el evento');
@@ -143,21 +137,40 @@ const CreateEvent = () => {
                 />
 
                 <input
-                    name="schedule"
-                    value={formData.schedule}
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
                     onChange={handleChange}
-                    placeholder="Horario (separado por comas)"
                     required
-                    className={invalidFields.schedule ? 'invalid-field' : ''}
+                    className={invalidFields.startDate ? 'invalid-field' : ''}
                 />
 
                 <input
-                    name="date"
-                    type="date"
-                    value={formData.date}
+                    name="startTime"
+                    type="time"
+                    value={formData.startTime}
                     onChange={handleChange}
                     required
-                    className={invalidFields.date ? 'invalid-field' : ''}
+                    className={invalidFields.startTime ? 'invalid-field' : ''}
+                />
+
+
+                <input
+                    name="endDate"
+                    type="date"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                    required
+                    className={invalidFields.endDate ? 'invalid-field' : ''}
+                />
+
+                <input
+                    name="endTime"
+                    type="time"
+                    value={formData.endTime}
+                    onChange={handleChange}
+                    required
+                    className={invalidFields.endTime ? 'invalid-field' : ''}
                 />
 
                 <input

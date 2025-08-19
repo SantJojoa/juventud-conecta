@@ -21,7 +21,7 @@ const checkUpcomingEvents = async () => {
         const upcomingEvents = await Event.findAll({
             where: {
 
-                date: {
+                startDate: {
                     [Op.between]: [todayFormatted, limitFormatted]
                 }
 
