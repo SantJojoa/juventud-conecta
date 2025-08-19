@@ -3,20 +3,27 @@ import React from 'react';
 import './EventCard.css';
 
 const EventCard = ({ event, onClick, onEdit, onDelete, isAdmin }) => (
-    <div className="event-card">
-        <div className="event-image-container" onClick={() => onClick(event)}>
+
+    <div className="event-card"
+        onClick={() => onClick(event)}
+    >
+
+        <div className="event-image-container" >
             <img
                 src={event.imageSrc}
                 alt={event.title || 'Imagen del evento'}
                 className="event-image"
             />
         </div>
-        <div className="event-info" onClick={() => (event)}>
+
+        <div className="event-info">
             <h3 className="event-title">{event.title || 'Sin título'}</h3>
             <p className="event-date">
                 {event.date ? new Date(event.date).toLocaleDateString() : 'Fecha no disponible'}
             </p>
         </div>
+
+
         {isAdmin && (
             <div className="admin-controls">
                 <button
