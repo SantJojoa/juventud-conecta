@@ -88,14 +88,50 @@ const CreateEvent = () => {
                     className={invalidFields.title ? 'invalid-field' : ''}
                 />
 
+
                 <input
-                    name="imageSrc"
-                    value={formData.imageSrc}
-                    onChange={handleChange}
-                    placeholder="URL de la imagen"
+
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        try {
+                            const formData = new FormData();
+                            formData.append('file', file);
+                            formData.append('upload_preset', 'events-unsigned');
+
+                            const res = await fetch(`https://api.cloudinary.com/v1_1/dqgpyi8ox/image/upload`, {
+                                method: 'POST',
+                                body: formData,
+                            });
+                            if (!res.ok) throw new Error('Error al subir la imagen');
+                            const data = await res.json();
+                            handleChange({
+                                target: {
+                                    name: 'imageSrc',
+                                    value: data.secure_url
+                                }
+                            });
+
+                            toast.success("Imagen subida exitosamente", {
+                                closeButton: false
+                            });
+
+                        } catch (error) {
+                            console.error(error);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error al subir la imagen",
+                                text: "No se pudo subir la imagen a Cloudinary",
+                                confirmButtonColor: "#d63031"
+                            });
+                        }
+                    }}
                     required
-                    className={invalidFields.imageSrc ? 'invalid-field' : ''}
                 />
+
 
                 <textarea
                     name="description"
