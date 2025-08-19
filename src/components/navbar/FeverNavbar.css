@@ -1,15 +1,12 @@
 .fever-navbar {
   width: 100%;
   background-color: transparent;
-  box-shadow: none;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
   padding: 3px;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 15px;
-
 }
 
 .navbar-scrolled-down {
@@ -92,7 +89,7 @@
 
 .social-button:hover {
   background-color: #f7fafc22;
-  color: #0b2242;
+  color: #ffffff;
 }
 
 .dropdown-menu {
@@ -129,7 +126,7 @@
 }
 
 .dropdown-item:hover {
-  color: #0b2242;
+  color: #ffffff;
   text-decoration: underline;
   background-color: #f7fafc22;
 
