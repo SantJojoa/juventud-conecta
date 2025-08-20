@@ -21,7 +21,9 @@
     letter-spacing: -0.5px;
 }
 
-form {
+
+/* DA ERROR */
+.create-event-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem 2rem;
@@ -111,10 +113,6 @@ textarea {
     font-weight: 500;
 }
 
-.invalid-input {
-    border: 1px solid #e74c3c !important;
-    background: #fff6f6;
-}
 
 
 input[type="file"] {

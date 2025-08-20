@@ -122,29 +122,33 @@ const AdminRegister = () => {
 
             try {
                 const formData = new FormData();
-                formData.append("image", avatar);
+                formData.append('file', avatar);
+                formData.append('upload_preset', 'avatar-unsigned');
 
-                const response = await fetch("http://localhost:5000/api/upload", {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/dqgpyi8ox/image/upload`, {
                     method: "POST",
                     body: formData,
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
                 });
 
-                if (!response.ok) {
-                    throw new Error("Error al subir la imagen");
+                if (!res.ok) {
+                    throw new Error("Failed to upload avatar");
                 }
-
-                const data = await response.json();
-                avatarUrl = data.imageUrl;
-            } catch (err) {
-                console.error("Error al subir imagen:", err);
-                toast.error("Error al subir imagen. El registro continuará sin imagen.");
-            } finally {
+                const data = await res.json();
+                avatarUrl = data.secure_url;
                 setIsUploading(false);
+            } catch (err) {
+                console.log(err);
+                setIsUploading(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al subir la imagen',
+                    text: 'No se pudo subir el avatar a Cloudinary',
+                    confirmButtonColor: '#d63031'
+                });
+                return;
             }
         }
+
 
         try {
             const data = await AuthService.registerAdmin(
@@ -364,7 +368,6 @@ const AdminRegister = () => {
                     <>
                         <h2 className="form-title">Paso 3: Foto de Perfil</h2>
                         <div className="form-group">
-                            <label htmlFor="avatarUrl"><i className="zmdi zmdi-image"></i></label>
                             <input
                                 type="file"
                                 id="avatarUrl"
@@ -374,6 +377,17 @@ const AdminRegister = () => {
                                 }}
                                 className="avatar-input"
                             />
+
+                            <div className="custom-file-upload" onClick={() => document.getElementById('avatarUrl').click()}>
+                                <i className="zmdi zmdi-cloud-upload"></i> Seleccionar imagen de perfil
+
+                            </div>
+
+                            {avatar && (
+                                <div className="file-name-display">
+                                    {avatar.name}
+                                </div>
+                            )}
                         </div>
                         {avatar && (
                             <div className="avatar-preview">
@@ -384,6 +398,10 @@ const AdminRegister = () => {
                                 />
                             </div>
                         )}
+                        <div className="terms-text">
+                            <p>Al hacer clic en "Completar Registro", aceptas nuestras <a href="/terms">Condiciones</a>, <a href="/privacy">Política de privacidad</a> y <a href="/cookies">Política de cookies</a>. Es posible que te enviemos notificaciones por Email, WhatsApp o SMS    , que puedes desactivar cuando quieras.</p>
+                        </div>
+
                         <div className="form-group form-button step-3">
                             <button
                                 type="button"

@@ -76,7 +76,7 @@ const CreateEvent = () => {
     return (
         <div className="create-event-container">
             <h2>Crear Evento</h2>
-            <form onSubmit={handleSubmit} noValidate>
+            <form className="create-event-form" onSubmit={handleSubmit} noValidate>
 
                 <div className="create-event-form-group">
                     <input
