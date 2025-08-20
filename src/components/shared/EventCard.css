@@ -61,3 +61,13 @@
 .popup-admin-controls .delete-button:hover {
     background-color: #c0392b;
 }
+
+.event-date {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+}
+
+.event-date span {
+    font-weight: bold;
+}

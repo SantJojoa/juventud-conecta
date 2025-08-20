@@ -2,7 +2,16 @@
 import React from 'react';
 import './EventCard.css';
 
+
+const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const EventCard = ({ event, onClick, onEdit, onDelete, isAdmin }) => (
+
+
+
 
     <div className="event-card"
         onClick={() => onClick(event)}
@@ -19,7 +28,19 @@ const EventCard = ({ event, onClick, onEdit, onDelete, isAdmin }) => (
         <div className="event-info">
             <h3 className="event-title">{event.title || 'Sin título'}</h3>
             <p className="event-date">
-                {event.date ? new Date(event.date).toLocaleDateString() : 'Fecha no disponible'}
+                <span> Inicia:</span> {event.startDate ? capitalizeFirstLetter(new Date(event.startDate).toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })) : 'Fecha no disponible'}
+                <br />
+                <span> Termina:</span> {event.endDate ? capitalizeFirstLetter(new Date(event.endDate).toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })) : 'Fecha no disponible'}
             </p>
         </div>
 
