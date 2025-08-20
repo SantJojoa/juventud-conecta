@@ -4,6 +4,29 @@ import { User, Event } from '../models/index.js';
 const token = process.env.TELEGRAM_BOT_TOKEN;
 export const bot = new TelegramBot(token, { polling: true });
 
+
+
+const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+const formatTime = (timeString) => {
+    if (!timeString) return '';
+    const [hours, minutes] = timeString.split(':');
+    const date = new Date();
+
+    date.setHours(hours);
+    date.setMinutes(minutes);
+
+    return date.toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+}
+
 bot.onText(/\/start(?: (.+))?/, async (msg, match) => {
     const chatId = msg.chat.id;
     const userId = match[1]; // puede venir undefined si no mandan parámetro
@@ -40,7 +63,7 @@ Explora los eventos, márcalos como favoritos y activa tus recordatorios para no
 
 Gracias por ser parte de esta iniciativa 💙✨  
 — *Plataforma Juventud Conecta*
-      `;
+    `;
             bot.sendMessage(chatId, welcomeMessage, { parse_mode: 'Markdown' });
         } else {
             bot.sendMessage(chatId, "⚠️ No encontramos tu usuario en la plataforma. Verifica que te registraste correctamente.");
@@ -72,9 +95,17 @@ export async function sendAddFavoriteEvent(userId, eventId) {
 🎉 *¡Nuevo evento favorito!* 🎉
 
 ⭐ ¡Hola *${user.firstName}*!  
-Has marcado como favorito el evento: *${event.title}*  
+
+Has marcado como favorito el evento: *${event.title}* 
+
 📍 Lugar: ${event.location}  
-📅 Fecha: ${event.date}  
+📅 Fecha: ${event.startDate ? capitalizeFirstLetter(new Date(event.startDate).toLocaleDateString('es-Es', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })) : 'Fecha no disponible'}  
+
 🔔 Te recordaremos 48h antes del evento.
     `;
 
@@ -100,13 +131,29 @@ export async function sendRememberEventDate(userId, eventId) {
         if (!user?.telegramChatId || !event) return;
 
         const message = `
-✨ *¡Hey ${user.firstName}! Tu evento favorito está muy cerca* ✨  
+✨ *¡Hola ${user.firstName}! Tu evento favorito está muy cerca* ✨  
 
 ⏰ En menos de 48 horas podrás disfrutar de:  
 
 🎉 *${event.title}*  
 📍 Lugar: ${event.location}  
-📅 Fecha: ${event.date}  
+
+📅 Inicia: ${event.startDate ? capitalizeFirstLetter(new Date(event.startDate).toLocaleDateString('es-Es', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })) : 'Fecha no disponible'}  
+📅 Termina: ${event.endDate ? capitalizeFirstLetter(new Date(event.endDate).toLocaleDateString('es-Es', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })) : 'Fecha no disponible'}   
+
+
+⏰Desde: ${formatTime(event.startTime)}
+⏰Hasta: ${formatTime(event.endTime)}  
 
 🚀 Prepárate para vivir una gran experiencia.  
 ¡No faltes, te esperamos! 💃🕺

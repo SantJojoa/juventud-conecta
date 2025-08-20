@@ -159,9 +159,9 @@ const Register = () => {
                     <br/>
                     <p>Para recibir recordatorios en Telegram, <b>haz clic en el siguiente botón:</b></p>
                     <br/>
-                    <a href="${data.telegramLink}" target="_blank" class="swal2-confirm swal2-styled" 
-                    style="background-color:#0088cc; text-decoration:none;">
-                        🚀 Conectar con Telegram
+                    <a href="${data.telegramLink}" target="_blank" class="telegram-btn">
+                        <img src="telegram-logo.svg" alt="Telegram Logo" class="telegram-logo" />
+                        Conectar con Telegram
                     </a>
                 `,
                 showConfirmButton: false,

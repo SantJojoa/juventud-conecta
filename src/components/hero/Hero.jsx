@@ -18,6 +18,8 @@ const Hero = () => {
             <div className="placeholder-content">
                 <h1>Juventud Conecta</h1>
                 <p>Descubre los últimos eventos que suceden en la ciudad sorpresa ....</p>
+
+
             </div>
             <Carousel onImageChange={handleImageChange} />
             <div className="btn-container">
