@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import './CreateEvent.css';
@@ -11,7 +11,12 @@ import { useEventForm } from "../../hooks/useEventForm";
 
 
 
+
 const CreateEvent = () => {
+
+    const fileInputRef = useRef(null);
+
+    const [fileName, setFileName] = useState('');
 
     const {
         formData,
@@ -73,59 +78,73 @@ const CreateEvent = () => {
             <h2>Crear Evento</h2>
             <form onSubmit={handleSubmit} noValidate>
 
-                <input
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    placeholder="Título del evento"
-                    required
-                    className={invalidFields.title ? 'invalid-field' : ''}
-                />
+                <div className="create-event-form-group">
+                    <input
+                        name="title"
+                        value={formData.title}
+                        onChange={handleChange}
+                        placeholder="Título del evento"
+                        required
+                        className={invalidFields.title ? 'invalid-field' : ''}
+                    />
+                </div>
 
+                <div className="create-event-form-group">
+                    {/* Botón personalizado */}
+                    <button
+                        type="button"
+                        className="upload-button"
+                        onClick={() => fileInputRef.current.click()}
+                    >
+                        Subir imagen
+                    </button>
 
-                <input
+                    {/* Input real oculto */}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        accept="image/*"
+                        style={{ display: "none" }}
+                        onChange={async (e) => {
+                            const file = e.target.files[0];
+                            if (!file) return;
 
-                    type="file"
-                    accept="image/*"
-                    onChange={async (e) => {
-                        const file = e.target.files[0];
-                        if (!file) return;
+                            try {
+                                const formData = new FormData();
+                                formData.append('file', file);
+                                formData.append('upload_preset', 'events-unsigned');
 
-                        try {
-                            const formData = new FormData();
-                            formData.append('file', file);
-                            formData.append('upload_preset', 'events-unsigned');
+                                const res = await fetch(
+                                    'https://api.cloudinary.com/v1_1/dqgpyi8ox/image/upload',
+                                    { method: 'POST', body: formData }
+                                );
 
-                            const res = await fetch(`https://api.cloudinary.com/v1_1/dqgpyi8ox/image/upload`, {
-                                method: 'POST',
-                                body: formData,
-                            });
-                            if (!res.ok) throw new Error('Error al subir la imagen');
-                            const data = await res.json();
-                            handleChange({
-                                target: {
-                                    name: 'imageSrc',
-                                    value: data.secure_url
-                                }
-                            });
+                                if (!res.ok) throw new Error('Error al subir la imagen');
+                                const data = await res.json();
 
-                            toast.success("Imagen subida exitosamente", {
-                                closeButton: false
-                            });
+                                handleChange({
+                                    target: {
+                                        name: 'imageSrc',
+                                        value: data.secure_url
+                                    }
+                                });
 
-                        } catch (error) {
-                            console.error(error);
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error al subir la imagen",
-                                text: "No se pudo subir la imagen a Cloudinary",
-                                confirmButtonColor: "#d63031"
-                            });
-                        }
-                    }}
-                    required
-                />
+                                toast.success("Imagen subida exitosamente", { closeButton: false });
 
+                            } catch (error) {
+                                console.error(error);
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error al subir la imagen",
+                                    text: "No se pudo subir la imagen a Cloudinary",
+                                    confirmButtonColor: "#d63031"
+                                });
+                            }
+
+                        }}
+                        required
+                    />
+                </div>
 
                 <textarea
                     name="description"
@@ -136,53 +155,79 @@ const CreateEvent = () => {
                     className={invalidFields.description ? 'invalid-field' : ''}
                 />
 
-                <input
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleChange}
-                    required
-                    className={invalidFields.startDate ? 'invalid-field' : ''}
-                />
+                <div className="create-event-form-group">
 
-                <input
-                    name="startTime"
-                    type="time"
-                    value={formData.startTime}
-                    onChange={handleChange}
-                    required
-                    className={invalidFields.startTime ? 'invalid-field' : ''}
-                />
+                    <label htmlFor="startDate">Fecha de inicio</label>
+                    <input
+                        type="date"
+                        name="startDate"
+                        value={formData.startDate}
+                        onChange={handleChange}
+                        required
+                        className={invalidFields.startDate ? 'invalid-field' : ''}
+                    />
+
+                </div>
 
 
-                <input
-                    name="endDate"
-                    type="date"
-                    value={formData.endDate}
-                    onChange={handleChange}
-                    required
-                    className={invalidFields.endDate ? 'invalid-field' : ''}
-                />
+                <div className="create-event-form-group">
 
-                <input
-                    name="endTime"
-                    type="time"
-                    value={formData.endTime}
-                    onChange={handleChange}
-                    required
-                    className={invalidFields.endTime ? 'invalid-field' : ''}
-                />
+                    <label htmlFor="startTime">Hora de inicio</label>
+                    <input
+                        name="startTime"
+                        type="time"
+                        value={formData.startTime}
+                        onChange={handleChange}
+                        required
+                        className={invalidFields.startTime ? 'invalid-field' : ''}
+                    />
 
-                <input
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    placeholder="Ubicación"
-                    required
-                    className={invalidFields.location ? 'invalid-field' : ''}
-                />
+                </div>
 
-                <button type="submit">Crear Evento</button>
+
+                <div className="create-event-form-group">
+                    <label htmlFor="endDate">Fecha de fin</label>
+                    <input
+                        name="endDate"
+                        type="date"
+                        value={formData.endDate}
+                        onChange={handleChange}
+                        required
+                        className={invalidFields.endDate ? 'invalid-field' : ''}
+                    />
+
+                </div>
+
+
+
+                <div className="create-event-form-group">
+
+
+                    <label htmlFor="endTime">Hora de fin</label>
+                    <input
+                        name="endTime"
+                        type="time"
+                        value={formData.endTime}
+                        onChange={handleChange}
+                        required
+                        className={invalidFields.endTime ? 'invalid-field' : ''}
+                    />
+                </div>
+
+                <div className="create-event-form-group">
+                    <input
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        placeholder="Ubicación"
+                        required
+                        className={invalidFields.location ? 'invalid-field' : ''}
+                    />
+
+                </div>
+
+
+                <button className="submit-button" type="submit">Crear Evento</button>
 
             </form>
 
