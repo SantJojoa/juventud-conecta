@@ -263,16 +263,16 @@
 }
 
 .comment-form button {
-    width: 100%;
-    padding: 12px 16px;
+    width: 25%;
+    padding: 10px 10px;
     background-color: #2a7bff;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 500;
     transition: all 0.3s ease;
-    margin-top: 6px;
 }
 
 @keyframes spin {

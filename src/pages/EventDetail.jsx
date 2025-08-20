@@ -7,6 +7,7 @@ import { AuthService } from '../services/authService';
 import Swal from 'sweetalert2';
 import './EventDetail.css';
 
+
 const EventDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -24,6 +25,28 @@ const EventDetail = () => {
 
     const [replyInputs, setReplyInputs] = useState({});
     const [replyLoading, setReplyLoading] = useState({});
+
+
+    const capitalizeFirstLetter = (string) => {
+        if (!string) return '';
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+
+    const formatTime = (timeString) => {
+        if (!timeString) return '';
+        const [hours, minutes] = timeString.split(':');
+        const date = new Date();
+
+        date.setHours(hours);
+        date.setMinutes(minutes);
+
+        return date.toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+    }
 
     useEffect(() => {
         fetchComments();
@@ -271,16 +294,38 @@ const EventDetail = () => {
                     <h1 className="event-detail-title">{event.title}</h1>
                     <div className="event-detail-metadata">
                         <div className="metadata-item">
-                            <span className="metadata-label">Fecha:</span>
+                            <span className="metadata-label">Desde:</span>
                             <span className="metadata-value">
-                                {event.date ? new Date(event.date).toLocaleDateString('es-ES', {
+                                {event.startDate ? capitalizeFirstLetter(new Date(event.startDate).toLocaleDateString('es-ES', {
                                     weekday: 'long',
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric'
-                                }) : 'Fecha no disponible'}
+                                })) : 'Fecha no disponible'}
                             </span>
                         </div>
+
+                        <div className="metadata-item">
+                            <span className="metadata-label">Hasta:</span>
+                            <span className="metadata-value">
+                                {event.endDate ? capitalizeFirstLetter(new Date(event.endDate).toLocaleDateString('es-ES', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })) : 'Fecha no disponible'}
+                            </span>
+                        </div>
+
+                        <div className="metadata-item">
+                            <span className="metadata-label">Horario:</span>
+                            <span className="metadata-value">
+                                {formatTime(event.startTime)} - {formatTime(event.endTime)}
+
+                            </span>
+                        </div>
+
+
 
                         {event.schedule && (
                             <div className="metadata-item">
@@ -401,7 +446,7 @@ const EventDetail = () => {
                             rows={3}
                             required
                         />
-                        <button type="submit">Enviar comentario</button>
+                        <button type="submit" className='comment-button'>Enviar comentario </button>
                         {errorComments && <div className="comment-error">{errorComments}</div>}
 
                     </form>
