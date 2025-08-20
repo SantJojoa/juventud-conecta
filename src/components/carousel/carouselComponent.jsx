@@ -15,6 +15,15 @@ import EmptyStateMessageComponent from "../shared/EmptyStateMessage";
 
 const Carousel = ({ onImageChange }) => {
 
+
+    const formatDate = (dateString) => {
+        if (!dateString) return 'Fecha no disponible';
+
+        const date = new Date(dateString);
+        const options = { day: '2-digit', month: 'long' };
+        return date.toLocaleDateString('es-CO', options);
+    }
+
     const { events, loading } = useEvents();
     const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -66,7 +75,6 @@ const Carousel = ({ onImageChange }) => {
                         return (
                             <div
                                 key={event._id}
-                                // onClick={() => openEventPopup(event)}
                                 onClick={() => navigate(`/event/${event._id}`)}
                                 className="carousel-slide-item"
                                 aria-label={`Ver detalles del evento ${event.title || ''}`}
@@ -78,7 +86,8 @@ const Carousel = ({ onImageChange }) => {
                                 />
                                 <div className="carousel-caption">
                                     <h3>{event.title || 'Sin título'}</h3>
-                                    <p>{event.date || 'Fecha no disponible'}</p>
+                                    <p> 📅 Desde : {formatDate(event.startDate) || 'Fecha no disponible'} | Hasta : {formatDate(event.endDate) || 'Fecha no disponible'}</p>
+                                    <p>📍 {event.location || 'Ubicación no disponible'}</p>
                                 </div>
                             </div>
                         );
