@@ -13,6 +13,18 @@ import { useEventForm } from "../../hooks/useEventForm";
 
 
 const CreateEvent = () => {
+    const categories = [
+        "Participación Juvenil",
+        "Educación y Formación",
+        "Empleo y Emprendimiento Juvenil",
+        "Salud y Bienestar Juvenil",
+        "Cultura y Recreación",
+        "Derechos Humanos y Equidad de Género",
+        "Innovación y Tecnología",
+        "Medio Ambiente y Sostenibilidad",
+        "Juventud Rural",
+        "Seguridad y Conciencia Juvenil",
+    ]
 
     const fileInputRef = useRef(null);
 
@@ -48,6 +60,14 @@ const CreateEvent = () => {
         if (!validateForm()) {
             return;
         }
+
+        if (!formData.category) {
+            setInvalidFields(prev => ({ ...prev, category: true }));
+            setError('Debes seleccionar una categoría');
+            return;
+        }
+
+        console.log('formData a enviar:', formData); // <-- esto
 
         const token = AuthService.getToken();
         setError('');
@@ -224,6 +244,23 @@ const CreateEvent = () => {
                         className={invalidFields.location ? 'invalid-field' : ''}
                     />
 
+                </div>
+
+                <div className="create-event-form-group">
+                    <select
+                        name="category"
+                        value={formData.category || ''}
+                        onChange={handleChange}
+                        required
+                        className={invalidFields.category ? 'invalid-field' : ''}
+                    >
+                        <option value="">Seleccionar categoría</option>
+                        {categories.map((cat, index) => (
+                            <option key={index} value={cat}>
+                                {cat}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
 

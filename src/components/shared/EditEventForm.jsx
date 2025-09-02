@@ -13,6 +13,8 @@ import ErrorMessage from "../shared/ErrorMessage";
 
 const EditEventForm = () => {
 
+    const [invalidFields, setInvalidFields] = useState({});
+
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -31,6 +33,7 @@ const EditEventForm = () => {
         endTime: "",
         location: "",
         imageSrc: "",
+        category: ""
     });
 
 
@@ -56,10 +59,16 @@ const EditEventForm = () => {
     }, [id]);
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
+
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [name]: value
         });
+
+        if (invalidFields[name]) {
+            setInvalidFields({ ...invalidFields, [name]: false });
+        }
     }
 
     const showSuccessModal = () => {
@@ -239,6 +248,24 @@ const EditEventForm = () => {
                         placeholder="Ubicación"
                         required
                     />
+                </div>
+
+                <div className="create-event-form-group">
+                    <select
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                        required
+                        className={invalidFields.category ? 'invalid-field' : ''}
+                    >
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Cultura">Cultura</option>
+                        <option value="Deportes">Deportes</option>
+                        <option value="Entretenimiento">Entretenimiento</option>
+                        <option value="Salud">Salud</option>
+                        <option value="Tecnología">Tecnología</option>
+                        <option value="Otro">Otro</option>
+                    </select>
                 </div>
 
                 <button className="submit-button" type="submit">

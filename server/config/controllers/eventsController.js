@@ -5,9 +5,9 @@ const eventsController = {
     // Crear un nuevo evento
     createEvent: async (req, res) => {
         try {
-            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location } = req.body;
+            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location, category } = req.body;
 
-            if (!title || !imageSrc || !description || !startDate || !endDate || !startTime || !endTime || !location) {
+            if (!title || !imageSrc || !description || !startDate || !endDate || !startTime || !endTime || !location || !category) {
                 return res.status(400).json({ error: 'Todos los campos son requeridos' });
             }
 
@@ -19,7 +19,8 @@ const eventsController = {
                 endDate,
                 startTime,
                 endTime,
-                location
+                location,
+                category
             });
 
             res.status(201).json(newEvent);
@@ -47,7 +48,8 @@ const eventsController = {
                 endDate: event.endDate,
                 startTime: event.startTime,
                 endTime: event.endTime,
-                location: event.location
+                location: event.location,
+                category: event.category
             }));
             res.json(formattedEvents);
         } catch (error) {
@@ -77,7 +79,7 @@ const eventsController = {
     updateEvent: async (req, res) => {
         try {
             const { id } = req.params;
-            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location } = req.body;
+            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location, category } = req.body;
 
             const event = await Event.findByPk(id);
             if (!event) {
@@ -93,7 +95,8 @@ const eventsController = {
                 endDate: endDate || event.endDate,
                 startTime: startTime || event.startTime,
                 endTime: endTime || event.endTime,
-                location: location || event.location
+                location: location || event.location,
+                category: category || event.category
             });
 
             res.json(event);

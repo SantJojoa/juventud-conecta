@@ -4,9 +4,9 @@ const sequelize = require('../db');
 const Event = sequelize.define("Event", {
 
     id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
+        type: DataTypes.INTEGER,    // Tipo número entero
+        primaryKey: true,           // Es la clave primaria
+        autoIncrement: true,        // Se incrementa automáticamente
     },
     title: { type: DataTypes.STRING, allowNull: false },
     imageSrc: { type: DataTypes.STRING, allowNull: false },
