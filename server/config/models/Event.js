@@ -2,6 +2,12 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 
 const Event = sequelize.define("Event", {
+
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+    },
     title: { type: DataTypes.STRING, allowNull: false },
     imageSrc: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
@@ -10,6 +16,21 @@ const Event = sequelize.define("Event", {
     startTime: { type: DataTypes.TIME, allowNull: false },
     endTime: { type: DataTypes.TIME, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
-});
+    category: { type: DataTypes.STRING, allowNull: false },
+},
+    {
+        defaultScope: {
+            attributes: {
+                include: [
+                    [sequelize.literal(`(
+        SELECT AVG("rating")
+        FROM "UserEventRatings"
+        WHERE "UserEventRatings"."eventId" = "Event"."id"
+        )`), 'avgRating']
+                ]
+            }
+        }
+    }
+);
 
 module.exports = Event;

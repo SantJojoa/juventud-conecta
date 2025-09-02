@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "santiago",
+    "password": "1080691332sJ*",
+    "database": "proyecto_juventud",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "santiago",
+    "password": "1080691332sJ*",
+    "database": "proyecto_juventud",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "santiago",
+    "password": "1080691332sJ*",
+    "database": "proyecto_juventud",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
