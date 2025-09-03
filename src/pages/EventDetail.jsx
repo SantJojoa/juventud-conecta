@@ -6,6 +6,8 @@ import { checkIsFavorite, addToFavorites, removeFromFavorites } from '../service
 import { AuthService } from '../services/authService';
 import Swal from 'sweetalert2';
 import './EventDetail.css';
+import StarRating from "../components/shared/StarRating";
+
 
 
 const EventDetail = () => {
@@ -288,7 +290,23 @@ const EventDetail = () => {
                         alt={event.title}
                         className="event-detail-image"
                     />
+                    <div className="event-detail-rating">
+                        <h3>Califica este evento</h3>
+                        <StarRating
+                            eventId={event.id}
+                            initialRating={event.userRating || 0}       // si tu backend envía la calificación del usuario
+                            initialAverage={event.averageRating || 0}   // promedio actual del evento
+                            onRated={(newAverage) => setEvent(prev => ({ ...prev, averageRating: newAverage }))}
+                        />
+                    </div>
+
+
                 </div>
+
+
+
+
+
 
                 <div className="event-detail-info">
                     <h1 className="event-detail-title">{event.title}</h1>
@@ -379,7 +397,11 @@ const EventDetail = () => {
                         )}
                     </div>
                 </div>
+
+
             </div>
+
+
             <div className="event-detail-info comments-section">
                 <h3>Comentarios</h3>
                 {loadingComments ? (

@@ -2,11 +2,14 @@ const UserEventRating = require('../models/UserEventRating'); // Asegúrate de i
 
 async function rateEvent(req, res) {
     try {
-        const { userId, rating } = req.body;
+        const { rating } = req.body;
         const { eventId } = req.params;
+        const userId = req.user.id;
 
-        if (!userId || !rating) {
-            return res.status(400).json({ error: "Faltan userId o rating" });
+
+
+        if (!eventId || !rating) {
+            return res.status(400).json({ error: "Faltan eventId o rating" });
         }
 
         const [entry, created] = await UserEventRating.findOrCreate({
@@ -19,11 +22,39 @@ async function rateEvent(req, res) {
             await entry.save();
         }
 
-        res.json({ message: "Calificación guardada exitosamente", rating: entry.rating });
+        const allRatings = await UserEventRating.findAll({ where: { eventId } });
+        const average = allRatings.reduce((sum, r) => sum + r.rating, 0) / allRatings.length;
+
+        res.json({ message: "Calificación guardada exitosamente", rating: entry.rating, average });
     } catch (error) {
         console.error('Error al calificar evento:', error);
         res.status(500).json({ error: 'Error al calificar el evento' });
     }
+
 }
 
-module.exports = { rateEvent };
+async function getUserRating(req, res) {
+    try {
+        const userId = req.user.id;
+        const { eventId } = req.params;
+
+        const ratingEntry = await UserEventRating.findOne({ where: { userId, eventId } });
+
+        const allRatings = await UserEventRating.findAll({ where: { eventId } });
+        const average = allRatings.length
+            ? allRatings.reduce((sum, r) => sum + r.rating, 0) / allRatings.length
+            : 0;
+
+        if (!ratingEntry) {
+            return res.json({ rating: 0 }); // o null si quieres
+        }
+
+        res.json({ rating: ratingEntry ? ratingEntry.rating : 0, average });
+
+    } catch (error) {
+        console.error('Error al obtener calificación del evento:', error);
+        res.status(500).json({ error: 'Error al obtener la calificación del evento' });
+    }
+}
+
+module.exports = { rateEvent, getUserRating };

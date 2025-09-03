@@ -1,4 +1,7 @@
+import axios from 'axios';
+
 const BASE_URL = 'http://localhost:5000/api';
+
 
 export const EventService = {
     getAll: async () => {
@@ -89,5 +92,20 @@ export const EventService = {
             console.error('Error en la eliminación del evento:', error);
             throw error;
         }
+    },
+
+    rate: async (eventId, rating, token) => {
+        try {
+            const res = await axios.post(
+                `http://localhost:5000/api/rating/events/${eventId}/rate`,
+                { rating },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            return res.data; // se espera que el backend devuelva el promedio actualizado
+        } catch (err) {
+            console.error("Error al calificar el evento:", err);
+            throw err;
+        }
     }
+
 };
