@@ -57,7 +57,7 @@ const StarRating = ({ eventId, initialRating = 0, initialAverage = 0, onRated })
                     </span>
                 ))}
             </div>
-            <small style={{ marginTop: 0, fontSize: 14, color: "#555", fontWeight: "bold", marginTop: -5 }}>Promedio: {average.toFixed(1)} ⭐</small>
+            <small style={{ marginTop: 0, fontSize: 14, color: "#555", fontWeight: "bold", marginTop: -5 }}>Promedio: {average ? average.toFixed(1) : "0"} ⭐</small>
         </div>
     );
 };

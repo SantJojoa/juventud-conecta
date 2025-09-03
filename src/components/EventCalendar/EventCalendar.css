@@ -1,0 +1,58 @@
+h3 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.5rem;
+}
+
+.calendar-container {
+    max-width: 1200px;
+    /* Limita el ancho máximo */
+    margin: 20px auto;
+    /* Centra horizontalmente */
+    height: 500px;
+    /* Ajusta altura */
+    background-color: #fff;
+    /* Fondo blanco */
+    border-radius: 12px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+    padding: 20px;
+    /* Espacio interno */
+}
+
+/* Estilos de la cabecera del calendario */
+.rbc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.rbc-btn-group button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.rbc-btn-group button:hover {
+    background-color: #2980b9;
+}
+
+/* Estilo de los días y eventos */
+.rbc-event {
+    background-color: #e67e22;
+    color: #fff;
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 0.85rem;
+}
+
+.rbc-day-bg {
+    border: 1px solid #f0f0f0;
+}
