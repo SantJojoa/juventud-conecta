@@ -40,3 +40,6 @@ app.use('/api/comments', commentRoutes);
 
 const ratingRoutes = require("./config/routes/ratingRoutes");
 app.use("/api/rating", ratingRoutes);
+
+const adminRoutes = require('./config/routes/adminRoutes');
+app.use('/api/admin', adminRoutes);

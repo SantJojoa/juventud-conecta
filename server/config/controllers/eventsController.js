@@ -68,6 +68,14 @@ const eventsController = {
                 return res.status(404).json({ error: 'Evento no encontrado' });
             }
 
+            // Incrementar contador de vistas de forma atómica
+            try {
+                await event.increment('viewsCount');
+            } catch (incErr) {
+                // No bloquear respuesta por error de métrica
+                console.error('No se pudo incrementar viewsCount:', incErr);
+            }
+
             res.json(event);
         } catch (error) {
             console.error('Error al obtener evento:', error);

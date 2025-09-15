@@ -17,6 +17,7 @@ const Event = sequelize.define("Event", {
     endTime: { type: DataTypes.TIME, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
     category: { type: DataTypes.STRING, allowNull: false },
+    viewsCount: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
 },
     {
         defaultScope: {

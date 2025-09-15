@@ -354,6 +354,29 @@ const EventDetail = () => {
                             </div>
                         )}
 
+                        {/* <div className="metadata-item">
+                            <span className="metadata-label">
+                                Ubicación:
+                            </span>
+                            <div className="metadata-value">
+                                <p>{event.location || 'Ubicación no disponible'}</p>
+
+                                {event.location && (
+                                    <iframe
+                                        width="100%"
+                                        height="350"
+                                        style={{ border: 0, borderRadius: "10px", marginTop: "10px" }}
+                                        loading="lazy"
+                                        allowFullScreen
+                                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBmbDPza7_LCrSrbaIlLzj5etzlERG7epU&q=${encodeURIComponent(event.location)}`}
+                                    ></iframe>
+                                )}
+                            </div>
+                        </div> */}
+
+
+
+
                         <div className="metadata-item">
                             <span className="metadata-label">Ubicación:</span>
                             <span className="metadata-value">

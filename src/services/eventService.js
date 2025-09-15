@@ -107,5 +107,12 @@ export const EventService = {
             throw err;
         }
     }
-
+    ,
+    getAdminStats: async (token) => {
+        const res = await fetch(`${BASE_URL}/admin/stats`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Error al obtener estadísticas');
+        return res.json();
+    }
 };

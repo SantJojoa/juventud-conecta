@@ -52,6 +52,19 @@ const AdminDashboard = () => {
                         Registrar Administrador
                     </Link>
                 </div>
+
+                <div className="admin-card">
+                    <div className="card-icon view-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 11V7a4 4 0 118 0v4m-1 10H6a2 2 0 01-2-2V11a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <h2>Estadísticas</h2>
+                    <p>Consulta métricas: vistas, favoritos, ratings y más.</p>
+                    <Link to='/admin-stats' className="admin-btn">
+                        Ver Estadísticas
+                    </Link>
+                </div>
             </div>
         </div>
 
