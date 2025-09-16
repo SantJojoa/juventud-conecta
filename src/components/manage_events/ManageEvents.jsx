@@ -85,17 +85,23 @@ const ManageEvents = () => {
                                         <h2>{event.title}</h2>
                                         <p className="manage-event-date">{new Date(event.date).toLocaleDateString()}</p>
                                         <p className="manage-event-location">{event.location}</p>
-                                    </div>
-                                    <div className="manage-event-actions">
-                                        <Link to={`/edit-event/${event._id}`} className="manage-edit-button">
-                                            Editar
-                                        </Link>
-                                        <button
-                                            className="manage-delete-button"
-                                            onClick={() => handleDeleteEvent(event._id)}
-                                        >
-                                            Eliminar
-                                        </button>
+                                        <div className="manage-event-actions">
+                                            <Link to={`/edit-event/${event._id}`} className="manage-button manage-edit-button">
+                                                Editar
+                                            </Link>
+                                            <Link to={`/events/${event._id}/form-builder`} className="manage-button manage-form-button">
+                                                Formulario
+                                            </Link>
+                                            <Link to={`/events/${event._id}/submissions`} className="manage-button manage-submissions-button">
+                                                Inscripciones
+                                            </Link>
+                                            <button
+                                                className="manage-button manage-delete-button"
+                                                onClick={() => handleDeleteEvent(event._id)}
+                                            >
+                                                Eliminar
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ))

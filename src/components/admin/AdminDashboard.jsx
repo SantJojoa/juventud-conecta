@@ -33,10 +33,10 @@ const AdminDashboard = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                         </svg>
                     </div>
-                    <h2>Ve o Editar Eventos</h2>
-                    <p>Visualiza todos los eventos disponibles en la plataforma.</p>
-                    <Link to='/events' className="admin-btn" >
-                        Ver Todos los Eventos
+                    <h2>Gestionar Eventos</h2>
+                    <p>Administra, edita y gestiona formularios e inscripciones.</p>
+                    <Link to='/manage-events' className="admin-btn" >
+                        Ir a Gestionar Eventos
                     </Link>
                 </div>
 

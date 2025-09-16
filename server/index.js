@@ -43,3 +43,9 @@ app.use("/api/rating", ratingRoutes);
 
 const adminRoutes = require('./config/routes/adminRoutes');
 app.use('/api/admin', adminRoutes);
+
+const adminFormRoutes = require('./config/routes/adminFormRoutes');
+app.use('/api/admin', adminFormRoutes);
+
+const formRoutes = require('./config/routes/formRoutes');
+app.use('/api/forms', formRoutes);

@@ -98,15 +98,15 @@
     margin-right: 5px;
 }
 
+
 .manage-events-container .manage-event-actions {
-    display: flex;
-    padding: 0 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    padding: 0 20px 20px;
 }
 
-.manage-events-container .manage-edit-button,
-.manage-events-container .manage-delete-button {
-    flex: 1;
+.manage-events-container .manage-button {
     padding: 10px;
     border-radius: 8px;
     font-weight: 600;
@@ -127,6 +127,24 @@
     background-color: #1a5ccc;
 }
 
+.manage-events-container .manage-form-button {
+    background-color: #38b2ac;
+    color: white;
+}
+
+.manage-events-container .manage-form-button:hover {
+    background-color: #2f9d95;
+}
+
+.manage-events-container .manage-submissions-button {
+    background-color: #805ad5;
+    color: white;
+}
+
+.manage-events-container .manage-submissions-button:hover {
+    background-color: #6b46c1;
+}
+
 .manage-events-container .manage-delete-button {
     background-color: #f5f5f5;
     color: #dc3545;
@@ -136,6 +154,12 @@
 .manage-events-container .manage-delete-button:hover {
     background-color: #dc3545;
     color: white;
+}
+
+@media (max-width: 600px) {
+    .manage-events-container .manage-event-actions {
+        grid-template-columns: 1fr;
+    }
 }
 
 .loading {
