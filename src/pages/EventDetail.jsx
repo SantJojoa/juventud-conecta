@@ -7,7 +7,7 @@ import { AuthService } from '../services/authService';
 import Swal from 'sweetalert2';
 import './EventDetail.css';
 import StarRating from "../components/shared/StarRating";
-
+import { FormService } from '../services/formService';
 
 
 const EventDetail = () => {
@@ -401,7 +401,37 @@ const EventDetail = () => {
                             )}
                         </button>
 
-                        <button className="inscribe-button" onClick={() => navigate(`/events/${id}/registration`)}>
+                        <button
+                            className="inscribe-button"
+                            onClick={async () => {
+                                try {
+                                    if (!AuthService.isAuthenticated()) {
+                                        const result = await Swal.fire({
+                                            icon: 'info',
+                                            title: 'Inicia sesión',
+                                            text: 'Debes iniciar sesión para inscribirte al evento.',
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Ir a login',
+                                            cancelButtonText: 'Cancelar'
+                                        });
+                                        if (result.isConfirmed) {
+                                            navigate('/login');
+                                        }
+                                        return;
+                                    }
+
+                                    await FormService.getFormByEvent(id);
+                                    navigate(`/events/${id}/registration`);
+                                } catch (e) {
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Inscripciones no disponibles',
+                                        text: 'Este evento no tiene formulario activo o las inscripciones están cerradas.',
+                                        confirmButtonText: 'Entendido'
+                                    });
+                                }
+                            }}
+                        >
                             Inscribirse al evento
                         </button>
 

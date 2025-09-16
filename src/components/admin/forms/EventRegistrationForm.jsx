@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormService } from '../../../services/formService';
 import './EventRegistrationForm.css';
+import Swal from 'sweetalert2';
 
 const Field = ({ q, value, onChange }) => {
     if (q.type === 'textarea') return <textarea className="reg-textarea" value={value} onChange={e => onChange(e.target.value)} />;
@@ -37,7 +38,12 @@ const EventRegistrationForm = () => {
                 (f.questions || []).forEach(q => { init[q.id] = ''; });
                 setValues(init);
             } catch (e) {
-                alert(e.message || 'Formulario no disponible');
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Inscripciones no disponibles',
+                    text: 'Este evento no tiene formulario activo o las inscripciones están cerradas.',
+                    confirmButtonText: 'Entendido'
+                });
             } finally {
                 setLoading(false);
             }
@@ -45,9 +51,13 @@ const EventRegistrationForm = () => {
     }, [eventId]);
 
     const submit = async () => {
-        const answers = (form.questions || []).map(q => ({ questionId: q.id, value: values[q.id] ?? '' }));
-        await FormService.submitForm(form.id, answers);
-        alert('Inscripción enviada');
+        try {
+            const answers = (form.questions || []).map(q => ({ questionId: q.id, value: values[q.id] ?? '' }));
+            await FormService.submitForm(form.id, answers);
+            Swal.fire({ icon: 'success', title: 'Inscripción enviada', timer: 1600, showConfirmButton: false });
+        } catch (e) {
+            Swal.fire({ icon: 'error', title: 'No se pudo enviar', text: e.message || 'Intenta nuevamente.' });
+        }
     };
 
     if (loading) return <div style={{ margin: '6rem auto', maxWidth: 800 }}>Cargando...</div>;
