@@ -401,7 +401,7 @@ const EventDetail = () => {
                             )}
                         </button>
 
-                        <button onClick={() => navigate(`/events/${id}/registration`)}>
+                        <button className="inscribe-button" onClick={() => navigate(`/events/${id}/registration`)}>
                             Inscribirse al evento
                         </button>
 

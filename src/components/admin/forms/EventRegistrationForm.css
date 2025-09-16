@@ -1,0 +1,104 @@
+.registration-container {
+    max-width: 650px;
+    margin: 5rem auto;
+    padding: 2.5rem;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    position: relative;
+}
+
+.registration-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.8rem;
+    font-size: 1.9rem;
+    font-weight: 600;
+}
+
+.reg-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem 1.5rem;
+}
+
+.reg-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+}
+
+.reg-group label {
+    font-weight: 500;
+    color: #34495e;
+    display: block;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+/* Blindaje contra estilos globales que afecten a label */
+.registration-container label {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    white-space: normal !important;
+    overflow: visible !important;
+}
+
+.reg-input,
+.reg-select,
+.reg-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #fafafa;
+    margin: 0;
+    display: block;
+}
+
+.reg-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* Sobrescribir reglas globales de textarea (de otros CSS) */
+.registration-container textarea {
+    grid-column: auto !important;
+}
+
+.reg-input:focus,
+.reg-select:focus,
+.reg-textarea:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+    background: #fff;
+}
+
+.reg-submit {
+    background: linear-gradient(135deg, #17007f, #720707);
+    color: white;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.reg-submit:hover {
+    background: linear-gradient(135deg, #1b0774, #7a0909);
+    transform: scale(1.01);
+}
+
+@media (max-width: 600px) {
+    .registration-container {
+        padding: 1.25rem;
+    }
+}

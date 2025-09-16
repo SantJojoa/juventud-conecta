@@ -77,7 +77,7 @@ const adminListSubmissionsByEvent = async (req, res) => {
             ],
             order: [['createdAt', 'DESC']]
         });
-        res.json(submissions);
+        res.json({ submissions });
     } catch (e) {
         console.error('Error al obtener las respuestas del formulario:', e);
         res.status(500).json({ error: 'Error al obtener las respuestas del formulario' });

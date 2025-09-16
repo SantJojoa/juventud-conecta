@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormService } from '../../../services/formService';
+import './EventSubmissions.css';
 
 const EventSubmissions = () => {
     const { id: eventId } = useParams();
@@ -27,34 +28,35 @@ const EventSubmissions = () => {
         await load();
     };
 
-    if (loading) return <div style={{ margin: '6rem auto', maxWidth: 1000 }}>Cargando...</div>;
+    if (loading) return <div className="admin-submissions-container">Cargando...</div>;
 
     return (
-        <div style={{ maxWidth: 1000, margin: '6rem auto', padding: '0 1.5rem' }}>
-            <h1>Inscripciones</h1>
+        <div className="admin-submissions-container">
+            <div className="submissions-header">
+                <h1>Inscripciones</h1>
+            </div>
             {data.length === 0 ? <p>No hay inscripciones.</p> : (
-                <div style={{ display: 'grid', gap: 12 }}>
+                <div className="submissions-grid">
                     {data.map(s => (
-                        <div key={s.id} style={{ border: '1px solid #e2e8f0', borderRadius: 8, padding: 12 }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <div>
-                                    <strong>{s.user?.firstName} {s.user?.lastName}</strong> — {s.user?.email}
+                        <div key={s.id} className="submission-card">
+                            <div className="submission-top">
+                                <div className="submission-user">
+                                    {s.user?.firstName} {s.user?.lastName} — {s.user?.email}
                                 </div>
-                                <div>
-                                    <em>Estado:</em> {s.status}
-                                </div>
+                                <span className={`status-badge status-${s.status}`}>{s.status}</span>
                             </div>
-                            <div style={{ marginTop: 8 }}>
+                            <div className="answers">
                                 {s.answers?.map(a => (
-                                    <div key={a.id} style={{ marginBottom: 6 }}>
-                                        <strong>{a.question?.label}:</strong> {a.value}
+                                    <div key={a.id} className="answer-item">
+                                        <span className="answer-label">{a.question?.label}:</span>
+                                        <span className="answer-value">{a.value}</span>
                                     </div>
                                 ))}
                             </div>
-                            <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                                <button onClick={() => setStatus(s.id, 'accepted')}>Aceptar</button>
-                                <button onClick={() => setStatus(s.id, 'rejected')}>Rechazar</button>
-                                <button onClick={() => setStatus(s.id, 'pending')}>Pendiente</button>
+                            <div className="submission-actions">
+                                <button className="btn-submission btn-accept" onClick={() => setStatus(s.id, 'accepted')}>Aceptar</button>
+                                <button className="btn-submission btn-reject" onClick={() => setStatus(s.id, 'rejected')}>Rechazar</button>
+                                <button className="btn-submission btn-pending" onClick={() => setStatus(s.id, 'pending')}>Pendiente</button>
                             </div>
                         </div>
                     ))}
