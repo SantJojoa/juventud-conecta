@@ -142,12 +142,24 @@ const publicSubmitForm = async (req, res) => {
                 .map(a => ({ submissionId: submission.id, questionId: a.questionId, value: String(a.value ?? '') }));
             if (rows.length) await EventFormAnswer.bulkCreate(rows);
         }
+        const admins = await User.findAll({ where: { role: 'admin' }, attributes: ['id', 'firstName', 'lastName'] });
+        const eventId = form.eventId;
+        const notifs = admins.map(a => ({
+            userId: a.id,
+            type: 'new_submission',
+            title: 'Nueva postulación',
+            message: `Nuevo formulario enviado para el evento ${eventId}`,
+            meta: { submissionId: submission.id, formId, eventId }
+        }));
+        if (notifs.length) await Notification.bulkCreate(notifs);
         res.status(201).json({ message: 'Formulario enviado correctamente', submissionId: submission.id });
     } catch (e) {
         console.error('Error al enviar el formulario:', e);
         res.status(500).json({ error: 'Error al enviar el formulario' });
     }
 };
+
+
 
 module.exports = {
     adminCreateOrUpdateForm,
