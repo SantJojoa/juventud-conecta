@@ -6,6 +6,7 @@ const EventForm = require('./EventForm');
 const EventFormQuestion = require('./EventFormQuestion');
 const EventFormSubmission = require('./EventFormSubmission');
 const EventFormAnswer = require('./EventFormAnswer');
+const Notification = require('./Notification');
 
 
 User.belongsToMany(Event, { through: 'UserFavorites', as: 'favoriteEvents' });
@@ -29,5 +30,6 @@ module.exports = {
     EventFormQuestion,
     EventFormSubmission,
     EventFormAnswer,
+    Notification,
     initModels
 };

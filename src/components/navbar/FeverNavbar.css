@@ -440,6 +440,128 @@
   color: #e53935;
 }
 
+/* Notificaciones */
+.notifications-section {
+  position: relative;
+  margin-right: 10px;
+}
+
+.notif-button {
+  position: relative;
+  background: none;
+  border: 1px solid #e2e8f0;
+  color: #4a5568;
+  border-radius: 10px;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar-scrolled-up .notif-button {
+  background: #f8fafc;
+}
+
+.notif-button:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.notif-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e53e3e;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 10px;
+  padding: 2px 6px;
+  line-height: 1;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.notif-dropdown {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  width: 340px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid #edf2f7;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.notif-header button {
+  background: #edf2f7;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.notif-header button:hover {
+  background: #e2e8f0;
+}
+
+.notif-list {
+  max-height: 380px;
+  overflow: auto;
+}
+
+.notif-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f7fafc;
+  cursor: pointer;
+}
+
+.notif-item.unread {
+  background: #f7fafc;
+}
+
+.notif-item:hover {
+  background: #f9fafb;
+}
+
+.notif-title {
+  font-weight: 700;
+  color: #2d3748;
+  font-size: 0.92rem;
+}
+
+.notif-message {
+  color: #4a5568;
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+
+.notif-date {
+  color: #a0aec0;
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
+.notif-empty {
+  padding: 16px;
+  color: #718096;
+  text-align: center;
+}
+
 @media (min-width: 1600px) {
   .navbar-container {
     width: 90%;

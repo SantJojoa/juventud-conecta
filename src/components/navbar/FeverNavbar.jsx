@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { User, LogOut } from 'lucide-react';
 import './FeverNavbar.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { NotificationService } from '../../services/notificationService';
 
 function FeverNavbar() {
   const [isSocialDropdownOpen, setIsSocialDropdownOpen] = useState(false);
@@ -28,7 +29,38 @@ function FeverNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isNotiOpen, setIsNotiOpen] = useState(false);
+  const notifRef = useRef(null);
+
   const isHomePage = location.pathname === '/';
+
+
+  useEffect(() => {
+    const load = async () => {
+      if (!localStorage.getItem('token')) return;
+      try {
+        const res = await NotificationService.list();
+        const list = res.notifications || [];
+        setNotifications(list);
+        setUnreadCount(list.filter(n => !n.read).length);
+      } catch (e) {
+        console.error('Error al obtener notificaciones:', e);
+      }
+    };
+    load();
+    const iv = setInterval(load, 30000);
+    return () => clearInterval(iv);
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) setIsNotiOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -348,7 +380,37 @@ function FeverNavbar() {
             )}
           </div>
 
-
+          <div ref={notifRef} className="notifications-section">
+            <button className="notif-button" onClick={() => setIsNotiOpen(prev => !prev)} aria-label="Notificaciones">
+              <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 24a2.4 2.4 0 0 0 2.4-2.4h-4.8A2.4 2.4 0 0 0 12 24Zm7.2-6v-5.4a7.2 7.2 0 0 0-6-7.08V4.8a1.2 1.2 0 1 0-2.4 0v.72a7.2 7.2 0 0 0-6 7.08V18L3.6 19.2V20.4h16.8V19.2L19.2 18Z" /></svg>
+              {unreadCount > 0 && <span className="notif-badge">{unreadCount}</span>}
+            </button>
+            {isNotiOpen && (
+              <div className="notif-dropdown">
+                <div className="notif-header">
+                  <span>Notificaciones</span>
+                  {unreadCount > 0 && <button onClick={async () => { await NotificationService.markAllRead(); setNotifications(n => n.map(x => ({ ...x, read: true }))); setUnreadCount(0); }}>Marcar todas como leídas</button>}
+                </div>
+                <div className="notif-list">
+                  {notifications.length === 0 ? (
+                    <div className="notif-empty">Sin notificaciones</div>
+                  ) : notifications.map(n => (
+                    <div key={n.id} className={`notif-item ${n.read ? '' : 'unread'}`} onClick={async () => {
+                      if (!n.read) {
+                        await NotificationService.markRead(n.id);
+                        setNotifications(list => list.map(x => x.id === n.id ? { ...x, read: true } : x));
+                        setUnreadCount(c => Math.max(0, c - 1));
+                      }
+                    }}>
+                      <div className="notif-title">{n.title}</div>
+                      <div className="notif-message">{n.message}</div>
+                      <div className="notif-date">{new Date(n.createdAt).toLocaleString()}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
 
           {isLoggedIn ? (
