@@ -49,3 +49,7 @@ app.use('/api/admin', adminFormRoutes);
 
 const formRoutes = require('./config/routes/formRoutes');
 app.use('/api/forms', formRoutes);
+
+const notificationRoutes = require('./config/routes/notificationRoutes');
+app.use('/api/notifications', notificationRoutes);
+

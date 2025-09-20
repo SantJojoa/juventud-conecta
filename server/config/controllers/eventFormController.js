@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { Event, EventForm, EventFormQuestion, EventFormSubmission, EventFormAnswer, User } = require('../models');
+const { Event, EventForm, EventFormQuestion, EventFormSubmission, EventFormAnswer, User, Notification } = require('../models');
 
 const adminCreateOrUpdateForm = async (req, res) => {
     try {
@@ -91,9 +91,18 @@ const adminSetSubmissionStatus = async (req, res) => {
         if (!['pending', 'accepted', 'rejected'].includes(status)) {
             return res.status(400).json({ error: 'Estado inválido' });
         }
+
         const submission = await EventFormSubmission.findByPk(submissionId);
         if (!submission) return res.status(404).json({ error: 'Respuesta no encontrada' });
         await submission.update({ status });
+        const form = await EventForm.findByPk(submission.formId);
+        await Notification.create({
+            userId: submission.userId,
+            type: 'submission_status',
+            title: `Tu postulación fue ${status === 'accepted' ? 'aceptada' : status === 'rejected' ? 'rechazada' : 'actualizada'}`,
+            message: `Tu postulación para el evento ${form ? '#' + form.eventId : ''} fue ${status}.`,
+            meta: { formId: submission.formId, status }
+        });
         res.json(submission);
     } catch (e) {
         console.error('Error al actualizar el estado de la respuesta:', e);

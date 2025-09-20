@@ -4,6 +4,8 @@ const Event = require('../models/Event');
 const User = require('../models/User');
 const { sendEventReminderEmail } = require('./sendEmail');
 const { sendRememberEventDate } = require('./telegramService');
+const Notification = require('../models/Notification');
+
 
 const checkUpcomingEvents = async () => {
     try {
@@ -51,6 +53,14 @@ const checkUpcomingEvents = async () => {
                     const eventId = event.id;
                     await sendRememberEventDate(userId, eventId);
                 }
+
+                await Notification.create({
+                    userId: user.id,
+                    type: 'event_reminder',
+                    title: `Recordatorio: ${event.title}`,
+                    message: `El evento "${event.title}" empieza el ${event.startDate} a las ${event.startTime}.`,
+                    meta: { eventId: event.id }
+                });
             }
         }
 
@@ -75,6 +85,8 @@ const initEventReminderSystem = () => {
         return null;
     }
 };
+
+
 
 module.exports = {
     initEventReminderSystem,

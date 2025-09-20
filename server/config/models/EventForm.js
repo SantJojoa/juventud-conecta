@@ -12,14 +12,14 @@ const EventForm = sequelize.define('EventForm', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: { model: Event, key: 'id' },
-        onDelete: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     title: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
+    description: { type: DataTypes.TEXT, allowNull: true },
     isOpen: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
 });
 
-Event.hasOne(EventForm, { foreignKey: 'eventId', as: 'eventForm' });
-EventForm.belongsTo(Event, { foreignKey: 'eventId', as: 'event' });
+Event.hasOne(EventForm, { as: 'form', foreignKey: 'eventId' });
+EventForm.belongsTo(Event, { as: 'event', foreignKey: 'eventId' });
 
 module.exports = EventForm;
