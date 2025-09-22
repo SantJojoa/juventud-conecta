@@ -23,6 +23,22 @@ const eventsController = {
                 category
             });
 
+            // Notificar a administradores sobre nuevo evento
+            try {
+                const { User, Notification } = require('../models');
+                const admins = await User.findAll({ where: { role: 'admin' }, attributes: ['id'] });
+                const notifs = admins.map(a => ({
+                    userId: a.id,
+                    type: 'event_created',
+                    title: 'Nuevo evento creado',
+                    message: `Se creó el evento "${title}" programado para el ${startDate}.`,
+                    meta: { eventId: newEvent.id }
+                }));
+                if (notifs.length) await Notification.bulkCreate(notifs);
+            } catch (e) {
+                console.error('Error al notificar nuevo evento:', e);
+            }
+
             res.status(201).json(newEvent);
         } catch (error) {
             console.error('Error al crear evento:', error);
