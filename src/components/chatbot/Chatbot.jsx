@@ -18,10 +18,21 @@ const Chatbot = () => {
     const fetchInitialMessages = async () => {
         setLoading(true);
         try {
+            const token = localStorage.getItem('token');
+            let userId = null;
+            try {
+                if (token) {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    userId = payload?.id || null;
+                }
+            } catch (_) { }
             const res = await fetch('http://localhost:5000/api/chatbot', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: '' }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                },
+                body: JSON.stringify({ message: '', userId }),
             });
             const data = await res.json();
             if (data.redirect) {
@@ -66,10 +77,21 @@ const Chatbot = () => {
         setLoading(true);
 
         try {
+            const token = localStorage.getItem('token');
+            let userId = null;
+            try {
+                if (token) {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    userId = payload?.id || null;
+                }
+            } catch (_) { }
             const res = await fetch('http://localhost:5000/api/chatbot', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: input })
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                },
+                body: JSON.stringify({ message: input, userId })
             });
             const data = await res.json();
             if (data.redirect) {
@@ -100,10 +122,21 @@ const Chatbot = () => {
     const sendQuickReply = async (payload) => {
         setLoading(true);
         try {
+            const token = localStorage.getItem('token');
+            let userId = null;
+            try {
+                if (token) {
+                    const payloadToken = JSON.parse(atob(token.split('.')[1]));
+                    userId = payloadToken?.id || null;
+                }
+            } catch (_) { }
             const res = await fetch('http://localhost:5000/api/chatbot', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: payload })
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                },
+                body: JSON.stringify({ message: payload, userId })
             });
             const data = await res.json();
             if (data.redirect) {

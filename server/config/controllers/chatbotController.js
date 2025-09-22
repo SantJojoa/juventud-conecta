@@ -69,7 +69,7 @@ const getPastEvents = async () => {
 
 // Controlador principal del chatbot
 exports.chatbot = async (req, res) => {
-    const { message } = req.body;
+    const { message, userId } = req.body;
     if (!message) {
         return res.json({
             messages: [
@@ -83,6 +83,8 @@ exports.chatbot = async (req, res) => {
                         { title: 'Eventos de hoy', payload: 'hoy' },
                         { title: 'Eventos de mañana', payload: 'mañana' },
                         { title: 'Fin de semana', payload: 'fin de semana' },
+                        { title: 'Recomendados', payload: 'recomendados' },
+                        { title: 'Mis favoritos', payload: 'favoritos' },
                         { title: 'Ir a Alcaldía de Pasto', payload: 'alcaldia' },
                         { title: 'Ir a Observatorio de Juventud', payload: 'observatorio' }
                     ]
@@ -169,6 +171,37 @@ exports.chatbot = async (req, res) => {
             return `- ${e.title} (${dateStr})`;
         }).join('\n');
         return res.json({ reply });
+    }
+
+    // Recomendados
+    if (lowerMsg.includes('recomendados') && userId) {
+        try {
+            const { getRecommendations } = require('./recomendationController');
+            // Reutilizar lógica llamando al controlador existente
+            // Simplificado: importamos y ejecutamos su query internamente
+            const { User, Event } = require('../models');
+            const todayStr = moment().format('YYYY-MM-DD');
+            const user = await User.findByPk(userId, { include: [{ model: Event, as: 'favoriteEvents', attributes: ['id', 'category'], through: { attributes: [] } }] });
+            const favorites = user?.favoriteEvents || [];
+            let responseEvents = [];
+            if (favorites.length === 0) {
+                responseEvents = await Event.findAll({ where: { startDate: { [Op.gte]: todayStr } }, limit: 5, order: [['viewsCount', 'DESC'], ['startDate', 'ASC'], ['startTime', 'ASC']] });
+            } else {
+                const counts = favorites.reduce((acc, ev) => (acc[ev.category] = (acc[ev.category] || 0) + 1, acc), {});
+                const topCat = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+                responseEvents = await Event.findAll({ where: { category: topCat, startDate: { [Op.gte]: todayStr } }, limit: 5, order: [['startDate', 'ASC'], ['startTime', 'ASC']] });
+            }
+            if (!responseEvents.length) return res.json({ reply: 'No hay recomendaciones en este momento.' });
+            const reply = 'Eventos recomendados:\n' + responseEvents.map(e => `- ${e.title} (${moment(e.startDate).format('DD/MM/YYYY')})`).join('\n');
+            return res.json({ reply });
+        } catch (e) {
+            console.error('Error en recomendados:', e);
+        }
+    }
+
+    // Favoritos (place-holder: instrucción para ir a perfil)
+    if (lowerMsg.includes('favoritos')) {
+        return res.json({ reply: 'Puedes ver y gestionar tus favoritos en tu perfil.' });
     }
 
     // Eventos próximos/futuros (ÚLTIMO - más general)

@@ -157,10 +157,9 @@
 
 .quick-replies {
     margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
-    justify-content: flex-start;
 }
 
 /* Botones de opciones rápidas */
@@ -175,6 +174,8 @@
     transition: background 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
     margin-bottom: 2px;
+    width: 100%;
+    text-align: center;
 }
 
 .quick-replies button:hover,
