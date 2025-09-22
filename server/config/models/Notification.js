@@ -7,6 +7,7 @@ const Notification = sequelize.define('Notification', {
     id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
     userId: { type: DataTypes.UUID, allowNull: false, references: { model: User, key: 'id' }, onDelete: 'CASCADE' },
     type: { type: DataTypes.STRING, allowNull: false },
+    title: { type: DataTypes.STRING, allowNull: true },
     message: { type: DataTypes.TEXT, allowNull: false },
     meta: { type: DataTypes.JSONB, allowNull: true },
     read: { type: DataTypes.BOOLEAN, defaultValue: false },

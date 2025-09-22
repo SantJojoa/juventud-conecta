@@ -146,12 +146,28 @@ router.post('/register', async (req, res) => {
             await Notification.create({
                 userId: user.id,
                 type: 'welcome',
+                title: 'Bienvenido(a)',
                 message: `¡Bienvenido(a), ${firstName}! Tu cuenta ha sido creada exitosamente.`,
                 meta: { firstName, lastName, email }
             });
         } catch (notifError) {
             console.error('Error al crear notificación de bienvenida:', notifError);
             // No interrumpir el registro
+        }
+
+        // Notificar a administradores sobre nuevo registro
+        try {
+            const admins = await User.findAll({ where: { role: 'admin' }, attributes: ['id'] });
+            const adminNotifs = admins.map(a => ({
+                userId: a.id,
+                type: 'new_user',
+                title: 'Nuevo usuario registrado',
+                message: `${firstName} ${lastName} se ha registrado (${email}).`,
+                meta: { newUserId: user.id, email }
+            }));
+            if (adminNotifs.length) await Notification.bulkCreate(adminNotifs);
+        } catch (e) {
+            console.error('Error al notificar a administradores sobre nuevo usuario:', e);
         }
 
         // Generamos el token

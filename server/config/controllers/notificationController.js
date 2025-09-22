@@ -9,7 +9,7 @@ const listMyNotifications = async (req, res) => {
             order: [['createdAt', 'DESC']],
             limit: 50
         });
-        res.json(notifications);
+        res.json({ notifications });
     } catch (e) { res.status(500).json({ error: 'Error al obtener las notificaciones' }); }
 };
 

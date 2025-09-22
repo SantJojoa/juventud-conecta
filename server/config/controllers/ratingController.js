@@ -25,6 +25,16 @@ async function rateEvent(req, res) {
         const allRatings = await UserEventRating.findAll({ where: { eventId } });
         const average = allRatings.reduce((sum, r) => sum + r.rating, 0) / allRatings.length;
 
+        try {
+            const { Notification } = require('../models');
+            await Notification.create({
+                userId,
+                type: 'rating_saved',
+                title: '¡Gracias por tu calificación!',
+                message: `Guardamos tu calificación (${rating}) para el evento #${eventId}.`,
+                meta: { eventId, rating }
+            });
+        } catch (e) { console.error('Error notificando calificación:', e); }
         res.json({ message: "Calificación guardada exitosamente", rating: entry.rating, average });
     } catch (error) {
         console.error('Error al calificar evento:', error);
