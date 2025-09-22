@@ -126,8 +126,8 @@ const Chatbot = () => {
 
     return (
         <>
-            <button className='chatbot-toggle' onClick={() => setOpen(o => !o)}>
-                💬
+            <button className={`chatbot-image-button ${open ? 'is-open' : ''}`} onClick={() => setOpen(o => !o)}>
+                <img src="/chatbot-pet.png" alt="Chatbot" className="chatbot-image" />
             </button>
             {open && (
                 <div className="chatbot-window">

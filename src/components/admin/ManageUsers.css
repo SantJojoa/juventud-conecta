@@ -1,0 +1,87 @@
+.manage-users {
+    max-width: 1200px;
+    margin: 6rem auto;
+    padding: 0 1.5rem;
+}
+
+.manage-users__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.manage-users__title {
+    color: #1a202c;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.manage-users__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.manage-users__card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.manage-users__table-wrapper {
+    overflow-x: auto;
+}
+
+.manage-users__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.manage-users__th,
+.manage-users__td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.manage-users__thead th {
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.manage-users__tbody tr:hover {
+    background: #f7fafc;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn--danger {
+    background: #e53e3e;
+    color: white;
+}
+
+.btn--danger:hover {
+    background: #c53030;
+}
+
+.state {
+    padding: 16px;
+}
+
+.state--error {
+    color: #e53e3e;
+}
+
+@media (max-width: 768px) {
+    .manage-users__title {
+        font-size: 1.5rem;
+    }
+}

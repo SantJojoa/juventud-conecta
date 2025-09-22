@@ -17,7 +17,7 @@ const markAsRead = async (req, res) => {
     try {
         const userId = req.user.id;
         const { id } = req.params;
-        const notif = await Notification.findByPk({ where: { id, userId } });
+        const notif = await Notification.findOne({ where: { id, userId } });
         if (!notif) return res.status(404).json({ error: 'Notificación no encontrada' });
         await notif.update({ read: true });
         res.json({ success: true, message: 'Notificación marcada como leída' });

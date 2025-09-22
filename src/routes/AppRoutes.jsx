@@ -18,7 +18,7 @@ import EventDetail from '../pages/EventDetail';
 import EventFormBuilder from "../components/admin/forms/EventFormBuilder";
 import EventSubmissions from "../components/admin/forms/EventSubmissions";
 import EventRegistrationForm from "../components/admin/forms/EventRegistrationForm";
-
+import ManageUsers from "../components/admin/ManageUsers";
 function AppRoutes() {
     return (
         <Routes>
@@ -31,6 +31,7 @@ function AppRoutes() {
             <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
             <Route path="/admin-stats" element={<AdminStats />}></Route>
             <Route path="/manage-events" element={<ManageEvents />}></Route>
+            <Route path="/manage-users" element={<ManageUsers />}></Route>
             <Route path="/profile" element={<UserProfile />}></Route>
             <Route path="/admin-register" element={<AdminRegister />}></Route>
             <Route path="/edit-event/:id" element={<EditEventForm />}></Route>

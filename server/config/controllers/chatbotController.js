@@ -25,63 +25,45 @@ const correctMessage = (msg) => {
     return corrected.join(' ');
 };
 
-// Funciones auxiliares para obtener eventos
+// Funciones auxiliares para obtener eventos usando startDate/startTime
 const getUpcomingEvents = async () => {
-    const today = moment().startOf('day').toDate();
+    const todayStr = moment().format('YYYY-MM-DD');
     return await Event.findAll({
-        where: { date: { [Op.gte]: today } },
-        order: [['date', 'ASC']]
+        where: { startDate: { [Op.gte]: todayStr } },
+        order: [['startDate', 'ASC'], ['startTime', 'ASC']]
     });
 };
 
 const getTomorrowEvents = async () => {
-    const start = moment().add(1, 'days').startOf('day').toDate();
-    const end = moment().add(1, 'days').endOf('day').toDate();
+    const tomorrowStr = moment().add(1, 'days').format('YYYY-MM-DD');
     return await Event.findAll({
-        where: {
-            date: {
-                [Op.gte]: start,
-                [Op.lte]: end,
-            }
-        },
-        order: [['date', 'ASC']]
+        where: { startDate: tomorrowStr },
+        order: [['startDate', 'ASC'], ['startTime', 'ASC']]
     });
 };
 
 const getWeekendEvents = async () => {
-    const today = moment().startOf('day').toDate();
-    const saturday = moment().isoWeekday(6).startOf('day').toDate();
-    const sunday = moment().isoWeekday(7).endOf('day').toDate();
+    const saturdayStr = moment().isoWeekday(6).format('YYYY-MM-DD');
+    const sundayStr = moment().isoWeekday(7).format('YYYY-MM-DD');
     return await Event.findAll({
-        where: {
-            date: {
-                [Op.gte]: saturday,
-                [Op.lte]: sunday,
-            }
-        },
-        order: [['date', 'ASC']]
+        where: { startDate: { [Op.gte]: saturdayStr, [Op.lte]: sundayStr } },
+        order: [['startDate', 'ASC'], ['startTime', 'ASC']]
     });
 };
 
 const getTodayEvents = async () => {
-    const start = moment().startOf('day').toDate();
-    const end = moment().endOf('day').toDate();
+    const todayStr = moment().format('YYYY-MM-DD');
     return await Event.findAll({
-        where: {
-            date: {
-                [Op.gte]: start,
-                [Op.lte]: end,
-            }
-        },
-        order: [['date', 'ASC']]
+        where: { startDate: todayStr },
+        order: [['startDate', 'ASC'], ['startTime', 'ASC']]
     });
 };
 
 const getPastEvents = async () => {
-    const today = moment().startOf('day').toDate();
+    const todayStr = moment().format('YYYY-MM-DD');
     return await Event.findAll({
-        where: { date: { [Op.lt]: today } },
-        order: [['date', 'DESC']]
+        where: { startDate: { [Op.lt]: todayStr } },
+        order: [['startDate', 'DESC'], ['startTime', 'DESC']]
     });
 };
 
@@ -148,9 +130,10 @@ exports.chatbot = async (req, res) => {
     if (hasTomorrow) {
         const events = await getTomorrowEvents();
         if (!events.length) return res.json({ reply: 'Para mañana no hay eventos.' });
-        const reply = 'Eventos para mañana:\n' + events.map(e =>
-            `- ${e.title} (${moment(e.date).format('HH:mm')})`
-        ).join('\n');
+        const reply = 'Eventos para mañana:\n' + events.map(e => {
+            const time = (e.startTime || '').toString().slice(0, 5);
+            return `- ${e.title} (${time})`;
+        }).join('\n');
         return res.json({ reply });
     }
 
@@ -158,9 +141,10 @@ exports.chatbot = async (req, res) => {
     if (hasToday) {
         const events = await getTodayEvents();
         if (!events.length) return res.json({ reply: 'No hay eventos para hoy.' });
-        const reply = 'Eventos de hoy:\n' + events.map(e =>
-            `- ${e.title} (${moment(e.date).format('HH:mm')})`
-        ).join('\n');
+        const reply = 'Eventos de hoy:\n' + events.map(e => {
+            const time = (e.startTime || '').toString().slice(0, 5);
+            return `- ${e.title} (${time})`;
+        }).join('\n');
         return res.json({ reply });
     }
 
@@ -168,9 +152,11 @@ exports.chatbot = async (req, res) => {
     if (hasWeekend) {
         const events = await getWeekendEvents();
         if (!events.length) return res.json({ reply: 'No hay eventos para este fin de semana.' });
-        const reply = 'Eventos este fin de semana:\n' + events.map(e =>
-            `- ${e.title} (${moment(e.date).format('DD/MM/YYYY HH:mm')})`
-        ).join('\n');
+        const reply = 'Eventos este fin de semana:\n' + events.map(e => {
+            const dateStr = moment(e.startDate).format('DD/MM/YYYY');
+            const time = (e.startTime || '').toString().slice(0, 5);
+            return `- ${e.title} (${dateStr} ${time})`;
+        }).join('\n');
         return res.json({ reply });
     }
 
@@ -178,9 +164,10 @@ exports.chatbot = async (req, res) => {
     if (hasPast) {
         const events = await getPastEvents();
         if (!events.length) return res.json({ reply: 'No hay eventos finalizados.' });
-        const reply = 'Eventos finalizados:\n' + events.slice(0, 5).map(e =>
-            `- ${e.title} (${moment(e.date).format('DD/MM/YYYY')})`
-        ).join('\n');
+        const reply = 'Eventos finalizados:\n' + events.slice(0, 5).map(e => {
+            const dateStr = moment(e.startDate).format('DD/MM/YYYY');
+            return `- ${e.title} (${dateStr})`;
+        }).join('\n');
         return res.json({ reply });
     }
 
@@ -188,9 +175,10 @@ exports.chatbot = async (req, res) => {
     if (hasUpcoming) {
         const events = await getUpcomingEvents();
         if (!events.length) return res.json({ reply: 'No hay eventos próximos.' });
-        const reply = 'Eventos próximos:\n' + events.slice(0, 5).map(e =>
-            `- ${e.title} (${moment(e.date).format('DD/MM/YYYY')})`
-        ).join('\n');
+        const reply = 'Eventos próximos:\n' + events.slice(0, 5).map(e => {
+            const dateStr = moment(e.startDate).format('DD/MM/YYYY');
+            return `- ${e.title} (${dateStr})`;
+        }).join('\n');
         return res.json({ reply });
     }
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { User, Notification } = require("../models");
 const { where } = require("sequelize");
 const { isAdmin } = require("../middlewares/authMiddleware");
 const { sendWelcomeEmail, sendAdminWelcomeEmail } = require("../services/sendEmail");
@@ -139,6 +139,19 @@ router.post('/register', async (req, res) => {
         } catch (emailError) {
             console.error('Error al enviar correo de bienvenida:', emailError);
             // Continuamos aunque falle el correo
+        }
+
+        // Creamos notificación de bienvenida
+        try {
+            await Notification.create({
+                userId: user.id,
+                type: 'welcome',
+                message: `¡Bienvenido(a), ${firstName}! Tu cuenta ha sido creada exitosamente.`,
+                meta: { firstName, lastName, email }
+            });
+        } catch (notifError) {
+            console.error('Error al crear notificación de bienvenida:', notifError);
+            // No interrumpir el registro
         }
 
         // Generamos el token
