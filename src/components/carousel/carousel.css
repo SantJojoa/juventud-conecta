@@ -37,6 +37,20 @@
     border-radius: 15px;
 }
 
+.carousel-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    background: linear-gradient(135deg, #3182ce, #63b3ed);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
 .carousel-image {
     width: 100%;
     height: 65vh;
