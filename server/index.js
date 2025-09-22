@@ -53,3 +53,5 @@ app.use('/api/forms', formRoutes);
 const notificationRoutes = require('./config/routes/notificationRoutes');
 app.use('/api/notifications', notificationRoutes);
 
+const recommendationRoutes = require('./config/routes/recommendationRoutes');
+app.use('/api', recommendationRoutes);
