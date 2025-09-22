@@ -1,12 +1,17 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const { sequelize, User, Event } = require('../models');
 const UserEventRating = require('../models/UserEventRating');
 
 const getAdminStats = async (req, res) => {
     try {
-        const [totalUsers, totalEvents] = await Promise.all([
+        const todayStr = new Date().toISOString().slice(0, 10);
+
+        const [totalUsers, totalAdmins, totalEvents, upcomingEvents, pastEvents] = await Promise.all([
             User.count(),
+            User.count({ where: { role: 'admin' } }),
             Event.count(),
+            Event.count({ where: { startDate: { [Op.gte]: todayStr } } }),
+            Event.count({ where: { startDate: { [Op.lt]: todayStr } } }),
         ]);
 
         const ratingAgg = await UserEventRating.findAll({
@@ -63,17 +68,63 @@ const getAdminStats = async (req, res) => {
             { type: Sequelize.QueryTypes.SELECT }
         );
 
+        // Totales de interacción
+        const [totalFavoritesRow, totalCommentsRow, totalRatingsRow] = await Promise.all([
+            sequelize.query('SELECT COUNT(*)::int AS cnt FROM "UserFavorites"', { type: Sequelize.QueryTypes.SELECT }),
+            sequelize.query('SELECT COUNT(*)::int AS cnt FROM "Comments"', { type: Sequelize.QueryTypes.SELECT }),
+            sequelize.query('SELECT COUNT(*)::int AS cnt FROM "UserEventRatings"', { type: Sequelize.QueryTypes.SELECT }),
+        ]);
+
+        const totalFavorites = totalFavoritesRow?.[0]?.cnt ?? 0;
+        const totalComments = totalCommentsRow?.[0]?.cnt ?? 0;
+        const totalRatings = totalRatingsRow?.[0]?.cnt ?? 0;
+
+        const avgCommentsPerEvent = totalEvents ? Number((totalComments / totalEvents).toFixed(2)) : 0;
+        const avgFavoritesPerEvent = totalEvents ? Number((totalFavorites / totalEvents).toFixed(2)) : 0;
+        const avgRatingsPerEvent = totalEvents ? Number((totalRatings / totalEvents).toFixed(2)) : 0;
+
+        // Tendencias por mes (últimos 6 meses)
+        const usersByMonth = await sequelize.query(
+            `SELECT to_char(date_trunc('month', "createdAt"), 'YYYY-MM') AS month, COUNT(*)::int AS count
+             FROM "Users"
+             GROUP BY 1
+             ORDER BY 1 DESC
+             LIMIT 6`,
+            { type: Sequelize.QueryTypes.SELECT }
+        );
+        const eventsByMonth = await sequelize.query(
+            `SELECT to_char(date_trunc('month', "createdAt"), 'YYYY-MM') AS month, COUNT(*)::int AS count
+             FROM "Events"
+             GROUP BY 1
+             ORDER BY 1 DESC
+             LIMIT 6`,
+            { type: Sequelize.QueryTypes.SELECT }
+        );
+
         res.json({
             totals: {
                 totalUsers,
                 totalEvents,
                 globalAverageRating,
+                totalAdmins,
+                upcomingEvents,
+                pastEvents,
+                totalFavorites,
+                totalComments,
+                totalRatings,
+                avgCommentsPerEvent,
+                avgFavoritesPerEvent,
+                avgRatingsPerEvent,
             },
             categories: categoriesAgg,
             topByViews,
             topByFavorites,
             topByRating,
             topByComments,
+            trends: {
+                usersByMonth: usersByMonth.reverse(),
+                eventsByMonth: eventsByMonth.reverse(),
+            },
         });
     } catch (error) {
         console.error('Error al obtener estadísticas de admin:', error);
