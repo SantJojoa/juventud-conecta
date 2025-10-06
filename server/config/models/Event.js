@@ -16,6 +16,9 @@ const Event = sequelize.define("Event", {
     startTime: { type: DataTypes.TIME, allowNull: false },
     endTime: { type: DataTypes.TIME, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
+    locationName: { type: DataTypes.STRING, allowNull: true },
+    latitude: { type: DataTypes.DECIMAL, allowNull: true },
+    longitude: { type: DataTypes.DECIMAL, allowNull: true },
     category: { type: DataTypes.STRING, allowNull: false },
     viewsCount: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
 }, {

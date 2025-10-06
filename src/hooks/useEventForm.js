@@ -57,5 +57,5 @@ export const useEventForm = (initialData = {}) => {
         setInvalidFields({});
     };
 
-    return { formData, invalidFields, handleChange, validateForm, setFormData, resetForm };
+    return { formData, invalidFields, handleChange, validateForm, setFormData, resetForm, setInvalidFields };
 };

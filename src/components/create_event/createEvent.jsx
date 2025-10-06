@@ -9,9 +9,6 @@ import { AuthService } from "../../services/authService";
 import ErrorMessage from "../shared/ErrorMessage";
 import { useEventForm } from "../../hooks/useEventForm";
 
-
-
-
 const CreateEvent = () => {
     const categories = [
         "Participación Juvenil",
@@ -36,6 +33,7 @@ const CreateEvent = () => {
         handleChange,
         validateForm,
         resetForm,
+        setInvalidFields,
     } = useEventForm();
 
     const [error, setError] = useState('');
@@ -66,8 +64,6 @@ const CreateEvent = () => {
             setError('Debes seleccionar una categoría');
             return;
         }
-
-        console.log('formData a enviar:', formData); // <-- esto
 
         const token = AuthService.getToken();
         setError('');

@@ -40,7 +40,6 @@ const Login = () => {
         }
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setFormSubmitted(true);
@@ -71,7 +70,6 @@ const Login = () => {
             toast.error("Por favor, ingresa un correo electrónico válido");
             return;
         }
-
 
         try {
             const data = await AuthService.login(email, password);
