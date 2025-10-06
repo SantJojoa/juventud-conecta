@@ -18,20 +18,8 @@ const Event = sequelize.define("Event", {
     location: { type: DataTypes.STRING, allowNull: false },
     category: { type: DataTypes.STRING, allowNull: false },
     viewsCount: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-},
-    {
-        defaultScope: {
-            attributes: {
-                include: [
-                    [sequelize.literal(`(
-        SELECT AVG("rating")
-        FROM "UserEventRatings"
-        WHERE "UserEventRatings"."eventId" = "Event"."id"
-        )`), 'avgRating']
-                ]
-            }
-        }
-    }
-);
+}, {
+    timestamps: true
+});
 
 module.exports = Event;
