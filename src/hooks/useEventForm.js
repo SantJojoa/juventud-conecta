@@ -11,6 +11,9 @@ export const useEventForm = (initialData = {}) => {
         startTime: initialData.startTime || '',
         endTime: initialData.endTime || '',
         location: initialData.location || '',
+        locationName: initialData.locationName || '',
+        latitude: initialData.latitude || null,
+        longitude: initialData.longitude || null,
         category: initialData.category || '',
     });
     const [invalidFields, setInvalidFields] = useState({});
@@ -52,6 +55,9 @@ export const useEventForm = (initialData = {}) => {
             startTime: '',
             endTime: '',
             location: '',
+            locationName: '',
+            latitude: null,
+            longitude: null,
             category: '',
         });
         setInvalidFields({});

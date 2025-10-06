@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import './EventDetail.css';
 import StarRating from "../components/shared/StarRating";
 import { FormService } from '../services/formService';
+import EventMap from '../components/shared/EventMap';
 
 
 const EventDetail = () => {
@@ -384,6 +385,20 @@ const EventDetail = () => {
                             </span>
                         </div>
                     </div>
+
+                    {/* Mapa del evento */}
+                    {(event.location || (event.latitude && event.longitude)) && (
+                        <div className="event-map-section">
+                            <h3>📍 Ubicación del evento</h3>
+                            <EventMap
+                                location={event.location}
+                                locationName={event.title}
+                                latitude={event.latitude}
+                                longitude={event.longitude}
+                                height="350px"
+                            />
+                        </div>
+                    )}
 
                     <div className="event-detail-description">
                         <h3>Descripción del evento</h3>

@@ -1,0 +1,137 @@
+.event-map-container {
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+.event-map {
+    width: 100%;
+    border-radius: 12px;
+    min-height: 200px;
+}
+
+.event-map-error {
+    padding: 2rem;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 2px dashed #dee2e6;
+    color: #6c757d;
+}
+
+.event-map-error p {
+    margin: 0.5rem 0;
+}
+
+.fallback-location {
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.map-controls {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.map-control-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.map-control-button:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.map-control-button:active {
+    transform: translateY(0);
+}
+
+/* Estilos para el popup del mapa */
+.event-popup {
+    padding: 0.5rem;
+    min-width: 200px;
+}
+
+.event-popup h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.event-popup p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.event-popup a {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    transition: background 0.2s ease;
+}
+
+.event-popup a:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .map-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .map-control-button {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .event-map {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-map-container {
+        margin: 0.5rem 0;
+    }
+
+    .map-controls {
+        padding: 0.75rem;
+    }
+
+    .map-control-button {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+}

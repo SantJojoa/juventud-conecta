@@ -1,0 +1,128 @@
+.location-picker {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.location-input-section {
+    margin-bottom: 1rem;
+}
+
+.input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.location-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.location-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.geocode-button {
+    padding: 0.75rem 1.5rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.geocode-button:hover:not(:disabled) {
+    background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.geocode-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.coordinates-info {
+    padding: 0.5rem;
+    background: #e9ecef;
+    border-radius: 6px;
+    color: #495057;
+}
+
+.coordinates-info small {
+    font-size: 0.875rem;
+    font-family: 'Courier New', monospace;
+}
+
+.location-map-section {
+    position: relative;
+}
+
+.location-map {
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid #dee2e6;
+    min-height: 200px;
+}
+
+.map-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-error p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+    }
+
+    .geocode-button {
+        width: 100%;
+    }
+
+    .location-map {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-picker {
+        margin: 0.5rem 0;
+    }
+
+    .location-input {
+        padding: 0.625rem;
+        font-size: 0.9rem;
+    }
+
+    .geocode-button {
+        padding: 0.625rem 1rem;
+        font-size: 0.9rem;
+    }
+}

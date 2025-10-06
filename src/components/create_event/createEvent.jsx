@@ -8,6 +8,7 @@ import { AuthService } from "../../services/authService";
 
 import ErrorMessage from "../shared/ErrorMessage";
 import { useEventForm } from "../../hooks/useEventForm";
+import LocationPicker from "../shared/LocationPicker";
 
 const CreateEvent = () => {
     const categories = [
@@ -33,6 +34,7 @@ const CreateEvent = () => {
         handleChange,
         validateForm,
         resetForm,
+        setFormData,
         setInvalidFields,
     } = useEventForm();
 
@@ -231,15 +233,25 @@ const CreateEvent = () => {
                 </div>
 
                 <div className="create-event-form-group">
-                    <input
-                        name="location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        placeholder="Ubicación"
-                        required
-                        className={invalidFields.location ? 'invalid-field' : ''}
+                    <label>📍 Ubicación del evento</label>
+                    <LocationPicker
+                        onLocationChange={(locationData) => {
+                            setFormData(prev => ({
+                                ...prev,
+                                location: locationData.location,
+                                locationName: locationData.location,
+                                latitude: locationData.latitude,
+                                longitude: locationData.longitude
+                            }));
+                        }}
+                        initialLocation={formData.location}
+                        initialLatitude={formData.latitude}
+                        initialLongitude={formData.longitude}
+                        height="250px"
                     />
-
+                    {invalidFields.location && (
+                        <span className="error-message">La ubicación es requerida</span>
+                    )}
                 </div>
 
                 <div className="create-event-form-group">

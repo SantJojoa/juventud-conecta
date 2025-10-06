@@ -5,7 +5,7 @@ const eventsController = {
     // Crear un nuevo evento
     createEvent: async (req, res) => {
         try {
-            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location, category } = req.body;
+            const { title, imageSrc, description, startDate, endDate, startTime, endTime, location, locationName, latitude, longitude, category } = req.body;
 
             if (!title || !imageSrc || !description || !startDate || !endDate || !startTime || !endTime || !location || !category) {
                 return res.status(400).json({ error: 'Todos los campos son requeridos' });
@@ -20,6 +20,9 @@ const eventsController = {
                 startTime,
                 endTime,
                 location,
+                locationName: locationName || location,
+                latitude: latitude || null,
+                longitude: longitude || null,
                 category
             });
 
