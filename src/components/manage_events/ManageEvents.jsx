@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import './ManageEvents.css';
 
@@ -13,6 +13,7 @@ import EmptyStateMessage from "../shared/EmptyStateMessage";
 
 const ManageEvents = () => {
     const { events, loading, error, fetchEvents, setEvents } = useEvents();
+    const navigate = useNavigate();
 
     const handleDeleteEvent = async (eventId) => {
         Swal.fire({
@@ -78,14 +79,20 @@ const ManageEvents = () => {
                         ) : (
                             events.map(event => (
                                 <div className="manage-event-card" key={event._id}>
-                                    <div className="manage-event-image">
-                                        <img src={event.imageSrc} alt={event.title} />
+                                    <div 
+                                        className="manage-event-clickable"
+                                        onClick={() => navigate(`/event/${event._id}`)}
+                                    >
+                                        <div className="manage-event-image">
+                                            <img src={event.imageSrc} alt={event.title} />
+                                        </div>
+                                        <div className="manage-event-details">
+                                            <h2>{event.title}</h2>
+                                            <p className="manage-event-date">{new Date(event.date).toLocaleDateString()}</p>
+                                            <p className="manage-event-location">{event.location}</p>
+                                        </div>
                                     </div>
-                                    <div className="manage-event-details">
-                                        <h2>{event.title}</h2>
-                                        <p className="manage-event-date">{new Date(event.date).toLocaleDateString()}</p>
-                                        <p className="manage-event-location">{event.location}</p>
-                                        <div className="manage-event-actions">
+                                    <div className="manage-event-actions">
                                             <Link to={`/edit-event/${event._id}`} className="manage-button manage-edit-button">
                                                 Editar
                                             </Link>
@@ -102,7 +109,6 @@ const ManageEvents = () => {
                                                 Eliminar
                                             </button>
                                         </div>
-                                    </div>
                                 </div>
                             ))
                         )}

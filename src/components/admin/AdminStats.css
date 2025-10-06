@@ -42,20 +42,20 @@
 .as-export-btn:active:not(:disabled) {
     transform: translateY(0);
 }
-
 .as-export-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
 .as-content {
-    /* Contenedor para el contenido a exportar */
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
 }
 
 .as-subtitle {
     margin: 32px 0 16px 0;
     font-size: 1.5rem;
-    color: #2d3748;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 8px;
 }
