@@ -83,6 +83,61 @@ const getAdminStats = async (req, res) => {
         const avgFavoritesPerEvent = totalEvents ? Number((totalFavorites / totalEvents).toFixed(2)) : 0;
         const avgRatingsPerEvent = totalEvents ? Number((totalRatings / totalEvents).toFixed(2)) : 0;
 
+        // Distribución de roles de usuarios
+        const regularUsers = totalUsers - totalAdmins;
+        const usersByRole = [
+            { role: 'Usuarios', count: regularUsers },
+            { role: 'Administradores', count: totalAdmins }
+        ];
+
+        // Distribución de eventos por estado
+        const eventsByStatus = [
+            { status: 'Próximos', count: upcomingEvents },
+            { status: 'Finalizados', count: pastEvents }
+        ];
+
+        // Distribución de calificaciones
+        const ratingDistribution = await sequelize.query(
+            `SELECT 
+                FLOOR(rating) as rating_level,
+                COUNT(*)::int as count
+             FROM "UserEventRatings"
+             GROUP BY rating_level
+             ORDER BY rating_level`,
+            { type: Sequelize.QueryTypes.SELECT }
+        );
+
+        // Usuarios activos (que han interactuado al menos una vez)
+        const activeUsersCount = await sequelize.query(
+            `SELECT COUNT(DISTINCT user_id)::int as count
+             FROM (
+                 SELECT "UserId" as user_id FROM "UserFavorites"
+                 UNION
+                 SELECT "userId" as user_id FROM "Comments"
+                 UNION
+                 SELECT "userId" as user_id FROM "UserEventRatings"
+             ) as active`,
+            { type: Sequelize.QueryTypes.SELECT }
+        );
+        const activeUsers = activeUsersCount?.[0]?.count ?? 0;
+        const inactiveUsers = totalUsers - activeUsers;
+
+        const userActivity = [
+            { activity: 'Activos', count: activeUsers },
+            { activity: 'Inactivos', count: inactiveUsers }
+        ];
+
+        // Top eventos más recientes
+        const recentEvents = await Event.findAll({
+            attributes: ['id', 'title', 'imageSrc', 'createdAt'],
+            order: [['createdAt', 'DESC']],
+            limit: 5,
+            raw: true,
+        });
+
+        // Interacciones totales
+        const totalInteractions = totalFavorites + totalComments + totalRatings;
+
         // Tendencias por mes (últimos 6 meses)
         const usersByMonth = await sequelize.query(
             `SELECT to_char(date_trunc('month', "createdAt"), 'YYYY-MM') AS month, COUNT(*)::int AS count
@@ -115,6 +170,9 @@ const getAdminStats = async (req, res) => {
                 avgCommentsPerEvent,
                 avgFavoritesPerEvent,
                 avgRatingsPerEvent,
+                activeUsers,
+                inactiveUsers,
+                totalInteractions,
             },
             categories: categoriesAgg,
             topByViews,
@@ -124,6 +182,15 @@ const getAdminStats = async (req, res) => {
             trends: {
                 usersByMonth: usersByMonth.reverse(),
                 eventsByMonth: eventsByMonth.reverse(),
+            },
+            distributions: {
+                usersByRole,
+                eventsByStatus,
+                ratingDistribution,
+                userActivity,
+            },
+            recent: {
+                recentEvents,
             },
         });
     } catch (error) {
