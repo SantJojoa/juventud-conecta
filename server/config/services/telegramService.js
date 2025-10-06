@@ -1,8 +1,8 @@
-import TelegramBot from 'node-telegram-bot-api';
-import { User, Event } from '../models/index.js';
+const TelegramBot = require('node-telegram-bot-api');
+const { User, Event } = require('../models');
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
-export const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { polling: true });
 
 
 
@@ -74,7 +74,7 @@ Gracias por ser parte de esta iniciativa 💙✨
     }
 });
 
-export async function sendAddFavoriteEvent(userId, eventId) {
+async function sendAddFavoriteEvent(userId, eventId) {
     try {
         const user = await User.findByPk(userId);
         const event = await Event.findByPk(eventId);
@@ -123,7 +123,7 @@ Has marcado como favorito el evento: *${event.title}*
     }
 }
 
-export async function sendRememberEventDate(userId, eventId) {
+async function sendRememberEventDate(userId, eventId) {
     try {
         const user = await User.findByPk(userId);
         const event = await Event.findByPk(eventId);
@@ -172,12 +172,19 @@ export async function sendRememberEventDate(userId, eventId) {
     }
 }
 
-export async function sendTelegramMessage(userId, message) {
+async function sendTelegramMessage(userId, message) {
     const user = await User.findByPk(userId);
     if (user?.telegramChatId) {
         bot.sendMessage(user.telegramChatId, message);
     }
 }
+
+module.exports = {
+    bot,
+    sendAddFavoriteEvent,
+    sendRememberEventDate,
+    sendTelegramMessage
+};
 
 
 

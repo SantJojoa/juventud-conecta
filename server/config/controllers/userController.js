@@ -1,9 +1,9 @@
 // userController.js
-import bcrypt from 'bcrypt';
-import { User, Event } from '../models/index.js';
-import { sendAddFavoriteEvent } from '../services/telegramService.js';
+const bcrypt = require('bcrypt');
+const { User, Event } = require('../models');
+const { sendAddFavoriteEvent } = require('../services/telegramService');
 
-export const getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
     try {
         const userId = req.user.id;
         const user = await User.findByPk(userId, { attributes: { exclude: ['password'] } });
@@ -19,7 +19,7 @@ export const getUserProfile = async (req, res) => {
     }
 };
 
-export const updateUserProfile = async (req, res) => {
+const updateUserProfile = async (req, res) => {
     try {
         const userId = req.user.id;
         const { firstName, lastName, email, phoneNumber, birthDate, currentPassword, newPassword } = req.body;
@@ -71,7 +71,7 @@ export const updateUserProfile = async (req, res) => {
     }
 };
 
-export const addToFavorites = async (req, res) => {
+const addToFavorites = async (req, res) => {
     try {
         const userId = req.user.id;
         const { eventId } = req.body;
@@ -99,7 +99,7 @@ export const addToFavorites = async (req, res) => {
     }
 };
 
-export const removeFromFavorites = async (req, res) => {
+const removeFromFavorites = async (req, res) => {
     try {
         const userId = req.user.id;
         const { eventId } = req.params;
@@ -124,7 +124,7 @@ export const removeFromFavorites = async (req, res) => {
     }
 };
 
-export const getFavoriteEvents = async (req, res) => {
+const getFavoriteEvents = async (req, res) => {
     try {
         const userId = req.user.id;
         const user = await User.findByPk(userId, {
@@ -150,7 +150,7 @@ export const getFavoriteEvents = async (req, res) => {
     }
 };
 
-export const checkFavorite = async (req, res) => {
+const checkFavorite = async (req, res) => {
     try {
         const userId = req.user.id;
         const { eventId } = req.params;
@@ -169,4 +169,13 @@ export const checkFavorite = async (req, res) => {
         console.error('Error al verificar evento favorito', error);
         res.status(500).json({ message: "Error del servidor" });
     }
+};
+
+module.exports = {
+    getUserProfile,
+    updateUserProfile,
+    addToFavorites,
+    removeFromFavorites,
+    getFavoriteEvents,
+    checkFavorite
 };
