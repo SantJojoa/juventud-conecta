@@ -95,12 +95,14 @@ const adminSetSubmissionStatus = async (req, res) => {
         const submission = await EventFormSubmission.findByPk(submissionId);
         if (!submission) return res.status(404).json({ error: 'Respuesta no encontrada' });
         await submission.update({ status });
-        const form = await EventForm.findByPk(submission.formId);
+        const form = await EventForm.findByPk(submission.formId, {
+            include: [{ model: Event, as: 'event' }]
+        });
         await Notification.create({
             userId: submission.userId,
             type: 'submission_status',
             title: `Tu postulación fue ${status === 'accepted' ? 'aceptada' : status === 'rejected' ? 'rechazada' : 'actualizada'}`,
-            message: `Tu postulación para el evento ${form ? '#' + form.eventId : ''} fue ${status}.`,
+            message: `Tu postulación para el evento "${form?.event?.title || 'Desconocido'}" fue ${status === 'accepted' ? 'aceptada' : status === 'rejected' ? 'rechazada' : 'actualizada'}.`,
             meta: { formId: submission.formId, status }
         });
         res.json(submission);
@@ -148,7 +150,7 @@ const publicSubmitForm = async (req, res) => {
             userId: a.id,
             type: 'new_submission',
             title: 'Nueva postulación',
-            message: `Nuevo formulario enviado para el evento ${eventId}`,
+            message: `Nuevo formulario enviado para el evento ${form.event.title}`,
             meta: { submissionId: submission.id, formId, eventId }
         }));
         if (notifs.length) await Notification.bulkCreate(notifs);

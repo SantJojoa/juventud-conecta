@@ -126,7 +126,7 @@ const ListEvents = () => {
                             onEdit={setSelectedEventForEdit}
                             onDelete={handleDeleteEvent}
                             isAdmin={isAdmin}
-                            onClick={() => navigate(`/edit-event/${id}`)}
+                            onClick={() => navigate(`/event/${event._id}`)}
                         />
                     ))}
                 </div>

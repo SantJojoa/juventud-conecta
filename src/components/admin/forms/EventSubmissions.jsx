@@ -13,6 +13,7 @@ const EventSubmissions = () => {
         setLoading(true);
         try {
             const res = await FormService.adminListSubmissions(eventId);
+            console.log('API Response:', res);
             setData(res.submissions || []);
         } catch (e) {
             alert(e.message || 'Error al cargar inscripciones');
@@ -43,15 +44,22 @@ const EventSubmissions = () => {
                                 <div className="submission-user">
                                     {s.user?.firstName} {s.user?.lastName} — {s.user?.email}
                                 </div>
-                                <span className={`status-badge status-${s.status}`}>{s.status}</span>
+                                <span className={`status-badge status-${s.status}`}>
+                                    {s.status === 'accepted' ? 'Aceptada' : s.status === 'rejected' ? 'Rechazada' : 'Pendiente'}
+                                </span>
                             </div>
                             <div className="answers">
-                                {s.answers?.map(a => (
-                                    <div key={a.id} className="answer-item">
-                                        <span className="answer-label">{a.question?.label}:</span>
-                                        <span className="answer-value">{a.value}</span>
-                                    </div>
-                                ))}
+                                {(!s.answers || s.answers.length === 0) ? (
+                                    <p className="no-answers">Sin respuestas registradas</p>
+                                ) : (
+                                    s.answers.map(a => (
+                                        <div key={a.id} className="answer-item">
+                                            <span className="answer-label">{a.question?.label || 'Pregunta eliminada'}:</span>
+                                            <span className="answer-value">{a.value || '(Sin respuesta)'}</span>
+
+                                        </div>
+                                    ))
+                                )}
                             </div>
                             <div className="submission-actions">
                                 <button className="btn-submission btn-accept" onClick={() => setStatus(s.id, 'accepted')}>Aceptar</button>

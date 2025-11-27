@@ -119,6 +119,127 @@
     background: #edf2f7;
     color: #2d3748;
 }
+.admin-submissions-container {
+    max-width: 1000px;
+    margin: 5rem auto;
+    padding: 0 1.5rem;
+}
+
+.submissions-header {
+    margin-bottom: 1.25rem;
+}
+
+.submissions-header h1 {
+    margin: 0 0 6px 0;
+}
+
+.submissions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.submission-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+    padding: 14px;
+}
+
+.submission-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.submission-user {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.status-badge {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-pending {
+    background: #edf2f7;
+    color: #2d3748;
+}
+
+.status-accepted {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.status-rejected {
+    background: #fed7d7;
+    color: #742a2a;
+}
+
+.answers {
+    margin-top: 10px;
+}
+
+.answer-item {
+    margin-bottom: 6px;
+}
+
+.answer-label {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.answer-value {
+    margin-left: 4px;
+}
+
+.submission-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.btn-submission {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.05s ease-in;
+}
+
+.btn-submission:active {
+    transform: translateY(1px);
+}
+
+.btn-accept {
+    background: #48bb78;
+    color: #fff;
+}
+
+.btn-accept:hover {
+    background: #38a169;
+}
+
+.btn-reject {
+    background: #e53e3e;
+    color: #fff;
+}
+
+.btn-reject:hover {
+    background: #c53030;
+}
+
+.btn-pending {
+    background: #edf2f7;
+    color: #2d3748;
+}
 
 .btn-pending:hover {
     background: #e2e8f0;
@@ -128,4 +249,11 @@
     .submissions-grid {
         grid-template-columns: 1fr 1fr;
     }
+}
+
+.no-answers {
+    font-style: italic;
+    color: #718096;
+    font-size: 0.9rem;
+    margin-top: 4px;
 }

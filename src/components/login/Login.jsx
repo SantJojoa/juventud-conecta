@@ -104,7 +104,7 @@ const Login = () => {
                             <h2 className="form-title">Iniciar Sesión</h2>
                             <form className="register-form" onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label for="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>
+                                    <label htmlFor="your_name"><i className="zmdi zmdi-account material-icons-name"></i></label>
                                     <input
                                         type="text"
                                         value={email}
@@ -113,7 +113,7 @@ const Login = () => {
                                         className={(formSubmitted && !isEmailValid) || (formSubmitted && isEmailEmpty) ? "invalid-input" : ""} />
                                 </div>
                                 <div className="form-group">
-                                    <label for="your_pass" ><i className="zmdi zmdi-lock"></i></label>
+                                    <label htmlFor="your_pass" ><i className="zmdi zmdi-lock"></i></label>
                                     <input
                                         type="password"
                                         value={password}
